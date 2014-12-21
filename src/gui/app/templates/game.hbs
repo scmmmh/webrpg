@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="small-12 column">
+    <h1>{{title}}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="small-12 column">
+    {{#if owned}}
+      <div class="text-right">
+        {{#link-to 'game.new_session' id class='button'}}New Session{{/link-to}}
+      </div>
+    {{/if}}
+    {{outlet}}
+    <ol class="no-padding no-margin">
+      {{#each sessions}}
+        <li class="panel">
+          {{#if joined}}
+            {{#link-to 'session' id}}{{title}}{{/link-to}}
+          {{else}}
+            <a href="#" {{action 'join_session' id}}>{{title}}</a>
+          {{/if}}</li>
+      {{/each}}
+    </ol>
+  </div>
+</div>

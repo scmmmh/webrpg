@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="small-12 column">
+    <h1>Register</h1>
+  </div>
+</div>
+<form {{action 'register' on='submit'}}>
+  <div class="row">
+    <div class="small-12 medium-6 large-4 column">
+      {{#fd-form-field label='E-Mail Address' error=error.email}}{{input type='email' value=email}}{{/fd-form-field}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 medium-6 large-4 column">
+      {{#fd-form-field label='Nickname' error=error.display_name}}{{input type='text' value=display_name}}{{/fd-form-field}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 medium-6 large-4 column">
+      {{#fd-form-field label='Password' error=error.password}}{{input type='password' value=password}}{{/fd-form-field}}
+    </div>
+    <div class="small-12 medium-6 large-4 column end">
+      {{#fd-form-field label='Password Confirmation' error=error.confirm_password}}{{input type='password' value=confirm_password}}{{/fd-form-field}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 column">
+      <input type="submit" value="Register" class="button"/>
+    </div>
+  </div>
+</form>

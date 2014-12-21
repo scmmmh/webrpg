@@ -1,0 +1,6 @@
+<h1>Users</h1>
+<ul>
+  {{#each}}
+    <li>{{#link-to 'user' id}}{{display_name}} - {{email}}{{/link-to}}</li>
+  {{/each}}
+</ul>
