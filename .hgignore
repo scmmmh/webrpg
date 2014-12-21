@@ -1,0 +1,23 @@
+
+syntax: regexp
+^src/gui/bower_components$
+syntax: regexp
+^src/gui/node_modules$
+syntax: regexp
+^src/gui/tmp$
+syntax: regexp
+^src/node_modules$
+syntax: regexp
+^src/webrpg/gui/assets$
+syntax: regexp
+^src/webrpg/gui/tests$
+syntax: regexp
+^src/webrpg/gui/crossdomain\.xml$
+syntax: regexp
+^src/webrpg/gui/index\.html$
+syntax: regexp
+^src/webrpg/gui/robots\.txt$
+syntax: regexp
+^src/webrpg/gui/testem\.js$
+syntax: regexp
+^src/WebRPG\.egg-info$

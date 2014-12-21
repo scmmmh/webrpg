@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="small-12 column">
+    <h1>Login</h1>
+  </div>
+</div>
+<form {{action 'login' on='submit'}}>
+  <div class="row">
+    <div class="small-12 medium-5 column">
+      {{#fd-form-field label='E-Mail Address' error=error.password}}{{input type='email' value=email}}{{/fd-form-field}}
+    </div>
+    <div class="small-12 medium-5 column">
+      {{#fd-form-field label='Password' error=error.password}}{{input type='password' value=password}}{{/fd-form-field}}
+    </div>
+    <div class="small-12 medium-2 column"><input type="submit" value="Login" class="button"/></div>
+  </div>
+</form>

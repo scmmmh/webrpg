@@ -1,0 +1,19 @@
+<div class="panel">
+  <div class="row">
+    <div class="small-12 column">
+      <h2>Start a New Game</h2>
+    </div>
+  </div>
+  <form {{action 'new_game' on='submit'}}>
+    <div class="row">
+      <div class="small-12 medium-5 column">
+        {{#fd-form-field label='Title' error=error.title}}{{input type='text' value=title}}{{/fd-form-field}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 column">
+        {{#link-to 'games' class='button secondary'}}Don't Start{{/link-to}} <input type="submit" value="Start the Game" class="button"/>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,17 @@
+{{#fd-topbar}}
+  {{#if logged-in}}
+    <ul class="right">
+      <li><a href="#" {{action 'logout'}}>Logout</a></li>
+    </ul>
+    <ul class="left">
+      <li>{{#link-to 'games'}}Games{{/link-to}}</li>
+    </ul>
+  {{else}}
+    <ul class="right">
+      <li>{{#link-to 'login'}}Login{{/link-to}}</li>
+      <li>{{#link-to 'register'}}Register{{/link-to}}</li>
+    </ul>
+  {{/if}}
+{{/fd-topbar}}
+
+{{outlet}}

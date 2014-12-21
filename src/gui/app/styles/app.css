@@ -1,0 +1,17 @@
+/**
+ * Foundation overrides / addons
+ */
+li.panel {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+/**
+ * Generic styles
+ */
+.no-padding {
+    padding: 0 !important;
+}
+.no-margin {
+    margin: 0 !important;
+}

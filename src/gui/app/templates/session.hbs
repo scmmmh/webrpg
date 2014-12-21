@@ -1,0 +1,13 @@
+<h1>{{session.game.title}} - {{session.title}}</h1>
+
+<h2>Chat</h2>
+
+<ol>
+  {{#each chats}}
+    <li>{{user.display_name}}: {{message}}</li>
+  {{/each}}
+</ol>
+
+<form {{action 'new_chat_message' on='submit'}}>
+  {{input value=new_chat_message}} <input type="submit" value="Say"/>
+</form>
