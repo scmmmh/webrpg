@@ -6,6 +6,7 @@ u"""
 
 from formencode import validators, schema, All, Invalid
 
+from webrpg.components.util import EmberSchema
 from webrpg.models import User
 
 class EmailExistsValidator(validators.FancyValidator):
@@ -21,7 +22,7 @@ class EmailExistsValidator(validators.FancyValidator):
             raise Invalid(self.message('existing', state), value, state)
 
 
-class NewUserSchema(schema.Schema):
+class NewUserSchema(EmberSchema):
     
     email = All(validators.Email(not_empty=True), EmailExistsValidator())
     display_name = validators.UnicodeString(not_empty=True)

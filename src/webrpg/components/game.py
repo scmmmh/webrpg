@@ -8,11 +8,11 @@ from formencode import validators, schema, All, Invalid
 from sqlalchemy import and_
 
 from webrpg.components.user import UserExistsValidator
-from webrpg.components.util import get_current_user
+from webrpg.components.util import (get_current_user, EmberSchema)
 from webrpg.models import DBSession, Game, GameRole
 
- 
-class NewGameSchema(schema.Schema):
+
+class NewGameSchema(EmberSchema):
     
     title = validators.UnicodeString(not_empty=True)
 
@@ -30,7 +30,7 @@ class GameExistsValidator(validators.FancyValidator):
             raise Invalid(self.message('missing', state), value, state)
 
 
-class NewGameRoleSchema(schema.Schema):
+class NewGameRoleSchema(EmberSchema):
     
     role = validators.UnicodeString(not_empty=True)
     user = All(validators.Int(not_empty=True),
