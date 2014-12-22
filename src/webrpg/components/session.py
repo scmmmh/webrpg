@@ -9,10 +9,10 @@ from sqlalchemy import and_
 
 from webrpg.components.game import GameExistsValidator
 from webrpg.components.user import UserExistsValidator
-from webrpg.components.util import (get_current_user)
+from webrpg.components.util import (get_current_user, EmberSchema)
 from webrpg.models import (DBSession, Game, GameRole, Session, SessionRole)
 
-class NewSessionSchema(schema.Schema):
+class NewSessionSchema(EmberSchema):
     
     title = validators.UnicodeString(not_empty=True)
     game = All(validators.Int(not_empty=True),
@@ -48,7 +48,7 @@ class SessionExistsValidator(validators.FancyValidator):
             raise Invalid(self.message('missing', state), value, state)
 
 
-class NewSessionRoleSchema(schema.Schema):
+class NewSessionRoleSchema(EmberSchema):
     
     role = validators.UnicodeString(not_empty=True)
     user = All(validators.Int(not_empty=True),

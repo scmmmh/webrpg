@@ -4,6 +4,8 @@ u"""
 .. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
 
+from formencode import schema
+
 from webrpg.models import (DBSession, User)
 
 def get_current_user(request):
@@ -18,3 +20,9 @@ def get_current_user(request):
         return None
 
 
+class EmberSchema(schema.Schema):
+    
+    allow_extra_fields = True
+    filter_extra_fields = True
+
+ 

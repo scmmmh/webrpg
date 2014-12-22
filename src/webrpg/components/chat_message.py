@@ -11,10 +11,10 @@ from formencode import validators, schema, All, Invalid
 
 from webrpg.components.session import SessionExistsValidator
 from webrpg.components.user import UserExistsValidator
-from webrpg.components.util import get_current_user
+from webrpg.components.util import (get_current_user, EmberSchema)
 from webrpg.models import DBSession, ChatMessage
 
-class NewChatMessageSchema(schema.Schema):
+class NewChatMessageSchema(EmberSchema):
     
     message = validators.UnicodeString(not_empty=True)
     user = All(validators.Int(not_empty=True),
