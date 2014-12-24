@@ -1,13 +1,20 @@
 <h1>{{session.game.title}} - {{session.title}}</h1>
 
-<h2>Chat</h2>
-
-<ol>
-  {{#each chats}}
-    <li>{{user.display_name}}: {{message}}</li>
-  {{/each}}
-</ol>
-
-<form {{action 'new_chat_message' on='submit'}}>
-  {{input value=new_chat_message}} <input type="submit" value="Say"/>
-</form>
+<div id="chat">
+    <ol class="messages">
+      {{#each chats}}
+        <li class="row wide">
+          <div class="small-4 medium-2 large-1 column display-name">{{user.display_name}}</div>
+          <div class="small-8 medium-10 large-11 column message">{{message}}</div>
+        </li>
+      {{/each}}
+    </ol>
+    <form {{action 'new_chat_message' on='submit'}} class="row wide">
+      <div class="small-12 column">
+        <div class="row collapse">
+          <div class="small-12 medium-10 column">{{input value=new_chat_message}}</div>
+          <div class="small-12 medium-2 column"><input type="submit" value="Say" class="button postfix"/></div>
+        </div>
+      </div>
+    </form>
+</div>
