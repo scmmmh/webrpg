@@ -15,7 +15,6 @@ export default Ember.ObjectController.extend({
                         session: session
                     }); 
                     chat_message.save().then(function() {
-                        console.log(controller.get('model.chats'));
                         controller.set('new_chat_message', ''); 
                     });
                 });

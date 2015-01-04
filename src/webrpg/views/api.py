@@ -20,6 +20,7 @@ def init(config):
     config.add_route('login', '/api/users/login')
     config.add_route('api.collection', '/api/{model}')
     config.add_route('api.item', '/api/{model}/{iid}')
+    config.add_route('session.refresh', '/api/sessions/{iid}/refresh')
 
 
 def raise_json_exception(base, body='{}'):
@@ -176,3 +177,13 @@ def handle_item(request):
             raise raise_json_exception(HTTPClientError, {'error': invalid_to_error_dict(e)})
     else:
         raise_json_exception(HTTPNotFound)
+
+
+@view_config(route_name='session.refresh', renderer='json')
+def handle_session_refresh(request):
+    data = {}
+    for request_model_name, value in request.params.items():
+        model_name = inflection.singularize(request_model_name)
+        if model_name in MODELS and 'refresh' in MODELS[model_name] and 'func' in MODELS[model_name]['refresh']:
+            data[request_model_name] = MODELS[model_name]['refresh']['func'](request, value)
+    return data
