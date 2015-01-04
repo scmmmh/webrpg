@@ -193,10 +193,17 @@ def chat_message_filter(request, query):
     return [m for m in query if filter_specific(user, m)]
 
 
+def chat_message_refresh(request, min_id):
+    dbsession = DBSession()
+    return [cm.as_dict() for cm in chat_message_filter(request, dbsession.query(ChatMessage).filter(ChatMessage.id > min_id))]
+
+
 MODELS = {'chatMessage': {'class': ChatMessage,
                           'new': {'schema': NewChatMessageSchema,
                                   'authenticate': True,
                                   'authorisation': new_chat_message_authorisation,
                                   'param_transform': new_chat_message_param_transform},
                           'list': {'authenticate': True,
-                                   'filter': chat_message_filter}}}
+                                   'filter': chat_message_filter},
+                          'refresh': {'authenticate': True,
+                                      'func': chat_message_refresh}}}
