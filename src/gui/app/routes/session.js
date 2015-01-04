@@ -1,5 +1,20 @@
 import Ember from 'ember';
 
+AutoUpdater = Ember.Object.extend({
+	schedule: function() {
+		
+	},
+	start: function() {
+		this.set('timer', this.schedule(this.get('update')));
+	},
+	stop: function() {
+		
+	},
+	update: function() {
+		
+	}
+});
+
 export default Ember.Route.extend({
     model: function(params) {
         return Ember.RSVP.hash({
@@ -8,5 +23,11 @@ export default Ember.Route.extend({
                return true;
            })
         });
+    },
+    setupController: function() {
+    	
+    },
+    deactivate: function() {
+    	
     }
 });
