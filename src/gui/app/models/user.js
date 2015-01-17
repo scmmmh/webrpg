@@ -6,6 +6,6 @@ export default DS.Model.extend({
     password: DS.attr('string'),
     
     current: function() {
-        return this.id == sessionStorage.getItem('webrpg-userid');
+        return this.id == sessionStorage.getItem('webrpg-userid'); // jshint ignore:line
     }.property('id')
 });

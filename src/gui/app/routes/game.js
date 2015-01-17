@@ -8,7 +8,7 @@ export default Ember.Route.extend({
                 roles.forEach(function(role) {
                     if(role.get('role') === 'owner') {
                         role.get('user').then(function(user) {
-                            if(user.get('id') == sessionStorage.getItem('webrpg-userid')) {
+                            if(user.get('id') == sessionStorage.getItem('webrpg-userid')) { // jshint ignore:line
                                 game.set('owned', true); 
                             } 
                         });
@@ -20,7 +20,7 @@ export default Ember.Route.extend({
                   session.get('roles').then(function(roles) {
                       roles.forEach(function(role) {
                          role.get('user').then(function(user) {
-                             if(user.get('id') == sessionStorage.getItem('webrpg-userid')) {
+                             if(user.get('id') == sessionStorage.getItem('webrpg-userid')) { // jshint ignore:line
                                  session.set('joined', true);
                              }
                          }); 

@@ -8,7 +8,7 @@ export default Ember.Route.extend({
                 game.get('roles').then(function(roles) {
                     roles.forEach(function(role) {
                         role.get('user').then(function(user) {
-                            if(user.get('id') == sessionStorage.getItem('webrpg-userid')) {
+                            if(user.get('id') == sessionStorage.getItem('webrpg-userid')) { // jshint ignore:line
                                 game.set('joined', true); 
                             } 
                         });
