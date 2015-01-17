@@ -63,7 +63,7 @@ export default Ember.Route.extend({
     	    }));
     	}
     	this.get('updater').start();
-    	var min_chat_message_id = undefined;
+    	var min_chat_message_id;
     	model.chats.forEach(function (message) {
     	    if(!min_chat_message_id || message.id > min_chat_message_id) {
     	        min_chat_message_id = message.id;
