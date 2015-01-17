@@ -21,3 +21,13 @@ syntax: regexp
 ^src/webrpg/gui/testem\.js$
 syntax: regexp
 ^src/WebRPG\.egg-info$
+syntax: regexp
+^\.settings$
+syntax: regexp
+^\.project$
+syntax: regexp
+^\.pydevproject$
+syntax: regexp
+\.ini$
+syntax: regexp
+\.sqlite$
