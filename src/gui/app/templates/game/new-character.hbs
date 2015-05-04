@@ -1,0 +1,21 @@
+<div class="panel">
+  <div class="row">
+    <div class="small-12 column">
+      <h2>Add a New Character</h2>
+    </div>
+  </div>
+  <form {{action 'new_character' on='submit'}}>
+    <div class="row">
+      <div class="small-12 column">
+        {{#fd-form-field label='Character Type' error=error.character_type}}
+          {{view 'select' content=model.ruleSets selectionBinding=new_character_type optionLabelPath='content.label' prompt='--- Please select a character type ---'}}
+        {{/fd-form-field}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 column">
+        {{#link-to 'game' model.parent.game.id class='button secondary'}}Don't Add{{/link-to}} <input type="submit" value="Add" class="button"/>
+      </div>
+    </div>
+  </form>
+</div>

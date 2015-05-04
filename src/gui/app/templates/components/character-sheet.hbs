@@ -1,0 +1,56 @@
+<ul class="accordion no-margin" data-accordion>
+  {{#each stat_table in character.stats}}
+    <li class="accordion-navigation">
+      <a href="#{{stat_table.id}}" onclick="return false;">{{stat_table.title}}</a>
+      <div id="{{stat_table.id}}" class="content active">
+        <table class="small-12">
+          <thead>
+            <tr>
+              {{#each column in stat_table.columns}}
+                <th>{{column}}</th>
+              {{/each}}
+            </tr>
+          </thead>
+          <tbody>
+            {{#each stat_row in stat_table.rows}}
+              <tr>
+                <th>{{stat_row.title}}</th>
+                {{#each column in stat_row.columns}}
+                  <td>
+                    {{#if column.editable}}
+                      {{#if column.editing}}
+                        <div class="row collapse">
+                          <div class="column small-8">
+                            {{#if column.data_string}}
+                              {{#fd-form-field}}{{input type="text" value=column.value}}{{/fd-form-field}}
+                            {{/if}}
+                            {{#if column.data_number}}
+                              {{#fd-form-field}}{{input type="number" value=column.value}}{{/fd-form-field}}
+                            {{/if}}
+                            {{#if column.data_boolean}}
+                              {{#fd-form-field}}{{input type="checkbox" checked=column.value}}{{/fd-form-field}}
+                            {{/if}}
+                          </div>
+                          <div class="column small-2">
+                            <a {{action "cs_cancel_edit" column on="cick"}} class="button alert postfix"><span class="fi-x"></span></a>
+                          </div>
+                          <div class="column small-2">
+                            <a {{action "cs_save_edit" column character on="click"}} class="button success postfix"><span class="fi-check"></span></a>
+                          </div>
+                        </div>
+                      {{else}}
+                        <a {{action 'cs_start_edit' column on='doubleClick'}} class="small-12 inline-block">{{{column.fancy_value}}}</a>
+                      {{/if}}
+                    {{else}}
+                      {{{column.fancy_value}}}
+                    {{/if}}
+                  </td>
+                {{/each}}
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </li>
+  {{/each}}
+</ul>

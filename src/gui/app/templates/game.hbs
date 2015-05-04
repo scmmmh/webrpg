@@ -1,25 +1,50 @@
 <div class="row">
   <div class="small-12 column">
-    <h1>{{title}}</h1>
+    <h1>{{model.game.title}}</h1>
   </div>
 </div>
 <div class="row">
-  <div class="small-12 column">
-    {{#if owned}}
+  <div class="small-12 medium-6 column">
+    <h2>Sessions</h2>
+    {{#if model.game.owned}}
       <div class="text-right">
-        {{#link-to 'game.new_session' id class='button'}}New Session{{/link-to}}
+        {{#link-to 'game.new-session' model.game.id class='button'}}New Session{{/link-to}}
       </div>
     {{/if}}
-    {{outlet}}
+    {{outlet 'new-session'}}
     <ol class="no-padding no-margin">
-      {{#each sessions}}
+      {{#each session in model.game.sessions}}
         <li class="panel">
-          {{#if joined}}
-            {{#link-to 'session' id}}{{title}}{{/link-to}}
+          {{#if session.joined}}
+            {{#link-to 'session' session.id}}{{session.title}}{{/link-to}}
           {{else}}
-            <a href="#" {{action 'join_session' id}}>{{title}}</a>
+            <a href="#" {{action 'join_session' session.id}}>{{session.title}}</a>
           {{/if}}</li>
       {{/each}}
     </ol>
+  </div>
+  <div class="small-12 medium-6 column">
+    {{#if model.game.owned}}
+      <h2>Characters</h2>
+      <div class="text-right">
+        {{#link-to 'game.new-character' model.game.id class='button'}}New Character{{/link-to}}
+      </div>
+    {{else}}
+      <h2>Character</h2>
+      {{#unless model.characters}}
+        <div class="text-right">
+          {{#link-to 'game.new-character' model.game.id class='button'}}New Character{{/link-to}}
+        </div>
+      {{/unless}}
+    {{/if}}
+    {{outlet 'new-character'}}
+    <ul class="no-padding no-margin">
+      {{#each character in model.characters}}
+        <li class="panel">
+          <h3>{{character.name}}</h3>
+          {{character-sheet character=character}}
+        </li>
+      {{/each}}
+    </ul>
   </div>
 </div>

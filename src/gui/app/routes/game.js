@@ -2,20 +2,26 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model: function(params) {
-        var promise = this.store.find('game', params.gid);
-        promise.then(function(game) {
-            game.get('roles').then(function(roles) {
+        var promise = Ember.RSVP.hash({
+            game: this.store.find('game', params.gid),
+            characters: this.store.find('character', {
+                game_id: params.gid,
+                user_id: sessionStorage.getItem('webrpg-userid')
+            })
+        });
+        promise.then(function(data) {
+            data.game.get('roles').then(function(roles) {
                 roles.forEach(function(role) {
                     if(role.get('role') === 'owner') {
                         role.get('user').then(function(user) {
                             if(user.get('id') == sessionStorage.getItem('webrpg-userid')) { // jshint ignore:line
-                                game.set('owned', true); 
+                                data.game.set('owned', true); 
                             } 
                         });
                     }
                 });
             });
-            game.get('sessions').then(function(sessions) {
+            data.game.get('sessions').then(function(sessions) {
                sessions.forEach(function(session) {
                   session.get('roles').then(function(roles) {
                       roles.forEach(function(role) {

@@ -8,7 +8,10 @@ import random
 import re
 
 from formencode import validators, schema, All, Invalid
+from sqlalchemy import and_
 
+from webrpg.calculator import (calculation_regexp, add_dice, tokenise, calculate,
+                               infix_to_postfix)
 from webrpg.components.session import SessionExistsValidator
 from webrpg.components.user import UserExistsValidator
 from webrpg.components.util import (get_current_user, EmberSchema)
@@ -30,109 +33,6 @@ def new_chat_message_authorisation(request, params):
     else:
         return False
 
-
-dice_regexp = re.compile(r'([0-9]*)[Dd]([0-9]+)')
-calculation_regexp = re.compile(r'((?:(?:\(?[0-9]*[dD][0-9]+)|(?:\(?[0-9]+))(?:(?:[0-9]*[dD][0-9]+)|(?:[0-9]+)|(?:[+\-*/()])|\s+)*)')
-
-def tokenise(string):
-    tokens = []
-    tmp = []
-    for c in string:
-        if c in ['+', '-', '*', '/']:
-            if tmp:
-                tokens.append(('val', ''.join(tmp).strip()))
-                tmp = []
-            tokens.append(('op', c))
-        elif c in ['(', ')']:
-            if tmp:
-                tokens.append(('val', ''.join(tmp).strip()))
-                tmp = []
-            tokens.append(('bra', c))
-        elif c == ' ':
-            if tmp: 
-                tokens.append(('val', ''.join(tmp).strip()))
-                tmp = []
-        else:
-            tmp.append(c)
-    if tmp:
-        tokens.append(('val', ''.join(tmp).strip()))
-    return tokens
-
-def add_dice(tokens):
-    new_tokens = []
-    for token in tokens:
-        if token[0] == 'val':
-            match = re.match(dice_regexp, token[1])
-            if match:
-                if match.group(1):
-                    new_tokens.append(('bra', '('))
-                    count = int(match.group(1))
-                    for i in range(0, count):
-                        new_tokens.append(('val', str(random.randint(1, int(match.group(2))))))
-                        if i < count - 1:
-                            new_tokens.append(('op', '+'))
-                    new_tokens.append(('bra', ')'))
-                else:
-                    new_tokens.append(('val', str(random.randint(1, int(match.group(2))))))
-            else:
-                new_tokens.append(token)
-        else:
-            new_tokens.append(token)
-    return new_tokens
-
-def op_preference(op):
-    if op == '(':
-        return -1
-    elif op in ['*', '/']:
-        return 1
-    else:
-        return 0
-    
-def infix_to_postfix(tokens):
-    stack = []
-    output = []
-    for token in tokens:
-        if token[0] == 'val':
-            output.append(token)
-        elif token[0] == 'op':
-            if not stack:
-                stack.append(token[1])
-            else:
-                if op_preference(stack[-1]) < op_preference(token[1]):
-                    stack.append(token[1])
-                else:
-                    while stack and op_preference(stack[-1]) >= op_preference(token[1]):
-                        output.append(('op', stack.pop()))
-                    stack.append(token[1])
-        elif token[0] == 'bra':
-            if token[1] == '(':
-                stack.append('(')
-            elif token[1] == ')':
-                token = stack.pop()
-                while stack and token != '(':
-                    output.append(('op', token))
-                    token = stack.pop()
-    while stack:
-        output.append(('op', stack.pop()))
-    return output
-
-def calculate(tokens):
-    stack = []
-    for token in tokens:
-        if token[0] == 'val':
-            stack.append(int(token[1]))
-        elif token[0] == 'op':
-            b = stack.pop()
-            a = stack.pop()
-            if token[1] == '+':
-                stack.append(a + b)
-            elif token[1] == '-':
-                stack.append(a - b)
-            elif token[1] == '*':
-                stack.append(a * b)
-            elif token[1] == '/':
-                stack.append(a / b)
-    return stack.pop()
 
 def new_chat_message_param_transform(params):
     message = params['message']
@@ -158,6 +58,7 @@ def new_chat_message_param_transform(params):
     return {'message': message % tuple(substitutions),
             'user_id': params['user'],
             'session_id': params['session']}
+
 
 def chat_message_filter(request, query):
     def user_has_role(user, role_name, session):
@@ -189,13 +90,22 @@ def chat_message_filter(request, query):
                 return False
             else:
                 return True
+    if 'session' in request.params:
+        query = query.filter(ChatMessage.session_id == request.params['session'])
     user = get_current_user(request)
     return [m for m in query if filter_specific(user, m)]
 
 
+def chat_message_param_transform(params):
+    if 'session' in params:
+        return {'session_id': params['session']}
+    else:
+        return {}
+
 def chat_message_refresh(request, min_id):
     dbsession = DBSession()
-    return [cm.as_dict() for cm in chat_message_filter(request, dbsession.query(ChatMessage).filter(ChatMessage.id > min_id))]
+    return [cm.as_dict() for cm in chat_message_filter(request, dbsession.query(ChatMessage).filter(and_(ChatMessage.session_id == request.matchdict['iid'],
+                                                                                                         ChatMessage.id > min_id)))]
 
 
 MODELS = {'chatMessage': {'class': ChatMessage,
@@ -207,3 +117,4 @@ MODELS = {'chatMessage': {'class': ChatMessage,
                                    'filter': chat_message_filter},
                           'refresh': {'authenticate': True,
                                       'func': chat_message_refresh}}}
+from sqlite3.dbapi2 import paramstyle

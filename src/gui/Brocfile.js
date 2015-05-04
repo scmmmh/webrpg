@@ -19,6 +19,7 @@ var app = new EmberApp();
 
 app.import('vendor/foundation/normalize.css');
 app.import('vendor/foundation/foundation.min.css');
+app.import('vendor/foundation/foundation-icons.css');
 app.import('vendor/foundation/modernizr.js');
 app.import('vendor/foundation/foundation.min.js');
 

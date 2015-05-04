@@ -1,0 +1,507 @@
+{
+    "id": "dnd5e",
+    "label": "D&D 5th Edition",
+    "stats": [
+        {"id": "base",
+         "title": "Base",
+         "columns": ["", ""],
+         "rows": [
+             {"id": "name",
+              "title": "Character Name",
+              "columns": [
+                  {"id": "name",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "class_level",
+              "title": "Class & Level",
+              "columns": [
+                  {"id": "class_level",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "background",
+              "title": "Background",
+              "columns": [
+                  {"id": "background",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "race",
+              "title": "Race",
+              "columns": [
+                  {"id": "race",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "alignment",
+              "title": "Alignment",
+              "columns": [
+                  {"id": "alignment",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "xp",
+              "title": "Experience Points",
+              "columns": [
+                  {"id": "xp",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "inspiration",
+              "title": "Inspiration",
+              "columns": [
+                  {"id": "inspiration",
+                   "data_type": "boolean",
+                   "editable": true}
+              ]},
+             {"id": "proficiency",
+              "title": "Proficiency Bonus",
+              "columns": [
+                  {"id": "proficiency",
+                   "data_type": "number",
+                   "editable": true}
+              ]}
+         ]},
+        {"id": "abilities",
+         "title": "Abilities",
+         "columns": ["Ability", "Score", "Modifier"],
+         "rows": [
+             {"id": "strength",
+              "title": "Strength",
+              "columns": [
+                  {"id": "strength",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "str",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.strength} / 2 - 5)"} 
+              ]},
+             {"id": "dexterity",
+              "title": "Dexterity",
+              "columns": [
+                  {"id": "dexterity",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "dex",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.dexterity} / 2 - 5)"} 
+              ]},
+             {"id": "constitution",
+              "title": "Constitution",
+              "columns": [
+                  {"id": "constitution",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "con",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.constitution} / 2 - 5)"} 
+              ]},
+             {"id": "intelligence",
+              "title": "Intelligence",
+              "columns": [
+                  {"id": "intelligence",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "int",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.intelligence} / 2 - 5)"} 
+              ]},
+             {"id": "wisdom",
+              "title": "Wisdom",
+              "columns": [
+                  {"id": "wisdom",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "wis",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.wisdom} / 2 - 5)"} 
+              ]},
+             {"id": "charisma",
+              "title": "Charisma",
+              "columns": [
+                  {"id": "charisma",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "cha",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.charisma} / 2 - 5)"} 
+              ]}
+         ]},
+        {"id": "skills",
+         "title": "Skills",
+         "columns": ["Skill", "Proficient", "Modifier"],
+         "rows": [
+             {"id": "acrobatics",
+              "title": "Acrobatics",
+              "columns": [
+                  {"id": "acrobatics.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "acrobatics",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.dex} + {base.proficiency ? skills.acrobatics.proficient : 0}"}
+              ]},
+             {"id": "animal_handling",
+              "title": "Animal Handling",
+              "columns": [
+                  {"id": "animal_handling.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "animal_handling",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.wis} + {base.proficiency ? skills.animal_handling.proficient : 0}"}
+              ]},
+             {"id": "arcana",
+              "title": "Arcana",
+              "columns": [
+                  {"id": "arcana.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "arcana",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.int} + {base.proficiency ? skills.arcana.proficient : 0}"}
+              ]},
+             {"id": "athletics",
+              "title": "Athletics",
+              "columns": [
+                  {"id": "athletics.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "athletics",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.str} + {base.proficiency ? skills.athletics.proficient : 0}"}
+              ]},
+             {"id": "deception",
+              "title": "Deception",
+              "columns": [
+                  {"id": "deception.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "deception",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.cha} + {base.proficiency ? skills.deception.proficient : 0}"}
+              ]},
+             {"id": "history",
+              "title": "History",
+              "columns": [
+                  {"id": "history.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "history",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.int} + {base.proficiency ? skills.history.proficient : 0}"}
+              ]},
+             {"id": "insight",
+              "title": "Insight",
+              "columns": [
+                  {"id": "insight.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "insight",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.wis} + {base.proficiency ? skills.insight.proficient : 0}"}
+              ]},
+             {"id": "intimidation",
+              "title": "Intimidation",
+              "columns": [
+                  {"id": "intimidation.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "intimidation",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.cha} + {base.proficiency ? skills.intimidation.proficient : 0}"}
+              ]},
+             {"id": "investigation",
+              "title": "Investigation",
+              "columns": [
+                  {"id": "investigation.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "investigation",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.int} + {base.proficiency ? skills.investigation.proficient : 0}"}
+              ]},
+             {"id": "medicine",
+              "title": "Medicine",
+              "columns": [
+                  {"id": "medicine.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "medicine",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.wis} + {base.proficiency ? skills.medicine.proficient : 0}"}
+              ]},
+             {"id": "nature",
+              "title": "Nature",
+              "columns": [
+                  {"id": "nature.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "nature",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.int} + {base.proficiency ? skills.nature.proficient : 0}"}
+              ]},
+             {"id": "perception",
+              "title": "Perception",
+              "columns": [
+                  {"id": "perception.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "perception",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.wis} + {base.proficiency ? skills.perception.proficient : 0}"}
+              ]},
+             {"id": "passive_perception",
+              "title": "Passive Perception",
+              "columns": [
+                  {"id": "passive_perception.proficient",
+                   "data_type": "boolean",
+                   "editable": false},
+                  {"id": "passive_perception",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "10 + {abilities.wis} + {base.proficiency ? skills.perception.proficient : 0}"}
+              ]},
+             {"id": "performance",
+              "title": "Performance",
+              "columns": [
+                  {"id": "performance.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "performance",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.cha} + {base.proficiency ? skills.performance.proficient : 0}"}
+              ]},
+             {"id": "persuasion",
+              "title": "Persuasion",
+              "columns": [
+                  {"id": "persuasion.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "persuasion",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.cha} + {base.proficiency ? skills.persuasion.proficient : 0}"}
+              ]},
+             {"id": "religion",
+              "title": "Religion",
+              "columns": [
+                  {"id": "religion.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "religion",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.int} + {base.proficiency ? skills.religion.proficient : 0}"}
+              ]},
+             {"id": "sleight_of_hand",
+              "title": "Sleight of Hand",
+              "columns": [
+                  {"id": "sleight_of_hand.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "sleight_of_hand",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.dex} + {base.proficiency ? skills.sleight_of_hand.proficient : 0}"}
+              ]},
+             {"id": "stealth",
+              "title": "Stealth",
+              "columns": [
+                  {"id": "stealth.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "stealth",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.dex} + {base.proficiency ? skills.stealth.proficient : 0}"}
+              ]},
+             {"id": "survival",
+              "title": "Survival",
+              "columns": [
+                  {"id": "survival.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "survival",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.wis} + {base.proficiency ? skills.survival.proficient : 0}"}
+              ]}
+         ]},
+        {"id": "action",
+         "title": "Action",
+         "columns": ["", ""],
+         "rows": [
+             {"id": "ac",
+              "title": "Armor Class",
+              "columns": [
+                  {"id": "ac",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "initiative",
+              "title": "Initiative",
+              "columns": [
+                  {"id": "initiative",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.dex}"}
+              ]},
+             {"id": "speed",
+              "title": "Speed",
+              "columns": [
+                  {"id": "speed",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "hit_point_maximum",
+              "title": "Hit Point Maximum",
+              "columns": [
+                  {"id": "hit_point_maximum",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "current_hit_points",
+              "title": "Current Hit Points",
+              "columns": [
+                  {"id": "current_hit_points",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "temporary_hit_points",
+              "title": "Temporary Hit Points",
+              "columns": [
+                  {"id": "temporary_hit_points",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "hit_dice",
+              "title": "Hit Dice",
+              "columns": [
+                  {"id": "hit_dice",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "death_saves_success",
+              "title": "Death Saves (Success)",
+              "columns": [
+                  {"id": "death_saves_success",
+                   "data_type": "number",
+                   "editable": true}
+              ]},
+             {"id": "death_saves_failue",
+              "title": "Death Saves (Failure)",
+              "columns": [
+                  {"id": "death_saves_failure",
+                   "data_type": "number",
+                   "editable": true}
+              ]}
+         ]},
+        {"id": "attack",
+         "title": "Attacks & Spellcasting",
+         "columns": ["#", "Name", "Proficient", "Bonus", "Damage"],
+         "rows": [
+             {"id": "attack_1",
+              "title": "1",
+              "columns": [
+                  {"id": "attack_1_name",
+                   "data_type": "string",
+                   "editable": true},
+                  {"id": "attack_1_proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "attack_1_bonus",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "attack_1_damage",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "attack_2",
+              "title": "2",
+              "columns": [
+                  {"id": "attack_2_name",
+                   "data_type": "string",
+                   "editable": true},
+                  {"id": "attack_2_proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "attack_2_bonus",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "attack_2_damage",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "attack_3",
+              "title": "3",
+              "columns": [
+                  {"id": "attack_3_name",
+                   "data_type": "string",
+                   "editable": true},
+                  {"id": "attack_3_proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "attack_3_bonus",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "attack_3_damage",
+                   "data_type": "string",
+                   "editable": true}
+              ]}
+         ]},
+        {"id": "personality",
+         "title": "Personality",
+         "columns": ["", ""],
+         "rows": [
+             {"id": "traits",
+              "title": "Traits",
+              "columns": [
+                  {"id": "traits",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "ideals",
+              "title": "Ideals",
+              "columns": [
+                  {"id": "ideals",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "bonds",
+              "title": "Bonds",
+              "columns": [
+                  {"id": "bonds",
+                   "data_type": "string",
+                   "editable": true}
+              ]},
+             {"id": "flaws",
+              "title": "Flaws",
+              "columns": [
+                  {"id": "flaws",
+                   "data_type": "string",
+                   "editable": true}
+              ]}
+         ]}
+    ]
+}

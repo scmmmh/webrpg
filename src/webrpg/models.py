@@ -1,18 +1,22 @@
 import hashlib
+import json
 import random
 
+from copy import deepcopy
 from sqlalchemy import (Column, Integer, Unicode, UnicodeText, ForeignKey, event)
 from sqlalchemy.ext.declarative import (declarative_base)
 from sqlalchemy.orm import (scoped_session, sessionmaker, relationship)
 from zope.sqlalchemy import ZopeTransactionExtension
+
+from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate)
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
 class User(Base):
-    """The :class:`~webrpg.models.User` represents any user in the system.
-    """
+    '''The :class:`~webrpg.models.User` represents any user in the system.
+    '''
     __tablename__ = 'users'
     
     id = Column(Integer, primary_key=True)
@@ -122,3 +126,55 @@ class ChatMessage(Base):
                 'user': self.user_id,
                 'session': self.session_id,
                 'message': self.message}
+
+
+class Character(Base):
+
+    __tablename__ = 'characters'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id', name='characters_user_id_fk'))
+    game_id = Column(Integer, ForeignKey('games.id', name='characters_game_id_fk'))
+    attr = Column(UnicodeText)
+    rule_set = Column(Unicode(255))
+
+    def as_dict(self):
+        from webrpg.components.rule_set import RULE_SETS
+        attrs = json.loads(self.attr) if self.attr else {'basic.name': 'Mark',
+                                                         'base.proficiency': 2,
+                                                         'abilities.strength': 12,
+                                                         'skills.acrobatics.proficient': True}
+        rule_set = deepcopy(RULE_SETS[self.rule_set]) if self.rule_set else {}
+        stats = []
+        if 'stats' in rule_set:
+            for source_table in rule_set['stats']:
+                stat_table = {'id': '%s.%s' % (self.id, source_table['id']),
+                              'title': source_table['title'],
+                              'columns': deepcopy(source_table['columns']),
+                              'rows': []}
+                for source_row in source_table['rows']:
+                    stat_row = {'id': '%s.%s.%s.row' % (self.id, source_table['id'], source_row['id']),
+                                'title': source_row['title'],
+                                'columns': []}
+                    for source_column in source_row['columns']:
+                        stat_column = {'id': '%s.%s.%s' % (self.id, source_table['id'], source_column['id']),
+                                       'data_type': source_column['data_type'],
+                                       'editable': source_column['editable'],
+                                       'value': None}
+                        if 'formula' in source_column:
+                            tokens = add_variables(tokenise(source_column['formula']), attrs)
+                            total = calculate(infix_to_postfix(tokens))
+                            stat_column['value'] = total
+                            attrs['%s.%s' % (source_table['id'], source_column['id'])] = total
+                        else:
+                            key = '%s.%s' % (source_table['id'], source_column['id'])
+                            if key in attrs:
+                                stat_column['value'] = attrs[key]
+                        stat_row['columns'].append(stat_column)
+                    stat_table['rows'].append(stat_row)
+                stats.append(stat_table)
+        return {'id': self.id,
+                'user': self.user_id,
+                'game': self.game_id,
+                'ruleSet': self.rule_set,
+                'stats': stats}
