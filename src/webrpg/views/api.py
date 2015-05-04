@@ -14,7 +14,7 @@ from pyramid.view import view_config
 from sqlalchemy import (and_)
 
 from webrpg.models import (DBSession, User, Game, Session, ChatMessage)
-from webrpg.components import (user, game, session, chat_message)
+from webrpg.components import (user, game, session, chat_message, character, rule_set)
 
 def init(config):
     config.add_route('login', '/api/users/login')
@@ -96,6 +96,8 @@ MODELS.update(user.MODELS)
 MODELS.update(game.MODELS)
 MODELS.update(session.MODELS)
 MODELS.update(chat_message.MODELS)
+MODELS.update(character.MODELS)
+MODELS.update(rule_set.MODELS)
 
 
 def get_current_user(request):
@@ -130,11 +132,16 @@ def handle_collection(request):
             if request.method == 'GET' and 'list' in MODELS[model_name]:
                 access_check(request, MODELS[model_name]['list'])
                 authorisation_check(request, None, MODELS[model_name]['list'])
-                dbsession = DBSession()
-                query = dbsession.query(MODELS[model_name]['class'])
-                if 'filter' in MODELS[model_name]['list']:
-                    query = MODELS[model_name]['list']['filter'](request, query)
-                return {request.matchdict['model']: [m.as_dict() for m in query]}
+                if 'class' in MODELS[model_name]:
+                    dbsession = DBSession()
+                    query = dbsession.query(MODELS[model_name]['class'])
+                    if 'filter' in MODELS[model_name]['list']:
+                        query = MODELS[model_name]['list']['filter'](request, query)
+                    return {request.matchdict['model']: [m.as_dict() for m in query]}
+                elif 'function' in MODELS[model_name]['list']:
+                    return {request.matchdict['model']: MODELS[model_name]['list']['function'](request)}
+                else:
+                    raise raise_json_exception(HTTPMethodNotAllowed)
             elif request.method == 'POST' and 'new' in MODELS[model_name]:
                 access_check(request, MODELS[model_name]['new'])
                 dbsession = DBSession()
@@ -165,14 +172,43 @@ def handle_item(request):
             if request.method == 'GET' and 'item' in MODELS[model_name]:
                 access_check(request, MODELS[model_name]['item'])
                 authorisation_check(request, None, MODELS[model_name]['item'])
-                dbsession = DBSession()
-                model = dbsession.query(MODELS[model_name]['class']).\
-                        filter(MODELS[model_name]['class'].id == request.matchdict['iid']).\
-                        first()
-                if model:
-                    return {model_name: model.as_dict()}
+                if 'class' in MODELS[model_name]:
+                    dbsession = DBSession()
+                    model = dbsession.query(MODELS[model_name]['class']).\
+                            filter(MODELS[model_name]['class'].id == request.matchdict['iid']).\
+                            first()
+                    if model:
+                        return {model_name: model.as_dict()}
+                    else:
+                        raise_json_exception(HTTPNotFound)
+                elif 'function' in MODELS[model_name]['item']:
+                    return {model_name: MODELS[model_name]['item']['function'](request)}
+                else:
+                    raise raise_json_exception(HTTPMethodNotAllowed)
+            elif request.method == 'PUT' and 'update' in MODELS[model_name]:
+                access_check(request, MODELS[model_name]['update'])
+                authorisation_check(request, None, MODELS[model_name]['update'])
+                if 'class' in MODELS[model_name]:
+                    dbsession = DBSession()
+                    model = dbsession.query(MODELS[model_name]['class']).filter(MODELS[model_name]['class'].id == request.matchdict['iid']).first()
+                    if model:
+                        schema = ModelWrapperSchema(model_name, MODELS[model_name]['update']['schema']())
+                        params = schema.to_python(json.loads(request.body.decode('utf8')),
+                                                  state=State(dbsession=dbsession))[model_name]
+                        if 'param_transform' in MODELS[model_name]['update']:
+                            params = MODELS[model_name]['update']['param_transform'](params)
+                        with transaction.manager:
+                            dbsession.add(model)
+                            for key, value in params.items():
+                                setattr(model, key, value)
+                        dbsession.add(model)
+                        return {model_name: model.as_dict()}
+                    else:
+                        raise_json_exception(HTTPNotFound)
                 else:
                     raise_json_exception(HTTPNotFound)
+            else:
+                raise raise_json_exception(HTTPMethodNotAllowed)
         except Invalid as e:
             raise raise_json_exception(HTTPClientError, {'error': invalid_to_error_dict(e)})
     else:

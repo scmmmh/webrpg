@@ -9,6 +9,9 @@ li.panel {
     width: 100%;
     max-width: 100%;
 }
+td input[type=text], td input[type=number], td input[type=checkbox], td .button {
+    margin-bottom: 0;
+}
 
 /**
  * Generic styles
@@ -18,6 +21,12 @@ li.panel {
 }
 .no-margin {
     margin: 0 !important;
+}
+.no-symbol li {
+    list-style-type: none;
+}
+.inline-block {
+    display: inline-block;
 }
 
 /**

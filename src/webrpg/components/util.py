@@ -24,5 +24,3 @@ class EmberSchema(schema.Schema):
     
     allow_extra_fields = True
     filter_extra_fields = True
-
- 

@@ -8,10 +8,10 @@ export default Ember.Controller.extend({
             var title = controller.get('session_title');
             if(title) {
                 controller.store.find('user', sessionStorage.getItem('webrpg-userid')).then(function(user) {
-                    var game = controller.get('model');
+                    var model = controller.get('model');
                     var session = controller.store.createRecord('session', {
                         title: title,
-                        game: game
+                        game: model.game
                     });
                     
                     session.save().then(function() {
@@ -21,6 +21,7 @@ export default Ember.Controller.extend({
                             session: session
                         });
                         role.save().then(function() {
+                            controller.set('session_title', '');
                             controller.set('error', {});
                             controller.set('title', '');
                             controller.transitionToRoute('session', session.id);

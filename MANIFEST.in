@@ -1,2 +1,4 @@
 include *.txt *.ini *.cfg *.rst
-recursive-include src *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml
+recursive-include src *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml *.json
+recursive-exclude src/gui *.*
+recursive-exclude src/node_modules *.*
