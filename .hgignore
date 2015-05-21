@@ -31,3 +31,5 @@ syntax: regexp
 \.ini$
 syntax: regexp
 \.sqlite$
+syntax: regexp
+^dist$
