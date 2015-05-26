@@ -10,7 +10,7 @@ export default Ember.Component.extend({
             var selected_tab = this.get('selected-tab');
             if(selected_tab) {
                 var element = tab.$();
-                if(element.data('tab-id') == selected_tab) {
+                if(element.data('tab-id') === selected_tab) {
                     element.addClass('active').children('.content').addClass('active');
                 }
             }
