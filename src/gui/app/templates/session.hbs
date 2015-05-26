@@ -1,13 +1,13 @@
 <div class="row wide">
-  <h1 class="small-12 column">{{session.game.title}} - {{session.title}}</h1>
+  <h1 class="small-12 column">{{model.session.game.title}} - {{model.session.title}}</h1>
 </div>
 
 <div id="chat">
     <ol class="messages">
-      {{#each chats}}
+      {{#each message in model.chats}}
         <li class="row wide">
-          <div class="small-4 medium-2 large-1 column display-name">{{user.display_name}}</div>
-          <div class="small-8 medium-10 large-11 column message">{{message}}</div>
+          <div class="small-4 medium-2 large-1 column display-name">{{message.user.display_name}}</div>
+          <div class="small-8 medium-10 large-11 column message">{{message.message}}</div>
         </li>
       {{/each}}
     </ol>
