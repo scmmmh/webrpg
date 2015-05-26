@@ -3,12 +3,16 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     classNames: ['clearfix'],
     actions: {
-        select_tab: function(panel_id) {
-            var panel = Ember.$('#' + panel_id);
-            var open = panel.hasClass('active');
-            panel.parent().parent().find('div.content').removeClass('active');
-            if(!open) {
-                panel.addClass('active');
+        'select-tab': function(tab_id) {
+            this.set('selected-tab', tab_id);
+        },
+        'refresh-tabs': function(tab) {
+            var selected_tab = this.get('selected-tab');
+            if(selected_tab) {
+                var element = tab.$();
+                if(element.data('tab-id') == selected_tab) {
+                    element.addClass('active').children('.content').addClass('active');
+                }
             }
         },
         cs_start_edit: function(stat_column) {

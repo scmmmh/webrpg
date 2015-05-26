@@ -1,8 +1,8 @@
-<ul class="accordion no-margin" data-accordion>
+{{#fd-accordion}}
   {{#each stat_table in character.stats}}
-    <li class="accordion-navigation">
-      <a href="#{{stat_table.id}}" onclick="return false;">{{stat_table.title}}</a>
-      <div id="{{stat_table.id}}" class="content active">
+    {{#fd-accordion-item data-tab-id=stat_table.id action='refresh-tabs'}}
+      {{fd-accordion-item-header action='select-tab' target-id=stat_table.id title=stat_table.title}}
+      {{#fd-accordion-item-body}}
         <table class="small-12">
           <thead>
             <tr>
@@ -50,7 +50,7 @@
             {{/each}}
           </tbody>
         </table>
-      </div>
-    </li>
+      {{/fd-accordion-item-body}}
+    {{/fd-accordion-item}}
   {{/each}}
-</ul>
+{{/fd-accordion}}
