@@ -399,7 +399,7 @@
               "title": "Hit Dice",
               "columns": [
                   {"id": "hit_dice",
-                   "data_type": "number",
+                   "data_type": "string",
                    "editable": true}
               ]},
              {"id": "death_saves_success",
