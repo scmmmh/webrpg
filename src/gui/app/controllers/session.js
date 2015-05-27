@@ -27,6 +27,7 @@ export default Ember.Controller.extend({
                 } else {
                     this.set('new_chat_message', stat.get('title') + ': ' + stat.get('action'));
                 }
+                $('#chat-message-input').focus();
             }
         }
     }
