@@ -25,7 +25,7 @@
     <form {{action 'new_chat_message' on='submit'}} class="row wide">
       <div class="small-12 column">
         <div class="row collapse">
-          <div class="small-12 medium-10 column">{{input value=new_chat_message autocomplete='off'}}</div>
+          <div class="small-12 medium-10 column">{{input id='chat-message-input' value=new_chat_message autocomplete='off'}}</div>
           <div class="small-12 medium-2 column"><input type="submit" value="Say" class="button postfix"/></div>
         </div>
       </div>
