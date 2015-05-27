@@ -3,7 +3,7 @@
     "label": "D&D 5th Edition",
     "stats": [
         {"id": "base",
-         "title": "Base",
+         "title": "About",
          "columns": ["", ""],
          "rows": [
              {"id": "name",
@@ -52,7 +52,7 @@
               "title": "Inspiration",
               "columns": [
                   {"id": "inspiration",
-                   "data_type": "boolean",
+                   "data_type": "number",
                    "editable": true}
               ]},
              {"id": "proficiency",
@@ -65,7 +65,7 @@
          ]},
         {"id": "abilities",
          "title": "Abilities",
-         "columns": ["Ability", "Score", "Modifier"],
+         "columns": ["", "Score", "Modifier"],
          "rows": [
              {"id": "strength",
               "title": "Strength",
@@ -136,7 +136,7 @@
          ]},
         {"id": "skills",
          "title": "Skills",
-         "columns": ["Skill", "Proficient", "Modifier"],
+         "columns": ["", "Proficient", "Modifier"],
          "rows": [
              {"id": "acrobatics",
               "title": "Acrobatics",
@@ -348,8 +348,8 @@
                    "formula": "{abilities.wis} + {base.proficiency ? skills.survival.proficient : 0}"}
               ]}
          ]},
-        {"id": "action",
-         "title": "Action",
+        {"id": "combat",
+         "title": "Combat",
          "columns": ["", ""],
          "rows": [
              {"id": "ac",
@@ -373,7 +373,12 @@
                   {"id": "speed",
                    "data_type": "number",
                    "editable": true}
-              ]},
+              ]}
+         ]},
+        {"id": "health",
+         "title": "Health",
+         "columns": ["", ""],
+         "rows": [
              {"id": "hit_point_maximum",
               "title": "Hit Point Maximum",
               "columns": [
@@ -418,8 +423,8 @@
               ]}
          ]},
         {"id": "attack",
-         "title": "Attacks & Spellcasting",
-         "columns": ["#", "Name", "Proficient", "Bonus", "Damage"],
+         "title": "Attacks",
+         "columns": ["", "Name", "Proficient", "Bonus", "Damage"],
          "rows": [
              {"id": "attack_1",
               "title": "1",
