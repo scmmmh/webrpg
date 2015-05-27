@@ -1,6 +1,7 @@
 {
     "id": "dnd5e",
     "label": "D&D 5th Edition",
+    "title": "base.name",
     "stats": [
         {"id": "base",
          "title": "About",
