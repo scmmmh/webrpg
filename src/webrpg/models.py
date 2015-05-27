@@ -140,10 +140,7 @@ class Character(Base):
 
     def as_dict(self):
         from webrpg.components.rule_set import RULE_SETS
-        attrs = json.loads(self.attr) if self.attr else {'basic.name': 'Mark',
-                                                         'base.proficiency': 2,
-                                                         'abilities.strength': 12,
-                                                         'skills.acrobatics.proficient': True}
+        attrs = json.loads(self.attr) if self.attr else {}
         rule_set = deepcopy(RULE_SETS[self.rule_set]) if self.rule_set else {}
         stats = []
         if 'stats' in rule_set:
@@ -173,7 +170,11 @@ class Character(Base):
                         stat_row['columns'].append(stat_column)
                     stat_table['rows'].append(stat_row)
                 stats.append(stat_table)
+        title = 'Unnamed'
+        if 'title' in rule_set and rule_set['title'] in attrs:
+            title = attrs[rule_set['title']]
         return {'id': self.id,
+                'title': title,
                 'user': self.user_id,
                 'game': self.game_id,
                 'ruleSet': self.rule_set,

@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+    title: DS.attr(),
     attr: DS.attr(),
     game: DS.belongsTo('Game', {async: true}),
     user: DS.belongsTo('User', {async: true}),
