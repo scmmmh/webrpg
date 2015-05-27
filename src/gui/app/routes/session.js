@@ -52,6 +52,10 @@ export default Ember.Route.extend({
            session: this.store.find('session', params.sid),
            chats: this.store.filter('chat-message', {session: params.sid}, function() {
                return true;
+           }),
+           characters: this.store.find('character', {
+               game_id: params.gid,
+               user_id: sessionStorage.getItem('webrpg-userid')
            })
         });
     },

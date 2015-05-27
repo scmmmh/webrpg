@@ -12,5 +12,25 @@ export default Ember.View.extend({
         if(scrollTop + innerHeight / 2 > last_top) {
             this.$('.messages').scrollTop(scrollTop + 1000);
         }
+    },
+    update_layout: function() {
+        var height = $(window).innerHeight();
+        this.$().siblings().each(function() {
+           height = height - $(this).outerHeight(true); 
+        });
+        this.$('#session-content').siblings().each(function() {
+           height = height - $(this).outerHeight(true); 
+        });
+        this.$('#session-content').css('height', height + 'px');
+    },
+    setup_view: function() {
+        var view = this;
+        view.update_layout();
+        $(window).on('resize.session', function() {
+            view.update_layout();
+        });
+    }.on('didInsertElement'),
+    destroy_view: function() {
+        $(window).off('resize.session');
     }
 });

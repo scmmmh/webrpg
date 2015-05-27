@@ -1,7 +1,18 @@
-<div class="row wide">
+<div id="session-title" class="row wide">
   <h1 class="small-12 column">{{model.session.game.title}} - {{model.session.title}}</h1>
 </div>
-
+<div id="session-content" class="row wide">
+  <div class="small-4 column end full-height autoscroll">
+    <ul class="no-padding no-margin">
+      {{#each character in model.characters}}
+        <li class="panel">
+          <h3>{{character.name}}</h3>
+          {{character-sheet character=character}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
 <div id="chat">
     <ol class="messages">
       {{#each message in model.chats}}
