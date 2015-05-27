@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import (declarative_base)
 from sqlalchemy.orm import (scoped_session, sessionmaker, relationship)
 from zope.sqlalchemy import ZopeTransactionExtension
 
-from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate)
+from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate, process_unary)
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
@@ -168,6 +168,8 @@ class Character(Base):
                             if key in attrs:
                                 stat_column['value'] = attrs[key]
                         stat_row['columns'].append(stat_column)
+                    if 'action' in source_row:
+                        stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(source_row['action']), attrs))])
                     stat_table['rows'].append(stat_row)
                 stats.append(stat_table)
         title = 'Unnamed'

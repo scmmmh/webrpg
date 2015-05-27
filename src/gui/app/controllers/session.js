@@ -19,6 +19,15 @@ export default Ember.Controller.extend({
                     });
                 });
             }
+        },
+        'stat-click': function(character, stat) {
+            if(stat.get('has_action')) {
+                if(this.get('model').characters.get('length') > 1) {
+                    this.set('new_chat_message', character.get('title') + ' ' + stat.get('title') + ': ' + stat.get('action'));
+                } else {
+                    this.set('new_chat_message', stat.get('title') + ': ' + stat.get('action'));
+                }
+            }
         }
     }
 });

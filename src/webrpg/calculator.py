@@ -110,7 +110,10 @@ def add_variables(tokens, values):
                 if match:
                     if match.group(1):
                         if match.group(1) in values:
-                            new_tokens.append(('val', str(values[match.group(1)])))
+                            try:
+                                new_tokens.append(('val', str(int(values[match.group(1)]))))
+                            except ValueError:
+                                new_tokens.append(('val', '0'))
                         else:
                             new_tokens.append(('val', '0'))
                     else:
@@ -138,6 +141,22 @@ def add_variables(tokens, values):
 
 def op_precedence(op):
     return OPERATORS[op]['precedence']
+
+
+def process_unary(tokens):
+    output = []
+    modifier = None
+    for idx in range(0, len(tokens)):
+        if (idx == 0 or tokens[idx - 1][0] == 'op') and idx < len(tokens) - 1 and tokens[idx][0] == 'op' and tokens[idx][1] == '-' and tokens[idx + 1][0] == 'val':
+            modifier = '-'
+        elif modifier:
+            if tokens[idx][0] == 'val':
+                if modifier == '-':
+                    output.append(('val', str(int(tokens[idx][1]) * -1)))
+            modifier = None
+        else:
+            output.append(tokens[idx])
+    return output
 
 
 def infix_to_postfix(tokens):
