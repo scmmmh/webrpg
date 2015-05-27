@@ -34,6 +34,9 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
 .autoscroll {
     overflow: auto;
 }
+.clickable {
+    cursor: pointer;
+}
 
 /**
  * Specific layouts

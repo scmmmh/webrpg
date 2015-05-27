@@ -7,7 +7,7 @@
       {{#each character in model.characters}}
         <li class="panel">
           <h3>{{character.name}}</h3>
-          {{character-sheet character=character}}
+          {{character-sheet character=character action='stat-click'}}
         </li>
       {{/each}}
     </ul>

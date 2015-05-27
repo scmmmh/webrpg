@@ -25,6 +25,9 @@ export default Ember.Component.extend({
         cs_save_edit: function(item, character) {
             character.save();
             item.set('editing', false);
+        },
+        default_action: function(character, stat) {
+            this.sendAction('action', character, stat);
         }
     }
 });

@@ -11,7 +11,7 @@ from formencode import validators, schema, All, Invalid
 from sqlalchemy import and_
 
 from webrpg.calculator import (calculation_regexp, add_dice, tokenise, calculate,
-                               infix_to_postfix)
+                               infix_to_postfix, process_unary)
 from webrpg.components.session import SessionExistsValidator
 from webrpg.components.user import UserExistsValidator
 from webrpg.components.util import (get_current_user, EmberSchema)
@@ -41,7 +41,7 @@ def new_chat_message_param_transform(params):
     while calc_match:
         if calc_match.group(0).strip() == '':
             break
-        tokens = add_dice(tokenise(calc_match.group(0)))
+        tokens = process_unary(add_dice(tokenise(calc_match.group(0))))
         total = calculate(infix_to_postfix(tokens))
         if calc_match.group(0).strip() == ' '.join([t[1] for t in tokens]).strip():
             substitutions.append(calc_match.group(0))
