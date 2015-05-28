@@ -11,7 +11,7 @@ from sqlalchemy import and_
 from webrpg.components.rule_set import RULE_SETS
 from webrpg.components.user import UserExistsValidator
 from webrpg.components.util import (get_current_user, EmberSchema)
-from webrpg.models import DBSession, Character
+from webrpg.models import DBSession, Character, Game, GameRole
 
 class NewCharacterSchema(EmberSchema):
     
@@ -29,8 +29,16 @@ def new_character_param_transform(params):
 def filter_list_characters(request, query):
     if 'game_id' in request.params:
         query = query.filter(Character.game_id == request.params['game_id'])
-    if 'user_id' in request.params:
-        query = query.filter(Character.user_id == request.params['user_id'])
+        if 'user_id' in request.params:
+            dbsession = DBSession()
+            game = dbsession.query(Game).join(Game.roles).filter(and_(Game.id == request.params['game_id'],
+                                                                      GameRole.role == 'owner',
+                                                                      GameRole.user_id == request.params['user_id'])).first()
+            if game is None:
+                query = query.filter(Character.user_id == request.params['user_id'])
+    else:
+        if 'user_id' in request.params:
+            query = query.filter(Character.user_id == request.params['user_id'])
     return query
 
 

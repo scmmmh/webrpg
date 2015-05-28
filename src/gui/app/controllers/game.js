@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     actions: {
-        join_session: function(sid) {
+        join_session: function(gid, sid) {
             var controller = this;
             
             Ember.RSVP.hash({
@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
                     session: data.session
                 });
                 role.save().then(function() {
-                    controller.transitionToRoute('session', sid);
+                    controller.transitionToRoute('session', gid, sid);
                 });
             });
         }

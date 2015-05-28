@@ -16,9 +16,9 @@
       {{#each session in model.game.sessions}}
         <li class="panel">
           {{#if session.joined}}
-            {{#link-to 'session' session.id}}{{session.title}}{{/link-to}}
+            {{#link-to 'session' model.game.id session.id}}{{session.title}}{{/link-to}}
           {{else}}
-            <a href="#" {{action 'join_session' session.id}}>{{session.title}}</a>
+            <a href="#" {{action 'join_session' model.game.id session.id}}>{{session.title}}</a>
           {{/if}}</li>
       {{/each}}
     </ol>
