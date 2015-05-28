@@ -29,6 +29,23 @@ export default Ember.Controller.extend({
                 }
                 $('#chat-message-input').focus();
             }
+        },
+        'new-snapshot': function() {
+            window.Webcam.set({
+                width: 320,
+                height: 240
+            });
+            window.Webcam.attach('#video');
+            Ember.$('#snapshot-ui').show();
+        },
+        'cancel-snapshot': function() {
+            window.Webcam.reset();
+            Ember.$('#snapshot-ui').hide();
+        },
+        snapshot: function() {
+            window.Webcam.snap(function(uri) {
+                Ember.$('#target').attr('src', uri);
+            });
         }
     }
 });
