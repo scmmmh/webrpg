@@ -207,6 +207,20 @@ def handle_item(request):
                         raise_json_exception(HTTPNotFound)
                 else:
                     raise_json_exception(HTTPNotFound)
+            elif request.method == 'DELETE' and 'delete' in MODELS[model_name]:
+                access_check(request, MODELS[model_name]['delete'])
+                authorisation_check(request, None, MODELS[model_name]['delete'])
+                if 'class' in MODELS[model_name]:
+                    dbsession = DBSession()
+                    model = dbsession.query(MODELS[model_name]['class']).filter(MODELS[model_name]['class'].id == request.matchdict['iid']).first()
+                    if model:
+                        with transaction.manager:
+                            dbsession.delete(model)
+                        return {}
+                    else:
+                        raise_json_exception(HTTPNotFound)
+                else:
+                    raise_json_exception(HTTPNotFound)
             else:
                 raise raise_json_exception(HTTPMethodNotAllowed)
         except Invalid as e:

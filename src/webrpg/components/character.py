@@ -106,5 +106,6 @@ MODELS = {'character': {'class': Character,
                                  'filter': filter_list_characters},
                         'update': {'authenticate': True,
                                    'schema': UpdateCharacterSchema,
-                                   'param_transform': update_character_param_transform}
+                                   'param_transform': update_character_param_transform},
+                        'delete': {'authenticate': True}
                         }}
