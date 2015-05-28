@@ -18,6 +18,6 @@ export default Router.map(function() {
         this.route('new-session');
         this.route('new-character');
     });
-    this.resource('session', { path: 'sessions/:sid' }, function() { });
+    this.resource('session', { path: 'sessions/:gid/:sid' }, function() { });
   this.route('game/new-character');
 });
