@@ -374,6 +374,77 @@
                    "formula": "{abilities.wis} + {base.proficiency ? skills.survival.proficient : 0}"}
               ]}
          ]},
+        {"id": "saving",
+         "title": "Saving Throws",
+         "columns": ["", "Proficient", "Bonus"],
+         "rows": [
+             {"id": "strength",
+              "title": "Strength",
+              "columns": [
+                  {"id": "strength.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "strength",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.str} + {base.proficiency ? saving.strength.proficient : 0}"}
+              ]},
+             {"id": "dexterity",
+              "title": "Dexterity",
+              "columns": [
+                  {"id": "dexterity.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "dexterity",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.dex} + {base.proficiency ? saving.dexterity.proficient : 0}"}
+              ]},
+             {"id": "constitution",
+              "title": "Constitution",
+              "columns": [
+                  {"id": "constitution.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "constitution",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.con} + {base.proficiency ? saving.constitution.proficient : 0}"}
+              ]},
+             {"id": "intelligence",
+              "title": "Intelligence",
+              "columns": [
+                  {"id": "intelligence.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "intelligence",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.int} + {base.proficiency ? saving.intelligence.proficient : 0}"}
+              ]},
+             {"id": "wisdom",
+              "title": "Wisdom",
+              "columns": [
+                  {"id": "wisdom.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "wisdom",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.wis} + {base.proficiency ? saving.wisdom.proficient : 0}"}
+              ]},
+             {"id": "charisma",
+              "title": "Charisma",
+              "columns": [
+                  {"id": "charisma.proficient",
+                   "data_type": "boolean",
+                   "editable": true},
+                  {"id": "charisma",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "{abilities.cha} + {base.proficiency ? saving.charisma.proficient : 0}"}
+              ]}
+         ]},
         {"id": "combat",
          "title": "Combat",
          "columns": ["", ""],
@@ -507,7 +578,7 @@
          "columns": ["", ""],
          "rows": [
              {"id": "traits",
-              "title": "Traits",
+              "title": "Personality Traits",
               "columns": [
                   {"id": "traits",
                    "data_type": "string",
