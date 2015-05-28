@@ -28,6 +28,10 @@ export default Ember.Component.extend({
         },
         default_action: function(character, stat) {
             this.sendAction('action', character, stat);
+        },
+        'delete-character': function(character) {
+            character.deleteRecord();
+            character.save();
         }
     }
 });

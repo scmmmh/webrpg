@@ -1,4 +1,10 @@
-<h3>{{character.title}}</h3>
+<div class="row">
+  <h3 class="small-8 column">{{character.title}}</h3>
+  <div class="small-4 column text-right">
+    <a {{action 'delete-character' character}} class="button small alert">Delete</a>
+  </div>
+  
+</div>
 {{#fd-accordion}}
   {{#each stat_table in character.stats}}
     {{#fd-accordion-item data-tab-id=stat_table.id action='refresh-tabs'}}
