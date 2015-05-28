@@ -16,6 +16,7 @@ export default Ember.Controller.extend({
                     });
                     character.save().then(function() {
                         controller.set('error', {});
+                        controller.container.lookup('route:game').refresh();
                         controller.transitionToRoute('game', model.parent.game.id);
                     }, function(data) {
                         controller.set('error', data.responseJSON.error.session);
