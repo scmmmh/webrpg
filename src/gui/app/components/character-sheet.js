@@ -30,8 +30,10 @@ export default Ember.Component.extend({
             this.sendAction('action', character, stat);
         },
         'delete-character': function(character) {
-            character.deleteRecord();
-            character.save();
+            if(confirm('Please confirm that you wish to delete the character "' + character.get('title') + '".')) {
+                character.deleteRecord();
+                character.save();
+            }
         }
     }
 });
