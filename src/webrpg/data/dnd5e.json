@@ -380,6 +380,7 @@
          "rows": [
              {"id": "strength",
               "title": "Strength",
+              "action": "d20 + {saving.strength}",
               "columns": [
                   {"id": "strength.proficient",
                    "data_type": "boolean",
@@ -391,6 +392,7 @@
               ]},
              {"id": "dexterity",
               "title": "Dexterity",
+              "action": "d20 + {saving.dexterity}",
               "columns": [
                   {"id": "dexterity.proficient",
                    "data_type": "boolean",
@@ -402,6 +404,7 @@
               ]},
              {"id": "constitution",
               "title": "Constitution",
+              "action": "d20 + {saving.constitution}",
               "columns": [
                   {"id": "constitution.proficient",
                    "data_type": "boolean",
@@ -413,6 +416,7 @@
               ]},
              {"id": "intelligence",
               "title": "Intelligence",
+              "action": "d20 + {saving.intelligence}",
               "columns": [
                   {"id": "intelligence.proficient",
                    "data_type": "boolean",
@@ -424,6 +428,7 @@
               ]},
              {"id": "wisdom",
               "title": "Wisdom",
+              "action": "d20 + {saving.wisdom}",
               "columns": [
                   {"id": "wisdom.proficient",
                    "data_type": "boolean",
@@ -435,6 +440,7 @@
               ]},
              {"id": "charisma",
               "title": "Charisma",
+              "action": "d20 + {saving.charisma}",
               "columns": [
                   {"id": "charisma.proficient",
                    "data_type": "boolean",
