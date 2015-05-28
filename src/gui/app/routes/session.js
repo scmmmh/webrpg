@@ -48,7 +48,7 @@ var AutoUpdater = Ember.Object.extend({
 
 export default Ember.Route.extend({
     model: function(params) {
-        return Ember.RSVP.hash({
+        var promise = Ember.RSVP.hash({
            session: this.store.find('session', params.sid),
            chats: this.store.filter('chat-message', {session: params.sid}, function() {
                return true;
@@ -58,6 +58,7 @@ export default Ember.Route.extend({
                user_id: sessionStorage.getItem('webrpg-userid')
            })
         });
+        return promise;
     },
     setupController: function(controller, model) {
     	controller.set('model', model);

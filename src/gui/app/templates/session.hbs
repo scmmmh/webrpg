@@ -2,7 +2,7 @@
   <h1 class="small-12 column">{{model.session.game.title}} - {{model.session.title}}</h1>
 </div>
 <div id="session-content" class="row wide">
-  <div class="small-4 column end full-height autoscroll">
+  <div class="small-4 column full-height autoscroll">
     <ul class="no-padding no-margin">
       {{#each character in model.characters}}
         <li class="panel">
@@ -12,6 +12,19 @@
       {{/each}}
     </ul>
   </div>
+  <div class="small-8 column full-height autoscroll">
+    <div class="small-12 column text-right"><a {{action 'new-snapshot'}} class="button small">New Snapshot</a></div>
+    <img id="map"/>
+  </div>
+  <!--
+  <div id="snapshot-ui" class="hidden">
+    <div class="overlay"></div>
+    <div class="dialog">
+      <div id="video"></div>
+      <div class="buttons"><a {{action 'cancel-snapshot'}} class="button secondary small">Cancel</a><a {{action 'upload-snapshot'}} class="button small">Take Snapshot</a></div>
+    </div>
+  </div>
+  -->
 </div>
 <div id="chat">
     <ol class="messages">
