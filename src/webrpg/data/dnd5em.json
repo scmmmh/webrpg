@@ -5,7 +5,6 @@
     "stats": [
         {"id": "base",
          "title": "About",
-         "columns": ["", ""],
          "rows": [
              {"id": "name",
               "title": "Monster Name",
