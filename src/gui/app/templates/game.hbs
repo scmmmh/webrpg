@@ -38,7 +38,7 @@
       {{/unless}}
     {{/if}}
     {{outlet 'new-character'}}
-    <ul class="no-padding no-margin">
+    <ul id="characters" class="no-padding no-margin">
       {{#each character in model.characters}}
         <li class="panel">
           {{character-sheet character=character allow_delete='true'}}

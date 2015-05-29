@@ -105,6 +105,6 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
 #session-content #characters .accordion .accordion-navigation > a {
     padding: 0.3rem 0.5rem;
 }
-#session-content #characters .accordion .accordion-navigation > .content {
+#characters .accordion .accordion-navigation > .content {
     padding: 0;
 }
