@@ -147,8 +147,9 @@ class Character(Base):
             for source_table in rule_set['stats']:
                 stat_table = {'id': '%s.%s' % (self.id, source_table['id']),
                               'title': source_table['title'],
-                              'columns': deepcopy(source_table['columns']),
                               'rows': []}
+                if 'columns' in source_table:
+                    stat_table['columns'] = deepcopy(source_table['columns'])
                 for source_row in source_table['rows']:
                     stat_row = {'id': '%s.%s.%s.row' % (self.id, source_table['id'], source_row['id']),
                                 'title': source_row['title'],

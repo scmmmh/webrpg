@@ -12,6 +12,7 @@
       {{fd-accordion-item-header action='select-tab' target-id=stat_table.id title=stat_table.title}}
       {{#fd-accordion-item-body}}
         <table class="small-12">
+          {{#if stat_table.columns}}
           <thead>
             <tr>
               {{#each column in stat_table.columns}}
@@ -19,6 +20,7 @@
               {{/each}}
             </tr>
           </thead>
+          {{/if}}
           <tbody>
             {{#each stat_row in stat_table.rows}}
               <tr>

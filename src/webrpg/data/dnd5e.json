@@ -5,7 +5,6 @@
     "stats": [
         {"id": "base",
          "title": "About",
-         "columns": ["", ""],
          "rows": [
              {"id": "name",
               "title": "Character Name",
@@ -453,7 +452,6 @@
          ]},
         {"id": "combat",
          "title": "Combat",
-         "columns": ["", ""],
          "rows": [
              {"id": "ac",
               "title": "Armor Class",
@@ -481,7 +479,6 @@
          ]},
         {"id": "health",
          "title": "Health",
-         "columns": ["", ""],
          "rows": [
              {"id": "hit_point_maximum",
               "title": "Hit Point Maximum",
@@ -581,7 +578,6 @@
          ]},
         {"id": "personality",
          "title": "Personality",
-         "columns": ["", ""],
          "rows": [
              {"id": "traits",
               "title": "Personality Traits",
