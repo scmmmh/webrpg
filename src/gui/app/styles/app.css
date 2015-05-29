@@ -99,3 +99,12 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
     display: block;
     margin: 0 auto;
 }
+#session-content #characters h3 {
+    font-size: 1.27778rem;
+}
+#session-content #characters .accordion .accordion-navigation > a {
+    padding: 0.3rem 0.5rem;
+}
+#session-content #characters .accordion .accordion-navigation > .content {
+    padding: 0;
+}
