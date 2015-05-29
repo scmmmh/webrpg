@@ -2,12 +2,12 @@
   <h1 class="small-12 column">{{model.session.game.title}} - {{model.session.title}}</h1>
 </div>
 <div id="session-content" class="row wide">
-  <div class="small-4 column full-height autoscroll">
+  <div id="characters" class="small-4 column full-height autoscroll">
     <ul class="no-padding no-margin">
       {{#each character in model.characters}}
         <li class="panel">
           <h3>{{character.name}}</h3>
-          {{character-sheet character=character action='stat-click'}}
+          {{character-sheet character=character action='stat-click' allow-delete='false'}}
         </li>
       {{/each}}
     </ul>
