@@ -1,0 +1,96 @@
+{
+    "id": "dnd5em",
+    "label": "D&D 5th Edition (Monster)",
+    "title": "base.name",
+    "stats": [
+        {"id": "base",
+         "title": "About",
+         "columns": ["", ""],
+         "rows": [
+             {"id": "name",
+              "title": "Monster Name",
+              "columns": [
+                  {"id": "name",
+                   "data_type": "string",
+                   "editable": true}
+              ]}
+         ]},
+        {"id": "abilities",
+         "title": "Abilities",
+         "columns": ["", "Score", "Modifier"],
+         "rows": [
+             {"id": "strength",
+              "title": "Strength",
+              "action": "d20 + {abilities.str}",
+              "columns": [
+                  {"id": "strength",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "str",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.strength} / 2 - 5)"} 
+              ]},
+             {"id": "dexterity",
+              "title": "Dexterity",
+              "action": "d20 + {abilities.dex}",
+              "columns": [
+                  {"id": "dexterity",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "dex",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.dexterity} / 2 - 5)"} 
+              ]},
+             {"id": "constitution",
+              "title": "Constitution",
+              "action": "d20 + {abilities.con}",
+              "columns": [
+                  {"id": "constitution",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "con",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.constitution} / 2 - 5)"} 
+              ]},
+             {"id": "intelligence",
+              "title": "Intelligence",
+              "action": "d20 + {abilities.int}",
+              "columns": [
+                  {"id": "intelligence",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "int",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.intelligence} / 2 - 5)"} 
+              ]},
+             {"id": "wisdom",
+              "title": "Wisdom",
+              "action": "d20 + {abilities.wis}",
+              "columns": [
+                  {"id": "wisdom",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "wis",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.wisdom} / 2 - 5)"} 
+              ]},
+             {"id": "charisma",
+              "title": "Charisma",
+              "action": "d20 + {abilities.cha}",
+              "columns": [
+                  {"id": "charisma",
+                   "data_type": "number",
+                   "editable": true},
+                  {"id": "cha",
+                   "data_type": "number",
+                   "editable": false,
+                   "formula": "floor({abilities.charisma} / 2 - 5)"} 
+              ]}
+         ]}
+    ]
+}
