@@ -41,7 +41,6 @@
     <ul class="no-padding no-margin">
       {{#each character in model.characters}}
         <li class="panel">
-          <h3>{{character.name}}</h3>
           {{character-sheet character=character allow_delete='true'}}
         </li>
       {{/each}}

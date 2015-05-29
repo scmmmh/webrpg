@@ -6,7 +6,6 @@
     <ul class="no-padding no-margin">
       {{#each character in model.characters}}
         <li class="panel">
-          <h3>{{character.name}}</h3>
           {{character-sheet character=character action='stat-click' allow-delete='false'}}
         </li>
       {{/each}}
