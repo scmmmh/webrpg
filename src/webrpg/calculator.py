@@ -112,12 +112,15 @@ def add_variables(tokens, values):
                         if match.group(1) in values:
                             try:
                                 new_tokens.append(('val', str(int(values[match.group(1)]))))
-                            except ValueError:
+                            except:
                                 new_tokens.append(('val', '0'))
                         else:
                             new_tokens.append(('val', '0'))
                     else:
-                        new_tokens.append(('val', str(random.randint(1, int(match.group(2))))))
+                        try:
+                            new_tokens.append(('val', str(random.randint(1, int(match.group(2))))))
+                        except:
+                            new_tokens.append(('val', '0'))
                 else:
                     match = re.match(if_regexp, token[1])
                     if match:
