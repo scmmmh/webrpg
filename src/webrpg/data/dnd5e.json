@@ -530,11 +530,12 @@
              {"id": "attacks.%i",
               "multirow": true,
               "title": "1",
-              "action": "d20 + {attacks.%(rowid)i.bonus}",
               "columns": [
                   {"id": "%i.name",
                    "data_type": "string",
-                   "editable": true},
+                   "editable": true,
+                   "action": "d20 + {attacks.%(rowid)i.bonus}",
+                   "action_title": "{attacks.%(rowid)i.name}"},
                   {"id": "%i.type",
                    "data_type": "option",
                    "editable": true,
@@ -548,7 +549,9 @@
                    "formula": "{abilities.dex ? attacks.%(rowid)i.type == 'Ranged' : abilities.str} + {base.proficiency ? attacks.%(rowid)i.proficient : 0}"},
                   {"id": "%i.damage",
                    "data_type": "string",
-                   "editable": true}
+                   "editable": true,
+                   "action": "{attacks.%(rowid)i.damage}",
+                   "action_title": "{attacks.%(rowid)i.name} Damage"}
               ]}
          ]},
         {"id": "personality",

@@ -3,6 +3,7 @@ import DS from 'ember-data';
 export default DS.Model.extend({
     title: DS.attr('string'),
     action: DS.attr('string'),
+    action_title: DS.attr('string'),
     columns: DS.hasMany('StatColumn'),
     parent: DS.belongsTo('StatTable'),
     
@@ -12,5 +13,5 @@ export default DS.Model.extend({
         } else {
             return false;
         }
-    }.property('value')
+    }.property('action')
 });

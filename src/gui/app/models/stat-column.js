@@ -6,6 +6,8 @@ export default DS.Model.extend({
     data_type: DS.attr('string'),
     options: DS.attr(),
     parent: DS.belongsTo('StatRow'),
+    action: DS.attr('string'),
+    action_title: DS.attr('string'),
     
     fancy_value: function() {
         var dt = this.get('data_type');
@@ -53,6 +55,13 @@ export default DS.Model.extend({
     data_text: function() {
         return this.get('data_type') === 'text';
     }.property('data_type'),
+    has_action: function() {
+        if(this.get('action') !== null && this.get('action') !== undefined && this.get('action') !== '') {
+            return true;
+        } else {
+            return false;
+        }
+    }.property('action'),
     
     editing: DS.attr('boolean', {defaultValue: false})
 });
