@@ -10,8 +10,9 @@ import re
 
 dice_regexp = re.compile(r'([0-9]*)[Dd]([0-9]+)')
 calculation_regexp = re.compile(r'((?:(?:\(?[0-9]*[dD][0-9]+)|(?:\(?[0-9]+))(?:(?:[0-9]*[dD][0-9]+)|(?:[0-9]+)|(?:[+\-*/()])|\s+)*)')
-variable_regexp = re.compile(r'\{([a-zA-Z_\-.]+)\}')
-if_regexp = re.compile(r'\{([0-9a-zA-Z_\-.]+)\s*\?\s*([0-9a-zA-Z_\-.]+)\s*:\s*([0-9a-zA-Z_\-.]+)\}')
+variable_regexp = re.compile(r'\{([a-zA-Z0-9_\-.]+)\}')
+bool_if_regexp = re.compile(r'\{([0-9a-zA-Z_\-.]+)\s*\?\s*([0-9a-zA-Z_\-.]+)\s*:\s*([0-9a-zA-Z_\-.]+)\}')
+cmp_if_regexp = re.compile(r'\{([0-9a-zA-Z_\-.]+)\s*\?\s*([0-9a-zA-Z_\-.]+)\s*==\s*(\'?[0-9a-zA-Z _\-.]+\'?)\s*:\s*([0-9a-zA-Z_\-.]+)\}')
 
 OPERATORS = {'(': {'precedence': 0},
              '*': {'precedence': 2,
@@ -122,7 +123,7 @@ def add_variables(tokens, values):
                         except:
                             new_tokens.append(('val', '0'))
                 else:
-                    match = re.match(if_regexp, token[1])
+                    match = re.match(bool_if_regexp, token[1])
                     if match:
                         if match.group(2) in values:
                             if values[match.group(2)] and match.group(1) in values:
@@ -134,7 +135,24 @@ def add_variables(tokens, values):
                         else:
                             new_tokens.append(('val', '0'))
                     else:
-                        new_tokens.append(('val', '0'))
+                        match = re.match(cmp_if_regexp, token[1])
+                        if match:
+                            if match.group(2) and match.group(2) in values and match.group(1) in values:
+                                cmp_value = match.group(3)
+                                if cmp_value.startswith("'") and cmp_value.endswith("'"):
+                                    cmp_value = cmp_value[1:-1]
+                                if values[match.group(2)] == cmp_value:
+                                    new_tokens.append(('val', str(values[match.group(1)])))
+                                elif match.group(4) in values:
+                                    new_tokens.append(('val', str(values[match.group(4)])))
+                                else:
+                                    new_tokens.append(('val', '0'))
+                            elif match.group(4) in values:
+                                new_tokens.append(('val', str(values[match.group(4)])))
+                            else:
+                                new_tokens.append(('val', '0'))
+                        else:
+                            new_tokens.append(('val', '0'))
             else:
                 new_tokens.append(token)
         else:

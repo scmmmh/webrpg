@@ -196,7 +196,7 @@ def handle_item(request):
                         params = schema.to_python(json.loads(request.body.decode('utf8')),
                                                   state=State(dbsession=dbsession))[model_name]
                         if 'param_transform' in MODELS[model_name]['update']:
-                            params = MODELS[model_name]['update']['param_transform'](params)
+                            params = MODELS[model_name]['update']['param_transform'](model, params)
                         with transaction.manager:
                             dbsession.add(model)
                             for key, value in params.items():
