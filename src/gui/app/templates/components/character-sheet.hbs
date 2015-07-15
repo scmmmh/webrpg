@@ -24,10 +24,12 @@
           <tbody>
             {{#each stat_row in stat_table.rows}}
               <tr>
-                {{#if stat_row.has_action}}
-                  <th {{action 'default_action' character stat_row}} class="clickable">{{stat_row.title}}</th>
-                {{else}}
-                  <th>{{stat_row.title}}</th>
+                {{#if stat_row.has_title}}
+                  {{#if stat_row.has_action}}
+                    <th {{action 'default_action' character stat_row}} class="clickable">{{stat_row.title}}</th>
+                  {{else}}
+                    <th>{{stat_row.title}}</th>
+                  {{/if}}
                 {{/if}}
                 {{#each column in stat_row.columns}}
                   <td>

@@ -13,5 +13,12 @@ export default DS.Model.extend({
         } else {
             return false;
         }
-    }.property('action')
+    }.property('action'),
+    has_title: function() {
+        if(this.get('title') !== null && this.get('title') !== undefined && this.get('title') !== '') {
+            return true;
+        } else {
+            return false;
+        }
+    }.property('title')
 });
