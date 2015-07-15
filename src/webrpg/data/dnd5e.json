@@ -525,11 +525,10 @@
          ]},
         {"id": "attacks",
          "title": "Attacks",
-         "columns": ["", "Weapon", "Type", "Proficient", "Bonus", "Damage"],
+         "columns": ["Weapon", "Type", "Proficient", "Bonus", "Damage"],
          "rows": [
              {"id": "attacks.%i",
               "multirow": true,
-              "title": "1",
               "columns": [
                   {"id": "%i.name",
                    "data_type": "string",

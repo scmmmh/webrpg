@@ -163,12 +163,14 @@ class Character(Base):
                     for idx, multirow_id in enumerate(multirow_ids):
                         if 'multirow' in source_row and source_row['multirow']:
                             stat_row = {'id': row_id % multirow_id,
-                                        'title': '%i' % (idx + 1),
                                         'columns': []}
+                            if 'title' in source_row:
+                                stat_row['title'] = '%i' % (idx + 1)
                         else:
                             stat_row = {'id': row_id,
-                                        'title': source_row['title'],
                                         'columns': []}
+                            if 'title' in source_row:
+                                stat_row['title'] = source_row['title']
                         for source_column in source_row['columns']:
                             if 'multirow' in source_row and source_row['multirow']:
                                 column_id = source_column['id'] % (multirow_id,)
