@@ -44,6 +44,12 @@
                             {{#if column.data_boolean}}
                               {{#fd-form-field}}{{input type="checkbox" checked=column.value}}{{/fd-form-field}}
                             {{/if}}
+                            {{#if column.data_text}}
+                              {{#fd-form-field}}{{textarea value=column.value}}{{/fd-form-field}}
+                            {{/if}}
+                            {{#if column.data_option}}
+                              {{#fd-form-field}}{{view 'select' content=column.options value=column.value}}{{/fd-form-field}}
+                            {{/if}}
                           </div>
                           <div class="column small-2">
                             <a {{action "cs_cancel_edit" column on="click"}} class="button alert postfix"><span class="fi-x"></span></a>

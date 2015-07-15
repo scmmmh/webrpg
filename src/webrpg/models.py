@@ -151,27 +151,56 @@ class Character(Base):
                 if 'columns' in source_table:
                     stat_table['columns'] = deepcopy(source_table['columns'])
                 for source_row in source_table['rows']:
-                    stat_row = {'id': '%s.%s.%s.row' % (self.id, source_table['id'], source_row['id']),
-                                'title': source_row['title'],
-                                'columns': []}
-                    for source_column in source_row['columns']:
-                        stat_column = {'id': '%s.%s.%s' % (self.id, source_table['id'], source_column['id']),
+                    row_id = '%s.%s.%s._row' % (self.id, source_table['id'], source_row['id'])
+                    if 'multirow' in source_row and source_row['multirow']:
+                        if '%s.%s._ids' % (source_table['id'], source_row['id']) in attrs:
+                            multirow_ids = attrs['%s.%s._ids' % (source_table['id'], source_row['id'])]
+                            multirow_ids.append(max(multirow_ids) + 1)
+                        else:
+                            multirow_ids = [0]
+                    else:
+                        multirow_ids = [None]
+                    for idx, multirow_id in enumerate(multirow_ids):
+                        if 'multirow' in source_row and source_row['multirow']:
+                            stat_row = {'id': row_id % multirow_id,
+                                        'title': '%i' % (idx + 1),
+                                        'columns': []}
+                        else:
+                            stat_row = {'id': row_id,
+                                        'title': source_row['title'],
+                                        'columns': []}
+                        for source_column in source_row['columns']:
+                            if 'multirow' in source_row and source_row['multirow']:
+                                column_id = source_column['id'] % (multirow_id,)
+                            else:
+                                column_id = source_column['id']
+                            stat_column = {'id': '%s.%s.%s' % (self.id, source_table['id'], column_id),
                                        'data_type': source_column['data_type'],
                                        'editable': source_column['editable'],
                                        'value': None}
-                        if 'formula' in source_column:
-                            tokens = add_variables(tokenise(source_column['formula']), attrs)
-                            total = calculate(infix_to_postfix(tokens))
-                            stat_column['value'] = total
-                            attrs['%s.%s' % (source_table['id'], source_column['id'])] = total
-                        else:
-                            key = '%s.%s' % (source_table['id'], source_column['id'])
-                            if key in attrs:
-                                stat_column['value'] = attrs[key]
-                        stat_row['columns'].append(stat_column)
-                    if 'action' in source_row:
-                        stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(source_row['action']), attrs))])
-                    stat_table['rows'].append(stat_row)
+                            if 'options' in source_column:
+                                stat_column['options'] = source_column['options']
+                            if 'formula' in source_column:
+                                if 'multirow' in source_row:
+                                    formula = source_column['formula'] % {'rowid': multirow_id}
+                                else:
+                                    formula = source_column['formula']
+                                tokens = add_variables(tokenise(formula), attrs)
+                                total = calculate(infix_to_postfix(tokens))
+                                stat_column['value'] = total
+                                attrs['%s.%s' % (source_table['id'], column_id)] = total
+                            else:
+                                key = '%s.%s' % (source_table['id'], column_id)
+                                if key in attrs:
+                                    stat_column['value'] = attrs[key]
+                            stat_row['columns'].append(stat_column)
+                        if 'action' in source_row:
+                            if 'multirow' in source_row and source_row['multirow']:
+                                action = source_row['action'] % {'rowid': multirow_id}
+                            else:
+                                action = source_row['action']
+                            stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
+                        stat_table['rows'].append(stat_row)
                 stats.append(stat_table)
         title = 'Unnamed'
         if 'title' in rule_set and rule_set['title'] in attrs:

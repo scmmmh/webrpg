@@ -523,55 +523,30 @@
                    "editable": true}
               ]}
          ]},
-        {"id": "attack",
+        {"id": "attacks",
          "title": "Attacks",
-         "columns": ["", "Name", "Proficient", "Bonus", "Damage"],
+         "columns": ["", "Weapon", "Type", "Proficient", "Bonus", "Damage"],
          "rows": [
-             {"id": "attack_1",
+             {"id": "attacks.%i",
+              "multirow": true,
               "title": "1",
+              "action": "d20 + {attacks.%(rowid)i.bonus}",
               "columns": [
-                  {"id": "attack_1_name",
+                  {"id": "%i.name",
                    "data_type": "string",
                    "editable": true},
-                  {"id": "attack_1_proficient",
+                  {"id": "%i.type",
+                   "data_type": "option",
+                   "editable": true,
+                   "options": ["", "Melee", "Ranged"]},
+                  {"id": "%i.proficient",
                    "data_type": "boolean",
                    "editable": true},
-                  {"id": "attack_1_bonus",
+                  {"id": "%i.bonus",
                    "data_type": "number",
-                   "editable": true},
-                  {"id": "attack_1_damage",
-                   "data_type": "string",
-                   "editable": true}
-              ]},
-             {"id": "attack_2",
-              "title": "2",
-              "columns": [
-                  {"id": "attack_2_name",
-                   "data_type": "string",
-                   "editable": true},
-                  {"id": "attack_2_proficient",
-                   "data_type": "boolean",
-                   "editable": true},
-                  {"id": "attack_2_bonus",
-                   "data_type": "number",
-                   "editable": true},
-                  {"id": "attack_2_damage",
-                   "data_type": "string",
-                   "editable": true}
-              ]},
-             {"id": "attack_3",
-              "title": "3",
-              "columns": [
-                  {"id": "attack_3_name",
-                   "data_type": "string",
-                   "editable": true},
-                  {"id": "attack_3_proficient",
-                   "data_type": "boolean",
-                   "editable": true},
-                  {"id": "attack_3_bonus",
-                   "data_type": "number",
-                   "editable": true},
-                  {"id": "attack_3_damage",
+                   "editable": false,
+                   "formula": "{abilities.dex ? attacks.%(rowid)i.type == 'Ranged' : abilities.str} + {base.proficiency ? attacks.%(rowid)i.proficient : 0}"},
+                  {"id": "%i.damage",
                    "data_type": "string",
                    "editable": true}
               ]}
@@ -580,31 +555,31 @@
          "title": "Personality",
          "rows": [
              {"id": "traits",
-              "title": "Personality Traits",
+              "title": "Traits",
               "columns": [
                   {"id": "traits",
-                   "data_type": "string",
+                   "data_type": "text",
                    "editable": true}
               ]},
              {"id": "ideals",
               "title": "Ideals",
               "columns": [
                   {"id": "ideals",
-                   "data_type": "string",
+                   "data_type": "text",
                    "editable": true}
               ]},
              {"id": "bonds",
               "title": "Bonds",
               "columns": [
                   {"id": "bonds",
-                   "data_type": "string",
+                   "data_type": "text",
                    "editable": true}
               ]},
              {"id": "flaws",
               "title": "Flaws",
               "columns": [
                   {"id": "flaws",
-                   "data_type": "string",
+                   "data_type": "text",
                    "editable": true}
               ]}
          ]}
