@@ -28,6 +28,9 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
 .inline-block {
     display: inline-block;
 }
+.block {
+    display: block;
+}
 .full-height {
     height: 100%;
 }

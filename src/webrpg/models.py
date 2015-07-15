@@ -194,12 +194,31 @@ class Character(Base):
                                 if key in attrs:
                                     stat_column['value'] = attrs[key]
                             stat_row['columns'].append(stat_column)
+                        for stat_column, source_column in zip(stat_row['columns'], source_row['columns']):
+                            if 'action' in source_column:
+                                if 'action_title' in source_column:
+                                    action_title = source_column['action_title']
+                                else:
+                                    action_title = source_row['title']
+                                if 'multirow' in source_row and source_row['multirow']:
+                                    action = source_column['action'] % {'rowid': multirow_id}
+                                    action_title = action_title % {'rowid': multirow_id}
+                                else:
+                                    action = source_column['action']
+                                stat_column['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
+                                stat_column['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
                         if 'action' in source_row:
+                            if 'action_title' in source_row:
+                                action_title = source_row['action_title']
+                            else:
+                                action_title = source_row['title']
                             if 'multirow' in source_row and source_row['multirow']:
                                 action = source_row['action'] % {'rowid': multirow_id}
+                                action_title = action_title % {'rowid': multirow_id}
                             else:
                                 action = source_row['action']
                             stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
+                            stat_row['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
                         stat_table['rows'].append(stat_row)
                 stats.append(stat_table)
         title = 'Unnamed'

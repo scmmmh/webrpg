@@ -59,7 +59,12 @@
                           </div>
                         </div>
                       {{else}}
-                        <a {{action 'cs_start_edit' column on='doubleClick'}} class="small-12 inline-block">{{{column.fancy_value}}}</a>
+                        {{#if column.has_action}}
+                          <span class="right"><a {{action 'default_action' character column on='click'}} class="fi-die-six"></a></span>
+                          <a {{action 'cs_start_edit' column on='doubleClick'}} class="block">{{{column.fancy_value}}}</a>
+                        {{else}}
+                          <a {{action 'cs_start_edit' column on='doubleClick'}} class="small-12 inline-block">{{{column.fancy_value}}}</a>
+                        {{/if}}
                       {{/if}}
                     {{else}}
                       {{{column.fancy_value}}}

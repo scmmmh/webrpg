@@ -112,14 +112,14 @@ def add_variables(tokens, values):
                     if match.group(1):
                         if match.group(1) in values:
                             try:
-                                new_tokens.append(('val', str(int(values[match.group(1)]))))
+                                new_tokens.append(('val', str(values[match.group(1)])))
                             except:
                                 new_tokens.append(('val', '0'))
                         else:
                             new_tokens.append(('val', '0'))
                     else:
                         try:
-                            new_tokens.append(('val', str(random.randint(1, int(match.group(2))))))
+                            new_tokens.append(('val', str(random.randint(1, match.group(2)))))
                         except:
                             new_tokens.append(('val', '0'))
                 else:
@@ -214,7 +214,11 @@ def calculate(tokens):
         stack = []
         for token in tokens:
             if token[0] == 'val':
-                stack.append(float(token[1]))
+                value = float(token[1])
+                if value.is_integer():
+                    stack.append(int(value))
+                else:
+                    stack.append(value)
             elif token[0] == 'op':
                 params = []
                 for _ in range(0, OPERATORS[token[1]]['params']):
