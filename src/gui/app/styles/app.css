@@ -74,7 +74,7 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
  */
 #session-title {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     box-shadow: 0 2px 5px #000;
 }
 #chat {
@@ -86,6 +86,7 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
     background: #fff;
     border-top: 1px solid #ddd;
     box-shadow: 0 2px 10px #000;
+    z-index: 2;
 }
 #chat ol.messages {
     margin: 0 0 10px 0;
@@ -110,4 +111,17 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
 }
 #characters .accordion .accordion-navigation > .content {
     padding: 0;
+}
+#map, #fog, #fog-edit {
+    position: absolute;
+    left: 14px;
+    top: 40px;
+    width: 1024px;
+    height: 768px;
+}
+#fog, #fog-edit {
+    z-index: 1;
+}
+#fog-edit {
+    opacity: 0.7;
 }

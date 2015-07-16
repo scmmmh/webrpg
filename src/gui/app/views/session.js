@@ -29,8 +29,42 @@ export default Ember.View.extend({
         $(window).on('resize.session', function() {
             view.update_layout();
         });
+        var mx = 0;
+        var my = 0;
+        var offset = null;
+        var mouse_down = false;
+        var map = this.$('#maps');
+        this.$('#fog-edit').on('mousemove.session', function(position) {
+            if(!offset) {
+                offset = Ember.$(this).offset();
+            }
+            mx = position.clientX;
+            my = position.clientY;
+            if(mouse_down) {
+                var x = mx - offset.left;
+                var y = my - offset.top + map.scrollTop();
+                var radius = 10;
+                var ctx = this.getContext('2d');
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, 2*Math.PI, true);
+                ctx.clip();
+                ctx.clearRect(x-radius,y-radius,radius*2,radius*2);
+                ctx.restore();
+            }
+        });
+        this.$('#fog-edit').on('mousedown.session', function() {
+            mouse_down = true;
+        });
+        this.$('#fog-edit').on('mouseup.session', function() {
+            mouse_down = false;
+            view.get('controller').send('update-fog');
+        });
     }.on('didInsertElement'),
     destroy_view: function() {
         $(window).off('resize.session');
+        this.$('#fog-edit').off('mousemove.session');
+        this.$('#fog-edit').off('mouseup.session');
+        this.$('#fog-edit').off('mousedown.session');
     }
 });

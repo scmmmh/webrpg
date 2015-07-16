@@ -19,7 +19,8 @@ requires = [
     'waitress',
     'genshi',
     'inflection',
-    'formencode'
+    'formencode',
+    'alembic'
     ]
 
 setup(name='WebRPG',
