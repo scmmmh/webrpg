@@ -14,7 +14,7 @@ from pyramid.view import view_config
 from sqlalchemy import (and_)
 
 from webrpg.models import (DBSession, User, Game, Session, ChatMessage)
-from webrpg.components import (user, game, session, chat_message, character, rule_set)
+from webrpg.components import (user, game, session, chat_message, character, rule_set, map)
 
 def init(config):
     config.add_route('login', '/api/users/login')
@@ -98,6 +98,7 @@ MODELS.update(session.MODELS)
 MODELS.update(chat_message.MODELS)
 MODELS.update(character.MODELS)
 MODELS.update(rule_set.MODELS)
+MODELS.update(map.MODELS)
 
 
 def get_current_user(request):

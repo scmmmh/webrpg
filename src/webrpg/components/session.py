@@ -4,7 +4,7 @@ u"""
 .. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
 
-from formencode import validators, schema, All, Invalid
+from formencode import validators, All, Invalid
 from sqlalchemy import and_
 
 from webrpg.components.game import GameExistsValidator
