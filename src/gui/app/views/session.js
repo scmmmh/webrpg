@@ -14,19 +14,19 @@ export default Ember.View.extend({
         }
     },
     update_layout: function() {
-        var height = $(window).innerHeight();
+        var height = Ember.$(window).innerHeight();
         this.$().siblings().each(function() {
-           height = height - $(this).outerHeight(true); 
+           height = height - Ember.$(this).outerHeight(true); 
         });
         this.$('#session-content').siblings().each(function() {
-           height = height - $(this).outerHeight(true); 
+           height = height - Ember.$(this).outerHeight(true); 
         });
         this.$('#session-content').css('height', height + 'px');
     },
     setup_view: function() {
         var view = this;
         view.update_layout();
-        $(window).on('resize.session', function() {
+        Ember.$(window).on('resize.session', function() {
             view.update_layout();
         });
         var mx = 0;
@@ -63,7 +63,7 @@ export default Ember.View.extend({
         });
     }.on('didInsertElement'),
     destroy_view: function() {
-        $(window).off('resize.session');
+        Ember.$(window).off('resize.session');
         this.$('#fog-edit').off('mousemove.session');
         this.$('#fog-edit').off('mouseup.session');
         this.$('#fog-edit').off('mousedown.session');
