@@ -8,13 +8,29 @@ import inflection
 import json
 import transaction
 
+from decorator import decorator
 from formencode import Invalid, schema, validators, All
 from pyramid.httpexceptions import (HTTPNotFound, HTTPMethodNotAllowed, HTTPClientError, HTTPUnauthorized)
+from pyramid.request import Request
 from pyramid.view import view_config
 from sqlalchemy import (and_)
 
 from webrpg.models import (DBSession, User, Game, Session, ChatMessage)
 from webrpg.components import (user, game, session, chat_message, character, rule_set, map)
+
+
+def no_cache():
+    def wrapper(f, *args, **kwargs):
+        request = None
+        for arg in args:
+            if isinstance(arg, Request):
+                request = arg
+                break
+        if request:
+            request.response.headers['Cache-Control'] = 'no-cache'
+        return f(*args, **kwargs)
+    return decorator(wrapper)
+
 
 def init(config):
     config.add_route('login', '/api/users/login')
@@ -126,6 +142,7 @@ def authorisation_check(request, params, options):
 
 
 @view_config(route_name='api.collection', renderer='json')
+@no_cache()
 def handle_collection(request):
     model_name = inflection.singularize(request.matchdict['model'])
     if model_name in MODELS:
@@ -166,6 +183,7 @@ def handle_collection(request):
 
 
 @view_config(route_name='api.item', renderer='json')
+@no_cache()
 def handle_item(request):
     model_name = inflection.singularize(request.matchdict['model'])
     if model_name in MODELS:
@@ -231,6 +249,7 @@ def handle_item(request):
 
 
 @view_config(route_name='session.refresh', renderer='json')
+@no_cache()
 def handle_session_refresh(request):
     data = {}
     for request_model_name, value in request.params.items():
