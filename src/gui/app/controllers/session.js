@@ -119,6 +119,55 @@ export default Ember.Controller.extend({
                 current_map.set('fog', fog[0].toDataURL());
                 current_map.save();
             }
+        },
+        'new-image': function() {
+            if(this.get('current_map')) {
+                this.set('image_submit_label', 'Upload Image');
+                Ember.$('#image-ui').show();
+                Ember.$('#image-ui form').get(0).reset();
+                Ember.$('#image-ui .dialog').position({
+                    my: 'center center',
+                    at: 'center center',
+                    of: Ember.$(window)
+                });
+            }
+        },
+        'cancel-image': function() {
+            Ember.$('#image-ui').hide();
+        },
+        'upload-image': function() {
+            var current_map = this.get('current_map');
+            if(current_map) {
+                var controller = this;
+                controller.set('image_submit_label', 'Processing Image');
+                var file = Ember.$('#image-ui input[type=file]').get(0).files[0];
+                if(file) {
+                    console.log(file);
+                    var imageType = /^image\//;
+                    if(imageType.test(file.type)) {
+                        var reader = new FileReader();
+                        reader.onload = function(event) {
+                            var fog = Ember.$('#fog-edit');
+                            var ctx = fog[0].getContext('2d');
+                            current_map.set('map', event.target.result);
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(0, 0, 1024, 768);
+                            current_map.set('fog', fog[0].toDataURL());
+                            controller.set('image_submit_label', 'Uploading Image');
+                            current_map.save().then(function() {
+                                Ember.$('#image-ui').hide();
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        controller.set('image_submit_label', 'Invalid Image');
+                        setTimeout(function() {controller.set('image_submit_label', 'Upload Image');}, 3000);
+                    }
+                } else {
+                    controller.set('image_submit_label', 'Invalid Image');
+                    setTimeout(function() {controller.set('image_submit_label', 'Upload Image');}, 3000);
+                }
+            }
         }
     }
 });

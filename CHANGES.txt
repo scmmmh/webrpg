@@ -2,6 +2,7 @@
 
 - BUGFIX: Send no-cache headers so that IE/Edge do not cache JSON responses
 - UPDATE: Give feedback as the map snapshot is uploaded
+- NEW: Allow images to be uploaded directly in the map view
 
 0.1
 ---
