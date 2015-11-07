@@ -13,7 +13,7 @@
     {{/if}}
     {{outlet 'new-session'}}
     <ol class="no-padding no-margin">
-      {{#each session in model.game.sessions}}
+      {{#each model.game.sessions as |session|}}
         <li class="panel">
           {{#if session.joined}}
             {{#link-to 'session' model.game.id session.id}}{{session.title}}{{/link-to}}
@@ -39,7 +39,7 @@
     {{/if}}
     {{outlet 'new-character'}}
     <ul id="characters" class="no-padding no-margin">
-      {{#each character in model.characters}}
+      {{#each model.characters as |character|}}
         <li class="panel">
           {{character-sheet character=character allow_delete='true'}}
         </li>
