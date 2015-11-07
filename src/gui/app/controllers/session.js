@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     add_new_map: false,
+    map_cursor_size: 10,
+    map_cursor_sizes: [5, 10, 20, 40, 80],
     actions: {
         new_chat_message: function() {
             var controller = this;
@@ -168,6 +170,9 @@ export default Ember.Controller.extend({
                     setTimeout(function() {controller.set('image_submit_label', 'Upload Image');}, 3000);
                 }
             }
+        },
+        'set-cursor-size': function() {
+            this.set('map_cursor_size', parseInt(Ember.$('#map-cursor-size').val()));
         }
     }
 });
