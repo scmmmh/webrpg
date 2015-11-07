@@ -5,7 +5,7 @@ var Router = Ember.Router.extend({
     location: config.locationType
 });
 
-export default Router.map(function() {
+Router.map(function() {
     this.route('register');
     this.route('login');
     this.resource('users', { path: 'users'}, function() {
@@ -21,3 +21,5 @@ export default Router.map(function() {
     this.resource('session', { path: 'sessions/:gid/:sid' }, function() { });
   this.route('game/new-character');
 });
+
+export default Router;

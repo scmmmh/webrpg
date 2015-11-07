@@ -23,12 +23,12 @@ var AutoUpdater = Ember.Object.extend({
 export default Ember.Route.extend({
     model: function(params) {
         var promise = Ember.RSVP.hash({
-            game: this.store.find('game', params.gid),
-            session: this.store.find('session', params.sid),
+            game: this.store.findRecord('game', params.gid),
+            session: this.store.findRecord('session', params.sid),
             chats: this.store.filter('chat-message', {session: params.sid}, function() {
                 return true;
             }),
-            characters: this.store.find('character', {
+            characters: this.store.query('character', {
                 game_id: params.gid,
                 user_id: sessionStorage.getItem('webrpg-userid')
             })
@@ -90,7 +90,6 @@ export default Ember.Route.extend({
                 'route': this,
                 'interval': 10000,
                 'action': function() {
-                    var updater = this;
                     if(!Ember.isNone(this.get('session_id'))) {
                         this.route.get('controller').get('model').session.reload();
                         var current_map = this.route.get('controller').get('current_map');

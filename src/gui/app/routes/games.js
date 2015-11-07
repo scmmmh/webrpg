@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model: function() {
-        var promise = this.store.find('game');
+        var promise = this.store.findAll('game');
         promise.then(function(games) {
             games.forEach(function(game) {
                 game.get('roles').then(function(roles) {

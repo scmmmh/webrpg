@@ -4,7 +4,7 @@
 <div id="session-content" class="row wide">
   <div id="characters" class="small-4 column full-height autoscroll">
     <ul class="no-padding no-margin">
-      {{#each character in model.characters}}
+      {{#each model.characters as |character|}}
         <li class="panel">
           {{character-sheet character=character action='stat-click' allow-delete='false'}}
         </li>
@@ -53,7 +53,7 @@
       </div>
     {{/if}}
     <ul class="pagination">
-      {{#each map in model.session.maps}}
+      {{#each model.session.maps as |map|}}
         <li class={{if map.current 'current'}}><a {{action 'select-map' map}}>{{map.title}}</a></li>
       {{/each}}
     </ul>
@@ -66,7 +66,7 @@
 </div>
 <div id="chat">
     <ol class="messages">
-      {{#each message in model.chats}}
+      {{#each model.chats as |message|}}
         <li class="row wide">
           <div class="small-4 medium-2 large-1 column display-name">{{message.user.display_name}}</div>
           <div class="small-8 medium-10 large-11 column message">{{message.message}}</div>

@@ -7,7 +7,7 @@
   </div>
 </div>
 {{#fd-accordion}}
-  {{#each stat_table in character.stats}}
+  {{#each character.stats as |stat_table|}}
     {{#fd-accordion-item data-tab-id=stat_table.id action='refresh-tabs'}}
       {{fd-accordion-item-header action='select-tab' target-id=stat_table.id title=stat_table.title}}
       {{#fd-accordion-item-body}}
@@ -15,14 +15,14 @@
           {{#if stat_table.columns}}
           <thead>
             <tr>
-              {{#each column in stat_table.columns}}
+              {{#each stat_table.columns as |column|}}
                 <th>{{column}}</th>
               {{/each}}
             </tr>
           </thead>
           {{/if}}
           <tbody>
-            {{#each stat_row in stat_table.rows}}
+            {{#each stat_table.rows as |stat_row|}}
               <tr>
                 {{#if stat_row.has_title}}
                   {{#if stat_row.has_action}}
@@ -31,7 +31,7 @@
                     <th>{{stat_row.title}}</th>
                   {{/if}}
                 {{/if}}
-                {{#each column in stat_row.columns}}
+                {{#each stat_row.columns as |column|}}
                   <td>
                     {{#if column.editable}}
                       {{#if column.editing}}

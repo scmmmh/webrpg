@@ -10,7 +10,7 @@
     </div>
     {{outlet}}
     <ul class="no-padding no-margin">
-      {{#each game in model}}
+      {{#each model as |game|}}
         <li class="panel clearfix">
           {{#if game.joined}}
             {{#link-to 'game' game.id}}{{game.title}}{{/link-to}}

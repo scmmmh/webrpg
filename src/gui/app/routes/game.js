@@ -3,8 +3,8 @@ import Ember from 'ember';
 export default Ember.Route.extend({
     model: function(params) {
         var promise = Ember.RSVP.hash({
-            game: this.store.find('game', params.gid),
-            characters: this.store.find('character', {
+            game: this.store.findRecord('game', params.gid),
+            characters: this.store.query('character', {
                 game_id: params.gid,
                 user_id: sessionStorage.getItem('webrpg-userid')
             })
