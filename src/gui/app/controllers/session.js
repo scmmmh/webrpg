@@ -72,6 +72,7 @@ export default Ember.Controller.extend({
         },
         'new-snapshot': function() {
             if(this.get('current_map')) {
+                this.set('snapshot_submit_label', 'Take Snapshot');
                 window.Webcam.set({
                     width: 320,
                     height: 240,
@@ -94,6 +95,8 @@ export default Ember.Controller.extend({
         'upload-snapshot': function() {
             var current_map = this.get('current_map');
             if(current_map) {
+                var controller = this;
+                controller.set('snapshot_submit_label', 'Taking Snapshot');
                 window.Webcam.snap(function(uri) {
                     current_map.set('map', uri);
                     var fog = Ember.$('#fog-edit');
@@ -101,6 +104,7 @@ export default Ember.Controller.extend({
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, 0, 1024, 768);
                     current_map.set('fog', fog[0].toDataURL());
+                    controller.set('snapshot_submit_label', 'Uploading Snapshot');
                     current_map.save().then(function() {
                         window.Webcam.reset();
                         Ember.$('#snapshot-ui').hide();

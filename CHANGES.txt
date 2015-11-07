@@ -1,3 +1,13 @@
+0.2
+
+- BUGFIX: Send no-cache headers so that IE/Edge do not cache JSON responses
+- UPDATE: Give feedback as the map snapshot is uploaded
+
+0.1
+---
+
+- NEW: Added map support
+
 0.0
 ---
 
