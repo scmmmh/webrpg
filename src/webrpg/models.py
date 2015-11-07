@@ -48,7 +48,7 @@ class Game(Base):
     id = Column(Integer, primary_key=True)
     title = Column(Unicode(255))
     
-    sessions = relationship('Session', order_by='Session.id')
+    sessions = relationship('Session', order_by='desc(Session.id)')
     roles = relationship('GameRole')
     
     def as_dict(self):
