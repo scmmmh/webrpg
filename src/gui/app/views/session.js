@@ -34,6 +34,7 @@ export default Ember.View.extend({
         var offset = null;
         var mouse_down = false;
         var map = this.$('#maps');
+        var controller = this.get('controller');
         this.$('#fog-edit').on('mousemove.session', function(position) {
             if(!offset) {
                 offset = Ember.$(this).offset();
@@ -43,7 +44,7 @@ export default Ember.View.extend({
             if(mouse_down) {
                 var x = mx - offset.left;
                 var y = my - offset.top + map.scrollTop();
-                var radius = 10;
+                var radius = controller.get('map_cursor_size');
                 var ctx = this.getContext('2d');
                 ctx.save();
                 ctx.beginPath();

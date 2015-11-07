@@ -20,11 +20,12 @@ requires = [
     'genshi',
     'inflection',
     'formencode',
-    'alembic'
+    'alembic',
+    'decorator'
     ]
 
 setup(name='WebRPG',
-      version='0.1',
+      version='0.2',
       description='WebRPG',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[

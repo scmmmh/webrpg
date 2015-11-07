@@ -22,6 +22,11 @@
           </form>
         {{else}}
           {{#if current_map}}
+            <span style="display:inline-block;width:10rem;"><select id="map-cursor-size" {{action 'set-cursor-size' on='change'}}>
+              {{#each map_cursor_sizes as |size|}}
+                <option value={{size}}>Size {{size}}</option>
+              {{/each}}
+            </select></span>
             <a {{action 'new-snapshot'}} class="button tiny">Snapshot</a>
             <a {{action 'new-image'}} class="button tiny">Upload</a>
           {{/if}}
