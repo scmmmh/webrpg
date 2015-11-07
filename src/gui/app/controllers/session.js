@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
                 } else {
                     this.set('new_chat_message', stat.get('action_title') + ': ' + stat.get('action'));
                 }
-                $('#chat-message-input').focus();
+                Ember.$('#chat-message-input').focus();
             }
         },
         'new-map': function() {
@@ -86,7 +86,7 @@ export default Ember.Controller.extend({
                 Ember.$('#snapshot-ui .dialog').position({
                     my: 'center center',
                     at: 'center center',
-                    of: $(window)
+                    of: Ember.$(window)
                 });
             }
         },
