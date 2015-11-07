@@ -22,9 +22,10 @@
           </form>
         {{else}}
           {{#if current_map}}
-            <a {{action 'new-snapshot'}} class="button small">Snapshot</a>
+            <a {{action 'new-snapshot'}} class="button tiny">Snapshot</a>
+            <a {{action 'new-image'}} class="button tiny">Upload</a>
           {{/if}}
-          <a {{action 'new-map'}} class="button small">New Map</a>
+          <a {{action 'new-map'}} class="button tiny">New Map</a>
         {{/if}}
       </div>
       <div id="snapshot-ui" class="hidden">
@@ -32,6 +33,17 @@
         <div class="dialog">
           <div id="video"></div>
           <div class="buttons"><a {{action 'cancel-snapshot'}} class="button secondary small">Cancel</a><a {{action 'upload-snapshot'}} class="button small">{{snapshot_submit_label}}</a></div>
+        </div>
+      </div>
+      <div id="image-ui" class="hidden">
+        <div class="overlay"></div>
+        <div class="dialog">
+          <form>
+            <p>Select the image file to upload:</p>
+            <input type="file"/>
+            <p>The image will automatically be constrained to a maximum width of 1024 pixels and a maximum height of 768 pixels. To maximise speed it is suggested to resize any images to those maximum constraints before uploading.</p>
+          </form>
+          <div class="buttons"><a {{action 'cancel-image'}} class="button secondary small">Cancel</a><a {{action 'upload-image'}} class="button small">{{image_submit_label}}</a></div>
         </div>
       </div>
     {{/if}}
