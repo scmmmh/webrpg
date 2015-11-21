@@ -68,6 +68,7 @@ export default Ember.Controller.extend({
                 } else {
                     var img = document.createElement('img');
                     img.src = map.get('fog');
+                    ctx.clearRect(0, 0, 1024, 768);
                     ctx.drawImage(img, 0, 0);
                 }
             }
