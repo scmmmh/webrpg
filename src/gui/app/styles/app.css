@@ -116,6 +116,12 @@ td input[type=text], td input[type=number], td input[type=checkbox], td .button 
     position: absolute;
     left: 14px;
     top: 40px;
+}
+#map {
+    max-width: 1024px;
+    max-height: 768px;
+}
+#fog, #fog-edit {
     width: 1024px;
     height: 768px;
 }

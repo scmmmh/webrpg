@@ -1,3 +1,9 @@
+0.3
+---
+
+- UPDATE: Fixed the map drawing code for the session owner
+- BUGFIX: Do not distort the map images
+
 0.2
 
 - BUGFIX: Send no-cache headers so that IE/Edge do not cache JSON responses
