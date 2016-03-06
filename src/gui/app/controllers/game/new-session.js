@@ -24,7 +24,7 @@ export default Ember.Controller.extend({
                             controller.set('session_title', '');
                             controller.set('error', {});
                             controller.set('title', '');
-                            controller.transitionToRoute('session', session.id);
+                            controller.transitionToRoute('game', model.game.id);
                         });
                     }, function(data) {
                         controller.set('error', data.responseJSON.error.session);

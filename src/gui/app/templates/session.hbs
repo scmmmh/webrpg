@@ -4,30 +4,69 @@
 <div id="session-content" class="row wide">
   <div id="characters" class="small-4 column full-height autoscroll">
     <ul class="no-padding no-margin">
-      {{#each character in model.characters}}
+      {{#each model.characters as |character|}}
         <li class="panel">
           {{character-sheet character=character action='stat-click' allow-delete='false'}}
         </li>
       {{/each}}
     </ul>
   </div>
-  <div class="small-8 column full-height autoscroll">
-    <div class="small-12 column text-right"><a {{action 'new-snapshot'}} class="button small">New Snapshot</a></div>
-    <img id="map"/>
-  </div>
-  <!--
-  <div id="snapshot-ui" class="hidden">
-    <div class="overlay"></div>
-    <div class="dialog">
-      <div id="video"></div>
-      <div class="buttons"><a {{action 'cancel-snapshot'}} class="button secondary small">Cancel</a><a {{action 'upload-snapshot'}} class="button small">Take Snapshot</a></div>
+  <div id="maps" class="small-8 column full-height autoscroll">
+    {{#if model.session.game.owned}}
+      <div class="right">
+        {{#if add_new_map}}
+          <form {{action 'create-new-map' on='submit'}} class="row collapse" style="width:22em;">
+            <div class="small-8 column">{{input id='new-map-title' value=new_map_title autcomplete='off'}}</div>
+            <div class="small-2 column"><input {{action 'cancel-new-map'}} type="button" value="Cancel" class="button postfix secondary"/></div>
+            <div class="small-2 column"><input type="submit" value="Add" class="button postfix"/></div>
+          </form>
+        {{else}}
+          {{#if current_map}}
+            <span style="display:inline-block;width:10rem;"><select id="map-cursor-size" {{action 'set-cursor-size' on='change'}}>
+              {{#each map_cursor_sizes as |size|}}
+                <option value={{size}}>Size {{size}}</option>
+              {{/each}}
+            </select></span>
+            <a {{action 'new-snapshot'}} class="button tiny">Snapshot</a>
+            <a {{action 'new-image'}} class="button tiny">Upload</a>
+          {{/if}}
+          <a {{action 'new-map'}} class="button tiny">New Map</a>
+        {{/if}}
+      </div>
+      <div id="snapshot-ui" class="hidden">
+        <div class="overlay"></div>
+        <div class="dialog">
+          <div id="video"></div>
+          <div class="buttons"><a {{action 'cancel-snapshot'}} class="button secondary small">Cancel</a><a {{action 'upload-snapshot'}} class="button small">{{snapshot_submit_label}}</a></div>
+        </div>
+      </div>
+      <div id="image-ui" class="hidden">
+        <div class="overlay"></div>
+        <div class="dialog">
+          <form>
+            <p>Select the image file to upload:</p>
+            <input type="file"/>
+            <p>The image will automatically be constrained to a maximum width of 1024 pixels and a maximum height of 768 pixels. To maximise speed it is suggested to resize any images to those maximum constraints before uploading.</p>
+          </form>
+          <div class="buttons"><a {{action 'cancel-image'}} class="button secondary small">Cancel</a><a {{action 'upload-image'}} class="button small">{{image_submit_label}}</a></div>
+        </div>
+      </div>
+    {{/if}}
+    <ul class="pagination">
+      {{#each model.session.maps as |map|}}
+        <li class={{if map.current 'current'}}><a {{action 'select-map' map}}>{{map.title}}</a></li>
+      {{/each}}
+    </ul>
+    <div>
+      <img id="map" src={{current_map.map}} />
+      <canvas id="fog-edit" class={{if model.session.game.owned '' 'hidden'}} width=1024 height=768 />
+      <img id="fog" src={{current_map.fog}} class={{if model.session.game.owned 'hidden'}} />
     </div>
   </div>
-  -->
 </div>
 <div id="chat">
     <ol class="messages">
-      {{#each message in model.chats}}
+      {{#each model.chats as |message|}}
         <li class="row wide">
           <div class="small-4 medium-2 large-1 column display-name">{{message.user.display_name}}</div>
           <div class="small-8 medium-10 large-11 column message">{{message.message}}</div>

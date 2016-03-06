@@ -6,5 +6,6 @@ export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
         user: {serialize: 'ids'},
         ruleSet: {serialize: 'ids'},
         stats: {embedded: 'always'}
-    }
+    },
+    isNewSerializerAPI: true
 });

@@ -48,7 +48,7 @@ class Game(Base):
     id = Column(Integer, primary_key=True)
     title = Column(Unicode(255))
     
-    sessions = relationship('Session', order_by='Session.id')
+    sessions = relationship('Session', order_by='desc(Session.id)')
     roles = relationship('GameRole')
     
     def as_dict(self):
@@ -82,14 +82,17 @@ class Session(Base):
     game_id = Column(Integer, ForeignKey('games.id', name='sessions_game_id_fk'))
     title = Column(Unicode(255))
     
+    game = relationship('Game')
     roles = relationship('SessionRole')
+    maps = relationship('Map')
     chat_messages = relationship('ChatMessage', order_by='ChatMessage.id')
     
     def as_dict(self):
         return {'id': self.id,
                 'title': self.title,
                 'game': self.game_id,
-                'roles': [sr.id for sr in self.roles]}
+                'roles': [sr.id for sr in self.roles],
+                'maps': [m.id for m in self.maps]}
 
 
 class SessionRole(Base):
@@ -232,3 +235,23 @@ class Character(Base):
                 'game': self.game_id,
                 'ruleSet': self.rule_set,
                 'stats': stats}
+
+
+class Map(Base):
+
+    __tablename__ = 'maps'
+
+    id = Column(Integer, primary_key=True)
+    session_id = Column(Integer, ForeignKey('sessions.id', name='maps_session_id_fk'))
+    title = Column(Unicode(255))
+    map = Column(UnicodeText)
+    fog = Column(UnicodeText)
+
+    session = relationship('Session')
+
+    def as_dict(self):
+        return {'id': self.id,
+                'session': self.session_id,
+                'title': self.title,
+                'map': self.map,
+                'fog': self.fog}
