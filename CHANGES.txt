@@ -1,3 +1,22 @@
+0.3
+---
+
+- UPDATE: Fixed the map drawing code for the session owner
+- BUGFIX: Do not distort the map images
+
+0.2
+
+- BUGFIX: Send no-cache headers so that IE/Edge do not cache JSON responses
+- UPDATE: Give feedback as the map snapshot is uploaded
+- NEW: Allow images to be uploaded directly in the map view
+- NEW: Map drawing cursor size configurable in the interface
+- UPDATE: Show the Sessions of a Game in newest-first order
+
+0.1
+---
+
+- NEW: Added map support
+
 0.0
 ---
 
