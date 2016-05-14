@@ -1,3 +1,8 @@
+0.4
+---
+
+- NEW: Implmented the basics of the Edge of the Empire system
+
 0.3
 ---
 
