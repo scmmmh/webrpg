@@ -21,6 +21,7 @@ module.exports = function(defaults) {
   app.import('vendor/foundation/normalize.css');
   app.import('vendor/foundation/foundation.min.css');
   app.import('vendor/foundation/foundation-icons.css');
+  app.import('vendor/eote-icons-v1.css');
   app.import('vendor/foundation/modernizr.js');
   app.import('vendor/foundation/foundation.min.js');
   app.import('vendor/webcam.min.js');

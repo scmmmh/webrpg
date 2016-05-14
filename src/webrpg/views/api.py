@@ -166,8 +166,10 @@ def handle_collection(request):
                 schema = ModelWrapperSchema(model_name, MODELS[model_name]['new']['schema']())
                 params = schema.to_python(json.loads(request.body.decode('utf8')),
                                           state=State(dbsession=dbsession))[model_name]
+                print(params)
                 if 'param_transform' in MODELS[model_name]['new']:
                     params = MODELS[model_name]['new']['param_transform'](params)
+                print(params)
                 authorisation_check(request, params, MODELS[model_name]['new'])
                 with transaction.manager:
                     model = MODELS[model_name]['class'](**params)
