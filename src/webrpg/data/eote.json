@@ -1,0 +1,17 @@
+{
+    "id": "eote",
+    "label": "Edge of the Empire",
+    "title": "base.name",
+    "stats": [
+        {"id": "base",
+         "title": "About",
+         "rows": [
+             {"id": "name",
+              "title": "Character Name",
+              "columns": [
+                  {"id": "name",
+                   "data_type": "string",
+                   "editable": true}
+              ]}
+         ]}]
+}

@@ -1,16 +1,21 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    dice_rollers: [{'id': 'd20', 'label': 'D20'},
+                   {'id': 'eote', 'label': 'Edge of the Empire'}],
+    
     actions: {
         new_session: function() {
             var controller = this;
             
             var title = controller.get('session_title');
+            var dice_roller = controller.get('session_dice_roller');
             if(title) {
                 controller.store.find('user', sessionStorage.getItem('webrpg-userid')).then(function(user) {
                     var model = controller.get('model');
                     var session = controller.store.createRecord('session', {
                         title: title,
+                        dice_roller: dice_roller.id,
                         game: model.game
                     });
                     

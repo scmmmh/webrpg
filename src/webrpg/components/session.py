@@ -15,12 +15,14 @@ from webrpg.models import (DBSession, Game, GameRole, Session, SessionRole)
 class NewSessionSchema(EmberSchema):
     
     title = validators.UnicodeString(not_empty=True)
+    dice_roller = validators.OneOf(['d20', 'eote'], not_empty=True)
     game = All(validators.Int(not_empty=True),
                GameExistsValidator())
 
 
 def new_session_param_transform(params):
     return {'title': params['title'],
+            'dice_roller': params['dice_roller'],
             'game_id': params['game']}
 
 

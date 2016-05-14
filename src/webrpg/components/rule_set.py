@@ -16,6 +16,7 @@ from webrpg.components.util import (get_current_user, EmberSchema)
 RULE_SETS = {}
 RULE_SETS['dnd5e'] = json.loads(resource_string('webrpg', 'data/dnd5e.json').decode('utf8'))
 RULE_SETS['dnd5em'] = json.loads(resource_string('webrpg', 'data/dnd5em.json').decode('utf8'))
+RULE_SETS['eote'] = json.loads(resource_string('webrpg', 'data/eote.json').decode('utf8'))
  
 for rule_set in RULE_SETS.values():
     if 'character_sheet' in rule_set:

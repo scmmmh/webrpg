@@ -12,6 +12,11 @@
     </div>
     <div class="row">
       <div class="small-12 column">
+          {{#fd-form-field label='Dice Roller' error=error.dice_roller}}{{view 'select' content=dice_rollers selection=session_dice_roller optionValuePath='content.id' optionLabelPath='content.label' prompt='--- Please select a dice roller ---'}}{{/fd-form-field}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 column">
         {{#link-to 'game' model.game.id class='button secondary'}}Don't Start{{/link-to}} <input type="submit" value="Start the Game" class="button"/>
       </div>
     </div>
