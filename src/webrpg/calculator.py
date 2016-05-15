@@ -32,7 +32,10 @@ OPERATORS = {'(': {'precedence': 0},
                        'func': math.floor},
              'max': {'precedence': 3,
                      'params': 2,
-                     'func': max}}
+                     'func': max},
+             'min': {'precedence': 3,
+                     'params': 2,
+                     'func': min}}
 
 def token_type(string):
     if string in OPERATORS.keys():
@@ -112,7 +115,10 @@ def add_variables(tokens, values):
                     if match.group(1):
                         if match.group(1) in values:
                             try:
-                                new_tokens.append(('val', str(values[match.group(1)])))
+                                if values[match.group(1)] is None:
+                                    new_tokens.append(('val', '0'))
+                                else:
+                                    new_tokens.append(('val', str(values[match.group(1)])))
                             except:
                                 new_tokens.append(('val', '0'))
                         else:
@@ -127,9 +133,15 @@ def add_variables(tokens, values):
                     if match:
                         if match.group(2) in values:
                             if values[match.group(2)] and match.group(1) in values:
-                                new_tokens.append(('val', str(values[match.group(1)])))
+                                if values[match.group(1)] is None:
+                                    new_tokens.append(('val', '0'))
+                                else:
+                                    new_tokens.append(('val', str(values[match.group(1)])))
                             elif not values[match.group(2)] and match.group(3) in values:
-                                new_tokens.append(('val', str(values[match.group(3)])))
+                                if values[match.group(3)] is None:
+                                    new_tokens.append(('val', '0'))
+                                else:
+                                    new_tokens.append(('val', str(values[match.group(3)])))
                             else:
                                 new_tokens.append(('val', '0'))
                         else:
@@ -142,9 +154,15 @@ def add_variables(tokens, values):
                                 if cmp_value.startswith("'") and cmp_value.endswith("'"):
                                     cmp_value = cmp_value[1:-1]
                                 if values[match.group(2)] == cmp_value:
-                                    new_tokens.append(('val', str(values[match.group(1)])))
+                                    if values[match.group(1)] is None:
+                                        new_tokens.append(('val', '0'))
+                                    else:
+                                        new_tokens.append(('val', str(values[match.group(1)])))
                                 elif match.group(4) in values:
-                                    new_tokens.append(('val', str(values[match.group(4)])))
+                                    if values[match.group(4)] is None:
+                                        new_tokens.append(('val', '0'))
+                                    else:
+                                        new_tokens.append(('val', str(values[match.group(4)])))
                                 else:
                                     new_tokens.append(('val', '0'))
                             elif match.group(4) in values:
