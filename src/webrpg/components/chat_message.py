@@ -153,7 +153,7 @@ def new_chat_message_param_transform(params):
                             rolls.append('<span class="eote eote-threat" title="Threat"></span>')
                             outcomes['threat'] = outcomes['threat'] + 1
                         elif value == 7:
-                            rolls.append('<span class="eote eote-failure-double" title="Double Failure"></span>')
+                            rolls.append('<span class="eote eote-threat-double" title="Double Threat"></span>')
                             outcomes['threat'] = outcomes['threat'] + 2
                         elif value == 8:
                             rolls.append('<span class="eote eote-failure" title="Failure &amp; Threat"></span>')

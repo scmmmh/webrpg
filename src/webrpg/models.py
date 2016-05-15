@@ -1,6 +1,7 @@
 import hashlib
 import json
 import random
+import re
 
 from copy import deepcopy
 from sqlalchemy import (Column, Integer, Unicode, UnicodeText, ForeignKey, event)
@@ -8,7 +9,8 @@ from sqlalchemy.ext.declarative import (declarative_base)
 from sqlalchemy.orm import (scoped_session, sessionmaker, relationship)
 from zope.sqlalchemy import ZopeTransactionExtension
 
-from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate, process_unary)
+from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate, process_unary,
+                               calculation_regexp)
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
@@ -224,7 +226,19 @@ class Character(Base):
                                 action_title = action_title % {'rowid': multirow_id}
                             else:
                                 action = source_row['action']
-                            stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
+                            if 'action_calculate' in source_row and source_row['action_calculate']:
+                                calc_match = re.search(re.compile('\$([^$]*)\$'), action)
+                                while calc_match:
+                                    if calc_match.group(0).strip() == '':
+                                        break
+                                    action = re.sub(re.compile('\$([^$]*)\$'),
+                                                    str(calculate(infix_to_postfix(add_variables(tokenise(calc_match.group(1)), attrs)))),
+                                                    action,
+                                                    count=1)
+                                    calc_match = re.search(re.compile('\$([^$]*)\$'), action)
+                                stat_row['action'] = action
+                            else:
+                                stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
                             stat_row['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
                         stat_table['rows'].append(stat_row)
                 stats.append(stat_table)
