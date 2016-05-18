@@ -723,9 +723,8 @@
                    "editable": true,
                    "options": ["", "Addiction", "Betrayal", "Blackmail", "Bounty", "Criminal", "Debt", "Dutybound", "Family", "Favor", "Oath", "Obsession", "Responsibility"]},
                   {"id": "%i.magnitude",
-                   "data_type": "option",
-                   "editable": true,
-                   "options": [0, 5, 10]},
+                   "data_type": "number",
+                   "editable": true},
                   {"id": "%i.description",
                    "data_type": "string",
                    "editable": true}
