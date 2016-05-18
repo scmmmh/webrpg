@@ -1,12 +1,8 @@
-0.4.4
------
-
-- UPDATE: Added Edge of the Empire D100 die
-
 0.4.3
 -----
 
 - BUGFIX: Made the Edge of the Empire obligation magnitude numeric
+- UPDATE: Added Edge of the Empire D100 die
 
 0.4.2
 -----
