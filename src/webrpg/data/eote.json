@@ -394,7 +394,7 @@
                    "options": [0, 1, 2, 3, 4, 5]}
               ]},
              {"id": "piloting.space",
-              "title": "Pioloting - Space (Ag)",
+              "title": "Piloting - Space (Ag)",
               "action": "$max({characteristics.ag} {skills.piloting.space.rank}) - min({characteristics.ag} {skills.piloting.space.rank})$A$max({characteristics.ag} {skills.piloting.space.rank}) - (max({characteristics.ag} {skills.piloting.space.rank}) - min({characteristics.ag} {skills.piloting.space.rank}))$P",
               "action_calculate": true,
               "action_title": "Piloting - Space",
@@ -721,7 +721,7 @@
                   {"id": "%i.type",
                    "data_type": "option",
                    "editable": true,
-                   "options": ["", "Addiction", "Betrayal", "Blackmail", "bounty", "Criminal", "Debt", "Dutybound", "Family", "Favor", "Oath", "Obsession", "Responsibility"]},
+                   "options": ["", "Addiction", "Betrayal", "Blackmail", "Bounty", "Criminal", "Debt", "Dutybound", "Family", "Favor", "Oath", "Obsession", "Responsibility"]},
                   {"id": "%i.magnitude",
                    "data_type": "option",
                    "editable": true,

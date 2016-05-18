@@ -2,6 +2,7 @@
 -----
 
 - BUGFIX: Missing Edge of the Empire font
+- BUGFIX: Fixed typos in the Edge of the Empire character sheet
 
 0.4.1
 -----
