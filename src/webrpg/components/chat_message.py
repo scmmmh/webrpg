@@ -214,6 +214,9 @@ def new_chat_message_param_transform(params):
                 result.append('<span class="eote eote-lightside" title="Lightside"></span>' * outcomes['lightside'])
             substitutions.append('%s = %s = %s' % (' '.join(dice_list), ' '.join(rolls), ''.join(result)))
             eote_match = re.search(eote_regexp, message)
+        while 'd100' in message:
+            message = message.replace('d100', '%s', 1)
+            substitutions.append('d100 = %i' % random.randint(1, 100))
     return {'message': message % tuple(substitutions),
             'user_id': params['user'],
             'session_id': params['session']}
