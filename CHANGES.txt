@@ -1,5 +1,7 @@
-DEV
----
+0.4.5
+-----
+
+- BUGFIX: Fixed a JSON bug in the Edge of the Empire data
 
 0.4.4
 -----

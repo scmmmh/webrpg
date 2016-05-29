@@ -96,7 +96,7 @@
                   {"id": "skin",
                    "data_type": "string",
                    "editable": true}
-              ]}
+              ]},
              {"id": "credits",
               "title": "Credits",
               "columns": [
