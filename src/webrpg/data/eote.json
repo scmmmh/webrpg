@@ -89,6 +89,20 @@
                   {"id": "eyes",
                    "data_type": "string",
                    "editable": true}
+              ]},
+             {"id": "skin",
+              "title": "Skin",
+              "columns": [
+                  {"id": "skin",
+                   "data_type": "string",
+                   "editable": true}
+              ]}
+             {"id": "credits",
+              "title": "Credits",
+              "columns": [
+                  {"id": "credits",
+                   "data_type": "number",
+                   "editable": true}
               ]}
          ]},
         {"id": "characteristics",
