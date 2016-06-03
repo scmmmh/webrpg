@@ -1,4 +1,3 @@
-<label {{bind-attr class="error:error"}}>{{label}}
+{{label}}
 {{yield}}
-{{#if error}}<small class="error">{{error}}</small>{{/if}}
-</label>
+<span class={{errorLabelClass}}>{{error}}</span>

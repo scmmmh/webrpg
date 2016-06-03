@@ -1,43 +1,30 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    needs: ['application'],
+    application: Ember.inject.controller(),
     actions: {
         login: function() {
             var controller = this;
             
-            var email = controller.get('email');
-            var password = controller.get('password');
-            
-            if(email && password) {
-                Ember.$.ajax('/api/users/login', {
-                    'method': 'POST',
-                    'dataType': 'json',
-                    'data': {email: email, password: password}
-                }).then(function(data) {
-                    sessionStorage.setItem('webrpg-userid', data.user.id);
-                    sessionStorage.setItem('webrpg-password', password);
-                    controller.set('error', {});
-                    controller.set('email', '');
-                    controller.set('password', '');
-                    controller.get('controllers.application').set('logged-in', true);
-                    controller.transitionToRoute('games');
-                }, function(data) {
-                    controller.set('error', {
-                        email: data.responseJSON['_'],
-                        password: data.responseJSON['_']
-                    });
-                });
-            } else {
-                var error = {};
-                if(!email) {
-                    error['email'] = 'Please enter your e-mail address';
+            Ember.$.ajax('/api/users/login', {
+                'method': 'POST',
+                'dataType': 'json',
+                'data': {
+                    email: controller.get('email'),
+                    password: controller.get('password')
                 }
-                if(!password) {
-                    error['password'] = 'Please enter your password';
-                }
-                this.set('error', error);
-            }
+            }).then(function(data) {
+                sessionStorage.setItem('webrpg-userid', data.user.id);
+                sessionStorage.setItem('webrpg-password', controller.get('password'));
+                controller.set('error', {});
+                controller.set('email', '');
+                controller.set('password', '');
+                controller.get('application').set('logged-in', true);
+                controller.transitionToRoute('games');
+            }, function(jqXHR) {
+                controller.set('error', jqXHR.responseJSON);
+                controller.get('application').set('logged-in', false);
+            });
         }
     }
 });
