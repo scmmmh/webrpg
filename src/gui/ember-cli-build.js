@@ -1,3 +1,4 @@
+/*jshint node:true*/
 /* global require, module */
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
@@ -18,14 +19,10 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-  app.import('vendor/foundation/normalize.css');
-  app.import('vendor/foundation/foundation.min.css');
-  app.import('vendor/foundation/foundation-icons.css');
-  app.import('vendor/eote-icons-v1.css');
-  app.import('vendor/foundation/modernizr.js');
-  app.import('vendor/foundation/foundation.min.js');
-  app.import('vendor/webcam.min.js');
-  app.import('vendor/jquery-ui.min.js');
+  app.import('bower_components/foundation-sites/dist/foundation-flex.css');
+  app.import('bower_components/jquery/dist/jquery.js');
+  app.import('bower_components/what-input/what-input.js');
+  app.import('bower_components/foundation-sites/dist/foundation.js');
 
   return app.toTree();
 };

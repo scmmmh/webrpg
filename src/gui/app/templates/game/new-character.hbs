@@ -8,7 +8,7 @@
     <div class="row">
       <div class="small-12 column">
         {{#fd-form-field label='Character Type' error=error.character_type}}
-          {{view 'select' content=model.ruleSets selection=new_character_type optionLabelPath='content.label' prompt='--- Please select a character type ---'}}
+          { {view 'select' content=model.ruleSets selection=new_character_type optionLabelPath='content.label' prompt='--- Please select a character type ---'} }
         {{/fd-form-field}}
       </div>
     </div>
