@@ -59,6 +59,9 @@
 .eote-failure-double:before {
     content: 'ff';
 }
+.eote-failure-threat:before {
+    content: 'ft';
+}
 .eote-threat:before {
     content: 't';
 }
