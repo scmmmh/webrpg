@@ -154,7 +154,7 @@ def new_chat_message_param_transform(params):
                             rolls.append('<span class="eote eote-threat-double" title="Double Threat"></span>')
                             outcomes['threat'] = outcomes['threat'] + 2
                         elif value == 8:
-                            rolls.append('<span class="eote eote-failure" title="Failure &amp; Threat"></span>')
+                            rolls.append('<span class="eote eote-failure-threat" title="Failure &amp; Threat"></span>')
                             outcomes['failure'] = outcomes['failure'] + 1
                             outcomes['threat'] = outcomes['threat'] + 1
                     elif die.lower() == 'c':
@@ -199,12 +199,12 @@ def new_chat_message_param_transform(params):
                 result = []
                 if success > 0:
                     result.append('<span class="eote eote-success" title="Success"></span>' * success)
-                else:
+                elif success < 0:
                     result.append('<span class="eote eote-failure" title="Failure"></span>' * abs(success))
                 advantage = outcomes['advantage'] - outcomes['threat']
                 if advantage > 0:
                     result.append('<span class="eote eote-advantage" title="Advantage"></span>' * advantage)
-                else:
+                elif advantage < 0:
                     result.append('<span class="eote eote-threat" title="Threat"></span>' * abs(advantage))
                 result.append('<span class="eote eote-triumph" title="Triumph"></span>' * outcomes['triumph'])
                 result.append('<span class="eote eote-despair" title="Despair"></span>' * outcomes['despair'])

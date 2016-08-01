@@ -1,3 +1,9 @@
+0.4.6
+-----
+
+- BUGFIX: Fixed incorrect output of failure & threat Edge of the Empire
+          dice rolls
+
 0.4.5
 -----
 
