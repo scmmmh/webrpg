@@ -10,9 +10,9 @@ from formencode import validators, schema, foreach, Any, All, Invalid
 from sqlalchemy import and_
 
 from webrpg.components.rule_set import RULE_SETS
-from webrpg.components.user import UserExistsValidator
-from webrpg.components.util import (get_current_user, EmberSchema)
-from webrpg.models import DBSession, Character, Game, GameRole
+from webrpg.components.game import Game, GameRole
+from webrpg.models import DBSession, Character
+from webrpg.util import (EmberSchema)
 
 class NewCharacterSchema(EmberSchema):
     

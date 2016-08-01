@@ -4,51 +4,26 @@ export default Ember.Controller.extend({
     actions: {
         register: function() {
             var controller = this;
-            
-            var new_email = controller.get('email');
-            var new_display_name = controller.get('display_name');
-            var new_password = controller.get('password');
-            var new_confirm_password = controller.get('confirm_password');
-            
-            if(new_email && new_display_name && new_password && new_confirm_password && new_password === new_confirm_password) {
-                var new_user = controller.store.createRecord('user', {
-                    email: new_email,
-                    display_name: new_display_name,
-                    password: new_password
-                });
-                new_user.save().then(function(user) {
-                    sessionStorage.setItem('webrpg-userid', user.id);
-                    sessionStorage.setItem('webrpg-password', new_password);
-                    controller.set('error', {});
-                    controller.set('email', '');
-                    controller.set('display_name', '');
-                    controller.set('password', '');
-                    controller.set('confirm_password', '');
-                    controller.get('controllers.application').set('logged-in', true);
-                    controller.transitionToRoute('games');
-                }, function(data) {
-                    controller.set('error', data.responseJSON.error.user);
-                });
-            } else {
-                var error = {};
-                if(!new_email) {
-                    error['email'] = 'Please provide an e-mail address';
+            var user = controller.get('store').createRecord('User', {
+                'email': controller.get('email'),
+                'displayName': controller.get('displayName'),
+                'password': controller.get('password')
+            });
+            user.save().then(function() {
+                controller.set('email', '');
+                controller.set('displayName', '');
+                controller.set('password', '');
+                controller.set('errors', {});
+                controller.transitionToRoute('login');
+            }, function(data) {
+                var errors = {};
+                for(var idx=0; idx < data['errors'].length; idx++) {
+                    if(data['errors'][idx].source) {
+                        errors[data['errors'][idx].source] = data['errors'][idx].title;
+                    }
                 }
-                if(!new_display_name) {
-                    error['display_name'] = 'Please provide a nickname';
-                }
-                if(!new_password) {
-                    error['password'] = 'Please provide a password';
-                }
-                if(!new_confirm_password) {
-                    error['confirm_password'] = 'Please confirm your password';
-                }
-                if(new_password && new_confirm_password && new_password !== new_confirm_password) {
-                    error['password'] = 'Your password does not match the confirmation';
-                    error['confirm_password'] = 'Your password does not match the confirmation';
-                }
-                this.set('error', error);
-            }
+                controller.set('errors', errors);
+            });
         }
     }
 });

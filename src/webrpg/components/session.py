@@ -7,17 +7,16 @@ u"""
 from formencode import validators, All, Invalid
 from sqlalchemy import and_
 
-from webrpg.components.game import GameExistsValidator
-from webrpg.components.user import UserExistsValidator
-from webrpg.components.util import (get_current_user, EmberSchema)
-from webrpg.models import (DBSession, Game, GameRole, Session, SessionRole)
+from webrpg.components.game import Game, GameRole
+from webrpg.models import (DBSession, Session, SessionRole)
+from webrpg.util import (EmberSchema)
+
 
 class NewSessionSchema(EmberSchema):
     
     title = validators.UnicodeString(not_empty=True)
     dice_roller = validators.OneOf(['d20', 'eote'], not_empty=True)
-    game = All(validators.Int(not_empty=True),
-               GameExistsValidator())
+    game = All(validators.Int(not_empty=True))
 
 
 def new_session_param_transform(params):
@@ -53,10 +52,8 @@ class SessionExistsValidator(validators.FancyValidator):
 class NewSessionRoleSchema(EmberSchema):
     
     role = validators.UnicodeString(not_empty=True)
-    user = All(validators.Int(not_empty=True),
-               UserExistsValidator())
-    session = All(validators.Int(not_empty=True),
-                  SessionExistsValidator())
+    user = All(validators.Int(not_empty=True))
+    session = All(validators.Int(not_empty=True))
 
 
 def new_session_role_param_transform(params):

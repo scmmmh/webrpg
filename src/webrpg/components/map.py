@@ -7,9 +7,10 @@ u"""
 from formencode import validators, All, Invalid
 from sqlalchemy import and_
 
+from webrpg.components.game import Game, GameRole
 from webrpg.components.session import SessionExistsValidator
-from webrpg.components.util import (get_current_user, EmberSchema)
-from webrpg.models import (DBSession, Game, GameRole, Session, Map)
+from webrpg.models import (DBSession, Session, Map)
+from webrpg.util import (EmberSchema)
 
 
 class NewMapSchema(EmberSchema):

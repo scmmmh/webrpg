@@ -1,0 +1,33 @@
+<article class="row">
+  <div clas="column small-12">
+    <div class="float-right">{{#link-to 'games.new' class='button'}}Start a new Game{{/link-to}}</div>
+    <h1>Games</h1>
+    <ul class="no-bullet">
+      {{#each model as |game|}}
+        <li>
+          {{#if game.joined}}
+            <h2><a href="">{{game.title}}</a></h2>
+            <p>Game Master:
+              <ul class="inline">
+                {{#each game.roles as |role|}}{{#if role.is_owner}}<li>{{role.user.displayName}}</li>{{/if}}{{/each}}
+              </ul>
+            </p>
+            <p>Playing with:
+              <ul class="inline">
+                {{#each game.roles as |role|}}{{#if role.is_player}}{{#if role.is_not_me}}<li>{{role.user.displayName}}</li>{{/if}}{{/if}}{{/each}}
+              </ul>
+            </p>
+          {{else}}
+            <h2>{{game.title}}</h2>
+            <p>Game Master:
+              <ul class="inline">
+                {{#each game.roles as |role|}}{{#if role.is_owner}}<li>{{role.user.displayName}}</li>{{/if}}{{/each}}
+              </ul>
+            </p>
+            <p><button {{action 'join' game}} class="button">Join</button></p>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</article>
