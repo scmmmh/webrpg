@@ -10,8 +10,7 @@ from formencode import validators, schema, All, Invalid
 from pkg_resources import resource_string
 from sqlalchemy import and_
 
-from webrpg.components.user import UserExistsValidator
-from webrpg.components.util import (get_current_user, EmberSchema)
+from webrpg.components.util import (EmberSchema)
 
 RULE_SETS = {}
 RULE_SETS['dnd5e'] = json.loads(resource_string('webrpg', 'data/dnd5e.json').decode('utf8'))

@@ -1,12 +1,21 @@
 <div class="top-bar">
   <div class="top-bar-left">
-    {{#fd-dropdown-menu}}
+    <ul class="menu">
       <li class="menu-text">WebRPG</li>
-      {{#if logged-in}}
-        <li>{{#link-to "games"}}Games{{/link-to}}</li>
+      {{#if session.isAuthenticated}}
+        <li>{{#link-to 'games'}}Games{{/link-to}}</li>
       {{/if}}
-    {{/fd-dropdown-menu}}
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu align-right">
+      {{#if session.isAuthenticated}}
+        <li><a href="#" {{action 'logout'}}>Logout</a></li>
+      {{else}}
+        <li>{{#link-to 'register'}}Register{{/link-to}}</li>
+        <li>{{#link-to 'login'}}Login{{/link-to}}</li>
+      {{/if}}
+    </ul>
   </div>
 </div>
-
 {{outlet}}

@@ -1,19 +1,18 @@
-<div class="panel">
-  <div class="row">
-    <div class="small-12 column">
-      <h2>Start a New Game</h2>
-    </div>
+<article class="row">
+  <div class="column small-12">
+    <h1>Start a new Game</h1>
+    <form {{action 'create' on='submit'}}>
+      <div class="row">
+        <div class="column small-12 medium-8 large-5 end">
+          {{#fd-input error=errors.title label='Game Title'}}{{input value=title type='text' placeholder='Game Title'}}{{/fd-input}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="column small-12 medium-8 large-5 end text-right">
+          {{#link-to 'games' class='button secondary'}}Don't Start{{/link-to}}
+          <input type="submit" value="Start" class="button"/>
+        </div>
+      </div>
+    </form>
   </div>
-  <form {{action 'new_game' on='submit'}}>
-    <div class="row">
-      <div class="small-12 medium-5 column">
-        {{#fd-form-field label='Title' error=error.title}}{{input type='text' value=title}}{{/fd-form-field}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="small-12 column">
-        {{#link-to 'games' class='button secondary'}}Don't Start{{/link-to}} <input type="submit" value="Start the Game" class="button"/>
-      </div>
-    </div>
-  </form>
-</div>
+</article>

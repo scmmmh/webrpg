@@ -1,79 +1,111 @@
 import hashlib
+import inflection
 import json
 import random
 import re
 
 from copy import deepcopy
-from sqlalchemy import (Column, Integer, Unicode, UnicodeText, ForeignKey, event)
+from formencode import Invalid
+from sqlalchemy import (Column, Integer, Unicode, UnicodeText, ForeignKey)
 from sqlalchemy.ext.declarative import (declarative_base)
 from sqlalchemy.orm import (scoped_session, sessionmaker, relationship)
 from zope.sqlalchemy import ZopeTransactionExtension
 
-from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate, process_unary,
-                               calculation_regexp)
+from webrpg.components import COMPONENTS
+from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate, process_unary)
+from webrpg.util import State
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class User(Base):
-    '''The :class:`~webrpg.models.User` represents any user in the system.
-    '''
-    __tablename__ = 'users'
-    
-    id = Column(Integer, primary_key=True)
-    email = Column(Unicode(255), unique=True, index=True)
-    salt = Column(Unicode(255))
-    password = Column(Unicode(255))
-    display_name = Column(Unicode(64))
-    
-    def password_matches(self, password):
-        password = hashlib.sha512(('%s$$%s' % (self.salt, password)).encode('utf8')).hexdigest()
-        return password == self.password
-    
-    def as_dict(self):
-        return {'id': self.id,
-                'email': self.email,
-                'display_name': self.display_name}
+def convert_keys(data):
+    if isinstance(data, dict):
+        return dict([(k.replace('-', '_'), convert_keys(v)) for (k, v) in data.items()])
+    elif isinstance(data, list):
+        return [convert_keys(i) for i in data]
+    else:
+        return data
 
 
-@event.listens_for(User.password, 'set', retval=True)
-def hash_password(target, value, old_value, initiator):
-    target.salt = ''.join(chr(random.randint(0, 127)) for _ in range(32))
-    return hashlib.sha512(('%s$$%s' % (target.salt, value)).encode('utf8')).hexdigest()
+class JSONAPIMixin(object):
 
+    @classmethod    
+    def from_dict(self, data, dbsession):
+        if hasattr(self, '__create_schema__'):
+            data = self.__create_schema__.to_python(convert_keys(data),
+                                                    State(dbsession=dbsession))
+            obj = self()
+            if 'attributes' in data:
+                for key, value in data['attributes'].items():
+                    if hasattr(obj, key):
+                        setattr(obj, key, value)
+            if 'relationships' in data:
+                for key, value in data['relationships'].items():
+                    if hasattr(obj, key):
+                        if isinstance(value['data'], dict):
+                            rel_class = COMPONENTS[value['data']['type']]['class']
+                            rel = dbsession.query(rel_class).filter(rel_class.id == value['data']['id']).first()
+                            if rel:
+                                setattr(obj, key, rel)
+                            else:
+                                raise Invalid('Relationship target "%s" with id "%s" does not exist' % (value['data']['type'], value['data']['id']), value, None)
+            return obj
+        else:
+            return None
 
-class Game(Base):
-
-    __tablename__ = 'games'
-
-    id = Column(Integer, primary_key=True)
-    title = Column(Unicode(255))
-    
-    sessions = relationship('Session', order_by='desc(Session.id)')
-    roles = relationship('GameRole')
-    
-    def as_dict(self):
-        return {'id': self.id,
-                'title': self.title,
-                'roles': [r.id for r in self.roles],
-                'sessions': [s.id for s in self.sessions]}
-
-
-class GameRole(Base):
-    
-    __tablename__ = 'games_roles'
-    
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id', name='games_roles_user_id_fk'))
-    game_id = Column(Integer, ForeignKey('games.id', name='games_roles_game_id_fk'))
-    role = Column(Unicode(255))
-    
-    def as_dict(self):
-        return {'id': self.id,
-                'user': self.user_id,
-                'game': self.game_id,
-                'role': self.role}
+    def as_dict(self, request=None, depth=1):
+        data = {'id': self.id,
+                'type': self.__class__.__name__}
+        # Set plain attributes
+        if hasattr(self, '__json_attributes__'):
+            data['attributes'] = {}
+            for attr_name in self.__json_attributes__:
+                data['attributes'][attr_name.replace('_', '-')] = getattr(self, attr_name)
+        # Set computed attributes
+        if hasattr(self, '__json_computed__'):
+            if 'attributes' not in data:
+                data['attributes'] = {}
+            for attr_name in self.__json_computed__:
+                data['attributes'][attr_name.replace('_', '-')] = getattr(self, attr_name)(request)
+        # Set relationships
+        if hasattr(self, '__json_relationships__'):
+            data['relationships'] = {}
+            for rel_name in self.__json_relationships__:
+                data['relationships'][rel_name] = {'data': []}
+                try:
+                    for rel in getattr(self, rel_name):
+                        if rel:
+                            data['relationships'][rel_name]['data'].append({'id': rel.id,
+                                                                            'type': rel.__class__.__name__})
+                except:
+                    rel = getattr(self, rel_name)
+                    if rel:
+                        data['relationships'][rel_name]['data'] = {'id': rel.id,
+                                                                   'type': rel.__class__.__name__}
+                if not data['relationships'][rel_name]['data']:
+                    del data['relationships'][rel_name]
+        included = []
+        # Handle included data
+        if depth > 0 and hasattr(self, '__json_relationships__'):
+            for rel_name in self.__json_relationships__:
+                if inflection.pluralize(rel_name) == rel_name:
+                    for rel in getattr(self, rel_name):
+                        if rel:
+                            rel_data, rel_included = rel.as_dict(request=request,
+                                                                 depth=depth - 1)
+                            included.append(rel_data)
+                            if rel_included:
+                                included.extend(rel_included)
+                else:
+                    rel = getattr(self, rel_name)
+                    if rel:
+                        rel_data, rel_included = rel.as_dict(request=request,
+                                                             depth=depth - 1)
+                        included.append(rel_data)
+                        if rel_included:
+                            included.extend(rel_included)
+        return data, included
 
 
 class Session(Base):
