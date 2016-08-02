@@ -3,9 +3,11 @@
     <h1>{{model.title}}</h1>
     <div class="row">
       <div class="column small-12 medium-6">
-        <div class="float-right">
-          {{#link-to 'games.game.new-session' model.id class='button'}}New Session{{/link-to}}
-        </div>
+        {{#if model.owned}}
+          <div class="float-right">
+            {{#link-to 'games.game.new-session' model.id class='button'}}New Session{{/link-to}}
+          </div>
+        {{/if}}
         <h2>Sessions</h2>
         <ol class="no-bullet">
           {{#each model.sessions as |session|}}
