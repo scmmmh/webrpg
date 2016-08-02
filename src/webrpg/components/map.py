@@ -8,15 +8,14 @@ from formencode import validators, All, Invalid
 from sqlalchemy import and_
 
 from webrpg.components.game import Game, GameRole
-from webrpg.components.session import SessionExistsValidator
-from webrpg.models import (DBSession, Session, Map)
+from webrpg.components.session import Session
+from webrpg.models import (DBSession, Map)
 from webrpg.util import (EmberSchema)
 
 
 class NewMapSchema(EmberSchema):
     
     title = validators.UnicodeString(not_empty=True)
-    session = SessionExistsValidator()
 
 
 def new_map_param_transform(params):
@@ -45,7 +44,6 @@ def new_map_authorisation(request, params):
 class UpdateMapSchema(EmberSchema):
     
     title = validators.UnicodeString(not_empty=True)
-    session = SessionExistsValidator()
     map = validators.UnicodeString()
     fog = validators.UnicodeString()
 

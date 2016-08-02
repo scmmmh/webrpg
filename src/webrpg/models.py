@@ -108,29 +108,6 @@ class JSONAPIMixin(object):
         return data, included
 
 
-class Session(Base):
-    
-    __tablename__ = 'sessions'
-    
-    id = Column(Integer, primary_key=True)
-    game_id = Column(Integer, ForeignKey('games.id', name='sessions_game_id_fk'))
-    title = Column(Unicode(255))
-    dice_roller = Column(Unicode(255))
-    
-    game = relationship('Game')
-    roles = relationship('SessionRole')
-    maps = relationship('Map')
-    chat_messages = relationship('ChatMessage', order_by='ChatMessage.id')
-    
-    def as_dict(self):
-        return {'id': self.id,
-                'title': self.title,
-                'dice_roller': self.dice_roller,
-                'game': self.game_id,
-                'roles': [sr.id for sr in self.roles],
-                'maps': [m.id for m in self.maps]}
-
-
 class SessionRole(Base):
     
     __tablename__ = 'sessions_roles'

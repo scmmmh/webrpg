@@ -59,7 +59,7 @@ def invalid_to_error_list(e, errors=None):
                 invalid_to_error_list(value, errors=errors)
             else:
                 errors.append({'title': str(value),
-                               'source': key})
+                               'source': key.replace('_', '-')})
     else:
         errors.append({'title': str(e)})
     return errors

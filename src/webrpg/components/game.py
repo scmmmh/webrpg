@@ -36,7 +36,7 @@ class Game(Base, JSONAPIMixin):
 
     __json_attributes__ = ['title']
     __json_computed__ = ['joined', 'owned']
-    __json_relationships__ = ['roles']
+    __json_relationships__ = ['roles', 'sessions']
 
     def joined(self, request):
         """Check if the current :class:`~webrpg.components.user.User` has joined
@@ -72,10 +72,12 @@ class GameRole(Base, JSONAPIMixin):
     user = relationship('User')
 
     __create_schema__ = JSONAPISchema('game-roles',
-                                      attribute_schema=DynamicSchema({'role': validators.UnicodeString}),
-                                      relationship_schema=DynamicSchema({'game': {'data': {'type': validators.OneOf(['games']),
+                                      attribute_schema=DynamicSchema({'role': validators.UnicodeString(not_empty=True)}),
+                                      relationship_schema=DynamicSchema({'game': {'data': {'type': validators.OneOf(['games'],
+                                                                                                                    not_empty=True),
                                                                                            'id': validators.Number}},
-                                                                         'user': {'data': {'type': validators.OneOf(['users']),
+                                                                         'user': {'data': {'type': validators.OneOf(['users'],
+                                                                                                                    not_empty=True),
                                                                                            'id': validators.Number}}}))
     __json_attributes__ = ['role']
     __json_computed__ = ['is_me']

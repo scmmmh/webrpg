@@ -33,7 +33,6 @@ export default Ember.Controller.extend({
                         errors['title'] = data['errors'][idx].title;
                     }
                 }
-                console.log(errors);
                 controller.set('errors', errors);
             });
         }
