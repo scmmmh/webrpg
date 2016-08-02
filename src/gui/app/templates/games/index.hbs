@@ -9,19 +9,19 @@
             <h2>{{#link-to 'games.game' game.id}}{{game.title}}{{/link-to}}</h2>
             <p>Game Master:
               <ul class="inline">
-                {{#each game.roles as |role|}}{{#if role.is_owner}}<li>{{role.user.displayName}}</li>{{/if}}{{/each}}
+                {{#each game.roles as |role|}}{{#if (eq role.role 'owner')}}<li>{{role.user.displayName}}</li>{{/if}}{{/each}}
               </ul>
             </p>
             <p>Playing with:
               <ul class="inline">
-                {{#each game.roles as |role|}}{{#if role.is_player}}{{#if role.is_not_me}}<li>{{role.user.displayName}}</li>{{/if}}{{/if}}{{/each}}
+                {{#each game.roles as |role|}}{{#if (eq role.role 'player')}}{{#unless role.is_me}}<li>{{role.user.displayName}}</li>{{/unless}}{{/if}}{{/each}}
               </ul>
             </p>
           {{else}}
             <h2>{{game.title}}</h2>
             <p>Game Master:
               <ul class="inline">
-                {{#each game.roles as |role|}}{{#if role.is_owner}}<li>{{role.user.displayName}}</li>{{/if}}{{/each}}
+                {{#each game.roles as |role|}}{{#if (eq role.role 'owner')}}<li>{{role.user.displayName}}</li>{{/if}}{{/each}}
               </ul>
             </p>
             <p><button {{action 'join' game}} class="button">Join</button></p>
