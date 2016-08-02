@@ -12,3 +12,6 @@ ul.inline li, ol.inline li {
 ul.inline li + li:before, ol.inline li + li:before {
     content: ', ';
 }
+h1 small a {
+    color: #cacaca;
+}

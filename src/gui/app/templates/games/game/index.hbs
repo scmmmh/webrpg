@@ -1,0 +1,25 @@
+<article class="row">
+  <div class="column small-12">
+    <h1>{{model.title}}</h1>
+    <div class="row">
+      <div class="column small-12 medium-6">
+        <div class="float-right">
+          {{#link-to 'games.game.new-session' model.id class='button'}}New Session{{/link-to}}
+        </div>
+        <h2>Sessions</h2>
+        <ol class="no-bullet">
+          {{#each model.sessions as |session|}}
+            <li>
+              <h3>{{#link-to 'games.game.session' model.id session.id}}{{session.title}}{{/link-to}}</h3>
+            </li>
+          {{else}}
+            <li>{{#link-to 'games.game.new-session' model.id}}Start the first session{{/link-to}}</li>
+          {{/each}}
+        </ol>
+      </div>
+      <div class="column small-12 medium-6">
+        <h2>Characters</h2>
+      </div>
+    </div>
+  </div>
+</article>

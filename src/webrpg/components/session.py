@@ -1,77 +1,48 @@
 # -*- coding: utf-8 -*-
-u"""
+"""
+###########################################
+Handles all game-session model interactions
+###########################################
 
 .. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
 
-from formencode import validators, All, Invalid
-from sqlalchemy import and_
+from formencode import validators
+from sqlalchemy import Column, Integer, Unicode, ForeignKey
+from sqlalchemy.orm import relationship
 
-from webrpg.components.game import Game, GameRole
-from webrpg.models import (DBSession, Session, SessionRole)
-from webrpg.util import (EmberSchema)
-
-
-class NewSessionSchema(EmberSchema):
-    
-    title = validators.UnicodeString(not_empty=True)
-    dice_roller = validators.OneOf(['d20', 'eote'], not_empty=True)
-    game = All(validators.Int(not_empty=True))
+from webrpg.components import register_component
+from webrpg.models import (Base, JSONAPIMixin)
+from webrpg.util import (JSONAPISchema, DynamicSchema)
 
 
-def new_session_param_transform(params):
-    return {'title': params['title'],
-            'dice_roller': params['dice_roller'],
-            'game_id': params['game']}
+class Session(Base, JSONAPIMixin):
+    """The :class:`~webrpg.components.session.Session` represents a single gaming
+    session for a :class:`~webrpg.components.game.Game`. It holds the following
+    attributes: "title", "dice_roller".
+    """
+
+    __tablename__ = 'sessions'
+
+    id = Column(Integer, primary_key=True)
+    game_id = Column(Integer, ForeignKey('games.id', name='sessions_game_id_fk'))
+    title = Column(Unicode(255))
+    dice_roller = Column(Unicode(255))
+
+    game = relationship('Game')
+    maps = relationship('Map')
+    chat_messages = relationship('ChatMessage', order_by='ChatMessage.id')
+
+    __create_schema__ = JSONAPISchema('sessions',
+                                      attribute_schema=DynamicSchema({'title': validators.UnicodeString(not_empty=True),
+                                                                      'dice_roller': validators.OneOf(['d20', 'eote'],
+                                                                                                      not_empty=True)}),
+                                      relationship_schema=DynamicSchema({'game': {'data': {'type': validators.OneOf(['games'],
+                                                                                                                    not_empty=True),
+                                                                                           'id': validators.Number}}}))
+
+    __json_attributes__ = ['title', 'dice_roller']
+    __json_relationships__ = ['game']
 
 
-def new_session_authorisation(request, params):
-    user = get_current_user(request)
-    if user:
-        dbsession = DBSession()
-        game = dbsession.query(Game).join(Game.roles).filter(and_(Game.id == params['game_id'],
-                                                                  GameRole.user_id == user.id,
-                                                                  GameRole.role == 'owner')).first()
-        if game:
-            return True
-        else:
-            return False
-    else:
-        return False
-
-
-class SessionExistsValidator(validators.FancyValidator):
-    
-    messages = {'missing': 'The given session does not exist'}
-    
-    def _validate_python(self, value, state):
-        if not state.dbsession.query(Session).filter(Session.id == value).first():
-            raise Invalid(self.message('missing', state), value, state)
-
-
-class NewSessionRoleSchema(EmberSchema):
-    
-    role = validators.UnicodeString(not_empty=True)
-    user = All(validators.Int(not_empty=True))
-    session = All(validators.Int(not_empty=True))
-
-
-def new_session_role_param_transform(params):
-    return {'role': params['role'],
-            'user_id': params['user'],
-            'session_id': params['session']}
-
-
-MODELS = {'session': {'class': Session,
-                      'new': {'schema': NewSessionSchema,
-                              'authentication': True,
-                              'authorisation': new_session_authorisation,
-                              'param_transform': new_session_param_transform},
-                      'list': {'authenticate': True},
-                      'item': {'authenticate': True}},
-          'sessionRole': {'class': SessionRole,
-                          'new': {'schema': NewSessionRoleSchema,
-                                  'authentication': True,
-                                  'param_transform': new_session_role_param_transform},
-                          'list': {'authenticate': True},
-                          'item': {'authenticate': True}}}
+register_component('sessions', Session, actions=['new', 'item'])

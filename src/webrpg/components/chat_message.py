@@ -12,16 +12,15 @@ from sqlalchemy import and_
 
 from webrpg.calculator import (calculation_regexp, add_dice, tokenise, calculate,
                                infix_to_postfix, process_unary)
-from webrpg.components.session import SessionExistsValidator
-from webrpg.components.util import (EmberSchema)
-from webrpg.models import DBSession, ChatMessage, Session
+from webrpg.components.session import Session
+from webrpg.models import DBSession, ChatMessage
+from webrpg.util import (EmberSchema)
 
 class NewChatMessageSchema(EmberSchema):
     
     message = validators.UnicodeString(not_empty=True)
     user = All(validators.Int(not_empty=True))
-    session = All(validators.Int(not_empty=True),
-                  SessionExistsValidator())
+    session = All(validators.Int(not_empty=True))
 
 
 def new_chat_message_authorisation(request, params):

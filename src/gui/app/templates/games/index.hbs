@@ -6,7 +6,7 @@
       {{#each model as |game|}}
         <li>
           {{#if game.joined}}
-            <h2><a href="">{{game.title}}</a></h2>
+            <h2>{{#link-to 'games.game' game.id}}{{game.title}}{{/link-to}}</h2>
             <p>Game Master:
               <ul class="inline">
                 {{#each game.roles as |role|}}{{#if role.is_owner}}<li>{{role.user.displayName}}</li>{{/if}}{{/each}}
