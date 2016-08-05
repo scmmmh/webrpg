@@ -81,14 +81,19 @@ class JSONAPIValidator(FancyValidator):
 
 def handle_list_model(request, model_name):
     dbsession = DBSession()
-    query = dbsession.query(COMPONENTS[model_name]['class'])
+    cls = COMPONENTS[model_name]['class']
+    query = dbsession.query(cls)
+    for key, value in request.params.items():
+        if hasattr(cls, key):
+            query = query.filter(getattr(cls, key) == value)
     response = {'data': [],
                 'included': []}
     for obj in query:
-        data, included = obj.as_dict(request=request)
-        response['data'].append(data)
-        if included:
-            response['included'].extend(included)
+        if obj.allow(request.current_user, 'view'):
+            data, included = obj.as_dict(request=request)
+            response['data'].append(data)
+            if included:
+                response['included'].extend(included)
     if not response['included']:
         del response['included']
     return response

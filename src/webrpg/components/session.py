@@ -42,7 +42,10 @@ class Session(Base, JSONAPIMixin):
                                                                                            'id': validators.Number}}}))
 
     __json_attributes__ = ['title', 'dice_roller']
-    __json_relationships__ = ['game']
+    __json_relationships__ = ['game', 'chat_messages']
+
+    def allow(self, user, action):
+        return True
 
 
 register_component('sessions', Session, actions=['new', 'item'])

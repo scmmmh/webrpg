@@ -15,3 +15,16 @@ ul.inline li + li:before, ol.inline li + li:before {
 h1 small a {
     color: #cacaca;
 }
+.chat-message-list li div:nth-child(1) {
+    background: #e6e6e6;
+    font-weight: bold;
+}
+.chat-message-list li:nth-child(2n) div:nth-child(1) {
+    background: #f6f6f6;
+}
+.chat-message-list li div:nth-child(2) {
+    background: #f0f0f0;
+}
+.chat-message-list li:nth-child(2n) div:nth-child(2) {
+    background: #ffffff;
+}

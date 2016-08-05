@@ -49,10 +49,18 @@ class Game(Base, JSONAPIMixin):
     def owned(self, request):
         """Check if the current :class:`~webrpg.components.user.User` is the
         owner of this :class:`~webrpg.components.game.Game`."""
-        for role in self.roles:
-            if request.current_user and role.role == 'owner' and role.user_id == request.current_user.id:
+        return self.has_role(request.current_user, 'owner')
+
+    def has_role(self, user, role):
+        """Check if the given :class:`~webrpg.components.user.User` has the given
+        ``role`` for this :class:`~webrpg.components.game.Game`."""
+        for role_data in self.roles:
+            if role_data.role == role and role_data.user_id == user.id:
                 return True
         return False
+
+    def allow(self, user, action):
+        return True
 
 
 class GameRole(Base, JSONAPIMixin):
@@ -90,6 +98,9 @@ class GameRole(Base, JSONAPIMixin):
             return True
         else:
             return False
+
+    def allow(self, user, action):
+        return True
 
 
 register_component('games', Game, actions=['list', 'new', 'item'])
