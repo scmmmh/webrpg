@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
             var game = controller.store.createRecord('Game', {
                 title: controller.get('title')
             });
-            var user = controller.store.findRecord('user', controller.get('session').get('data.authenticated.userid'));
+            var user = controller.store.findRecord('user', controller.get('session.data.authenticated.userid'));
             game.save().then(function() {
                 user.then(function() {
                     var role = controller.store.createRecord('GameRole', {

@@ -1,42 +1,91 @@
 # -*- coding: utf-8 -*-
-u"""
+"""
+###################################################
+Handles all chat-message-related model interactions
+###################################################
 
-.. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
+.. moduleauthor:: Mark Hall <mark.hall@work.room3b.eu>
 """
 
 import random
 import re
 
-from formencode import validators, All
-from sqlalchemy import and_
+from formencode import validators
+from sqlalchemy import Column, Unicode, UnicodeText, Integer, ForeignKey, event
+from sqlalchemy.orm import relationship
 
 from webrpg.calculator import (calculation_regexp, add_dice, tokenise, calculate,
                                infix_to_postfix, process_unary)
-from webrpg.components.session import Session
-from webrpg.models import DBSession, ChatMessage
-from webrpg.util import (EmberSchema)
+from webrpg.components import register_component
+from webrpg.models import Base, JSONAPIMixin
+from webrpg.util import (JSONAPISchema, DynamicSchema)
 
-class NewChatMessageSchema(EmberSchema):
+
+class ChatMessage(Base, JSONAPIMixin):
+    """The :class:`~webrpg.components.chat_message.ChatMessage` represents a single chat
+    message. It has the following attributes: "user", "session", "message".
+
+    Setting the "message" attribute automatically applies any dice rolls.
+    """
+
+    __tablename__ = 'chat_messages'
     
-    message = validators.UnicodeString(not_empty=True)
-    user = All(validators.Int(not_empty=True))
-    session = All(validators.Int(not_empty=True))
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id', name='chat_messages_user_id_fk'))
+    session_id = Column(Integer, ForeignKey('sessions.id', name='chat_messages_session_id_fk'))
+    message = Column(UnicodeText)
+    filters = Column(Unicode(255))
+    
+    user = relationship('User')
+    session = relationship('Session')
+    
+    __create_schema__ = JSONAPISchema('chat-messages',
+                                      attribute_schema=DynamicSchema({'message': validators.UnicodeString(not_empty=True)}),
+                                      relationship_schema=DynamicSchema({'user': {'data': {'type': validators.OneOf(['users'],
+                                                                                                                    not_empty=True),
+                                                                                           'id': validators.Number}},
+                                                                         'session': {'data': {'type': validators.OneOf(['sessions'],
+                                                                                                                       not_empty=True),
+                                                                                              'id': validators.Number}}}))
+
+    __json_attributes__ = ['message']
+    __json_relationships__ = ['user', 'session']
 
 
-def new_chat_message_authorisation(request, params):
-    user = get_current_user(request)
-    if user:
-        return True
-    else:
-        return False
+    def allow(self, user, action):
+        """Check if the given :class:`~webrpg.components.user.User` is allowed
+        to undertake the given ``action``."""
+        if user:
+            if self.user_id == user.id:
+                return True
+            else:
+                if action == 'view':
+                    match = re.search(r'@[a-zA-Z0-9_\-]+', self.message)
+                    if match:
+                        for match in re.findall(r'@([a-zA-Z0-9_\-]+)', self.message):
+                            if match.lower() == 'all' or match.lower() == user.display_name.lower():
+                                return True
+                            elif match.lower().replace('-', ' ') == user.display_name.lower():
+                                return True
+                            elif match.lower() == 'gm' and self.session.game.has_role(user, 'owner'):
+                                return True
+                            elif match.lower() == 'players' and self.session.game.has_role(user, 'player'):
+                                return True
+                        return False
+                    else:
+                        return True
+                else:
+                    return False
+        else:
+            return False
 
 
-def new_chat_message_param_transform(params):
-    dbsession = DBSession()
-    session = dbsession.query(Session).filter(Session.id == params['session']).first()
-    message = params['message']
+@event.listens_for(ChatMessage.message, 'set', retval=True)
+def calculate_dicerolls(target, value, old_value, initiator):
+    """Event listener that automatically handles the dice rolls."""
+    message = value
     substitutions = []
-    if session.dice_roller == 'd20':
+    if target.session.dice_roller == 'd20':
         calc_match = re.search(calculation_regexp, message)
         while calc_match:
             if calc_match.group(0).strip() == '':
@@ -55,7 +104,7 @@ def new_chat_message_param_transform(params):
                                                             int(round(total))))
             message = re.sub(calculation_regexp, '%s', message, count=1)
             calc_match = re.search(calculation_regexp, message)
-    elif session.dice_roller == 'eote':
+    elif target.session.dice_roller == 'eote':
         eote_regexp = re.compile('([0-9]+[bapsdcf]\s*)+', re.IGNORECASE)
         dice_regexp = re.compile('([0-9]+[bapsdcf])', re.IGNORECASE)
         eote_match = re.search(eote_regexp, message)
@@ -214,66 +263,6 @@ def new_chat_message_param_transform(params):
         while 'd100' in message:
             message = message.replace('d100', '%s', 1)
             substitutions.append('d100 = %i' % random.randint(1, 100))
-    return {'message': message % tuple(substitutions),
-            'user_id': params['user'],
-            'session_id': params['session']}
+    return message % tuple(substitutions)
 
-
-def chat_message_filter(request, query):
-    def user_has_role(user, role_name, session):
-        for role in session.roles:
-            if role.user_id == user.id and role.role == role_name:
-                return True
-        return False
-    def filter_specific(user, message):
-        if message.user.id == user.id:
-            return True
-        else:
-            match = re.search(r'@[a-zA-Z0-9_\-]+', message.message)
-            if match:
-                for match in re.findall(r'@([a-zA-Z0-9_\-]+)', message.message):
-                    if match.lower() == 'all' or match.lower() == user.display_name.lower():
-                        return True
-                    elif match.lower().replace('-', ' ') == user.display_name.lower():
-                        return True
-                    elif match.lower() == 'gm' and user_has_role(user, 'owner', message.session):
-                        return True
-                    elif match.lower() == 'players' and user_has_role(user, 'player', message.session):
-                        return True
-                    #elif match.lower() == 'gm' and request.current_user.id == session.creator.id: 
-                    #    return True
-                    #elif match.lower() == 'players' and request.current_user.id != session.creator.id:
-                    #    return True
-                    #elif match.lower() == 'players' and request.current_user.id == session.creator.id:
-                    #    return False
-                return False
-            else:
-                return True
-    if 'session' in request.params:
-        query = query.filter(ChatMessage.session_id == request.params['session'])
-    user = get_current_user(request)
-    return [m for m in query if filter_specific(user, m)]
-
-
-def chat_message_param_transform(params):
-    if 'session' in params:
-        return {'session_id': params['session']}
-    else:
-        return {}
-
-def chat_message_refresh(request, min_id):
-    dbsession = DBSession()
-    return [cm.as_dict() for cm in chat_message_filter(request, dbsession.query(ChatMessage).filter(and_(ChatMessage.session_id == request.matchdict['iid'],
-                                                                                                         ChatMessage.id > min_id)))]
-
-
-MODELS = {'chatMessage': {'class': ChatMessage,
-                          'new': {'schema': NewChatMessageSchema,
-                                  'authenticate': True,
-                                  'authorisation': new_chat_message_authorisation,
-                                  'param_transform': new_chat_message_param_transform},
-                          'list': {'authenticate': True,
-                                   'filter': chat_message_filter},
-                          'refresh': {'authenticate': True,
-                                      'func': chat_message_refresh}}}
-
+register_component('chat-messages', ChatMessage, actions=['list', 'new', 'item'])

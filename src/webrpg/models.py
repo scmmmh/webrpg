@@ -36,10 +36,6 @@ class JSONAPIMixin(object):
             data = self.__create_schema__.to_python(convert_keys(data),
                                                     State(dbsession=dbsession))
             obj = self()
-            if 'attributes' in data:
-                for key, value in data['attributes'].items():
-                    if hasattr(obj, key):
-                        setattr(obj, key, value)
             if 'relationships' in data:
                 for key, value in data['relationships'].items():
                     if hasattr(obj, key):
@@ -50,6 +46,10 @@ class JSONAPIMixin(object):
                                 setattr(obj, key, rel)
                             else:
                                 raise Invalid('Relationship target "%s" with id "%s" does not exist' % (value['data']['type'], value['data']['id']), value, None)
+            if 'attributes' in data:
+                for key, value in data['attributes'].items():
+                    if hasattr(obj, key):
+                        setattr(obj, key, value)
             return obj
         else:
             return None
@@ -72,26 +72,26 @@ class JSONAPIMixin(object):
         if hasattr(self, '__json_relationships__'):
             data['relationships'] = {}
             for rel_name in self.__json_relationships__:
-                data['relationships'][rel_name] = {'data': []}
+                data['relationships'][rel_name.replace('_', '-')] = {'data': []}
                 try:
                     for rel in getattr(self, rel_name):
-                        if rel:
-                            data['relationships'][rel_name]['data'].append({'id': rel.id,
-                                                                            'type': rel.__class__.__name__})
+                        if rel and rel.allow(request.current_user, 'view'):
+                            data['relationships'][rel_name.replace('_', '-')]['data'].append({'id': rel.id,
+                                                                                              'type': rel.__class__.__name__})
                 except:
                     rel = getattr(self, rel_name)
-                    if rel:
-                        data['relationships'][rel_name]['data'] = {'id': rel.id,
-                                                                   'type': rel.__class__.__name__}
-                if not data['relationships'][rel_name]['data']:
-                    del data['relationships'][rel_name]
+                    if rel and rel.allow(request.current_user, 'view'):
+                        data['relationships'][rel_name.replace('_', '-')]['data'] = {'id': rel.id,
+                                                                                     'type': rel.__class__.__name__}
+                if not data['relationships'][rel_name.replace('_', '-')]['data']:
+                    del data['relationships'][rel_name.replace('_', '-')]
         included = []
         # Handle included data
         if depth > 0 and hasattr(self, '__json_relationships__'):
             for rel_name in self.__json_relationships__:
                 if inflection.pluralize(rel_name) == rel_name:
                     for rel in getattr(self, rel_name):
-                        if rel:
+                        if rel and rel.allow(request.current_user, 'view'):
                             rel_data, rel_included = rel.as_dict(request=request,
                                                                  depth=depth - 1)
                             included.append(rel_data)
@@ -99,7 +99,7 @@ class JSONAPIMixin(object):
                                 included.extend(rel_included)
                 else:
                     rel = getattr(self, rel_name)
-                    if rel:
+                    if rel and rel.allow(request.current_user, 'view'):
                         rel_data, rel_included = rel.as_dict(request=request,
                                                              depth=depth - 1)
                         included.append(rel_data)
@@ -122,26 +122,6 @@ class SessionRole(Base):
                 'user': self.user_id,
                 'session': self.session_id,
                 'role': self.role}
-
-
-class ChatMessage(Base):
-    
-    __tablename__ = 'chat_messages'
-    
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id', name='chat_messages_user_id_fk'))
-    session_id = Column(Integer, ForeignKey('sessions.id', name='chat_messages_session_id_fk'))
-    message = Column(UnicodeText)
-    filters = Column(Unicode(255))
-    
-    user = relationship('User')
-    session = relationship('Session')
-    
-    def as_dict(self):
-        return {'id': self.id,
-                'user': self.user_id,
-                'session': self.session_id,
-                'message': self.message}
 
 
 class Character(Base):

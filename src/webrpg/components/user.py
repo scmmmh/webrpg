@@ -65,6 +65,9 @@ class User(Base, JSONAPIMixin):
         password = hashlib.sha512(('%s$$%s' % (self.salt, password)).encode('utf8')).hexdigest()
         return password == self.password
 
+    def allow(self, user, action):
+        return True
+
 
 @event.listens_for(User.password, 'set', retval=True)
 def hash_password(target, value, old_value, initiator):
