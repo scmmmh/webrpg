@@ -1,21 +1,35 @@
 <article class="row expanded">
   <div class="column small-12">
     <h1>{{model.title}} <small>({{#link-to 'games.game' model.game.id}}{{model.game.title}}{{/link-to}})</small></h1>
-    <div>
-      <ol class="no-bullet chat-message-list">
-        {{#each model.chatMessages as |chatMessage|}}
-          <li class="row">
-            <div class="column small-4 medium-2 large-1">{{chatMessage.user.displayName}}:</div>
-            <div class="column small-8 medium-10 large-11">{{chatMessage.message}}</div>
-          </li>
-        {{/each}}
-      </ol>
-      <form {{action 'addChatMessage' on='submit'}} class="input-group">
-        {{input value=chatMessage type="text" class="input-group-field"}}
-        <div class="input-group-button">
-          <input type="submit" value="Send" class="button postfix"/>
+    <div id="session-window">
+      <div class="main">
+        <div class="characters">
+          Characters
         </div>
-      </form>
+        <div class="maps">
+          Maps
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <div class="dice-roller">
+        </div>
+        <div class="chat">
+          <ol class="no-bullet chat-message-list">
+            {{#each model.chatMessages as |chatMessage|}}
+              <li>
+                <div>{{chatMessage.user.displayName}}:</div>
+                <div>{{chatMessage.message}}</div>
+              </li>
+            {{/each}}
+          </ol>
+          <form {{action 'addChatMessage' on='submit'}} class="input-group">
+            {{input value=chatMessage type="text" class="input-group-field"}}
+            <div class="input-group-button">
+              <input type="submit" value="Send" class="button postfix"/>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </article>

@@ -1,3 +1,6 @@
+/**
+ * Generic styling
+ */ 
 ul.inline, ol.inline {
     display: inline-block;
     margin: 0;
@@ -15,16 +18,75 @@ ul.inline li + li:before, ol.inline li + li:before {
 h1 small a {
     color: #cacaca;
 }
-.chat-message-list li div:nth-child(1) {
+
+/**
+ * Session view styling
+ */
+#session-window {
+    display: flex;
+    flex-direction: column;
+}
+#session-window .main {
+    flex-grow: 1;
+    display: flex;
+}
+#session-window .bottom-bar {
+    max-height: 15rem;
+    display: flex;
+    flex-direction: row;
+}
+
+/**
+ * Character styling
+ */
+#session-window .characters {
+    flex-grow: 2;
+}
+
+/**
+ * Map styling
+ */
+#session-window .maps {
+    flex-grow: 10;
+}
+ 
+/**
+ * Dice roller styling
+ */
+#session-window .dice-roller {
+    flex-grow: 2;
+}
+
+/**
+ * Chat message styling
+ */
+#session-window .chat {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 10;
+}
+#session-window .chat-message-list {
+    overflow: auto;
+}
+#session-window .chat-message-list li {
+    display: flex;
+    flex-direction: row;
+}
+#session-window .chat-message-list li div:nth-child(1) {
     background: #e6e6e6;
     font-weight: bold;
+    flex-grow: 1;
+    max-width: 10rem;
 }
-.chat-message-list li:nth-child(2n) div:nth-child(1) {
+#session-window .chat-message-list li:nth-child(2n) div:nth-child(1) {
     background: #f6f6f6;
 }
-.chat-message-list li div:nth-child(2) {
+#session-window .chat-message-list li div:nth-child(2) {
     background: #f0f0f0;
+    flex-grow: 11;
 }
-.chat-message-list li:nth-child(2n) div:nth-child(2) {
+#session-window .chat-message-list li:nth-child(2n) div:nth-child(2) {
     background: #ffffff;
+}
+#session-window .chat form {
 }
