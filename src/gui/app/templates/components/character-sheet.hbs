@@ -32,19 +32,41 @@
                       {{#if (eq stat_column.data_type 'string')}}
                         {{input type="text" value=stat_column.value class='input-group-field'}}
                       {{/if}}
+                      {{#if (eq stat_column.data_type 'number')}}
+                        {{input type="number" value=stat_column.value class='input-group-field'}}
+                      {{/if}}
+                      {{#if (eq stat_column.data_type 'boolean')}}
+                        {{input type="checkbox" checked=stat_column.value class='input-group-field'}}
+                      {{/if}}
+                      {{#if (eq stat_column.data_type 'text')}}
+                        {{textarea value=stat_column.value class='input-group-field' rows='5'}}
+                      {{/if}}
+                      {{#if (eq stat_column.data_type 'option')}}
+                        <select onchange={{action (mut stat_column.value) value='target.value'}}>
+                          {{#each stat_column.options as |option|}}
+                            <option selected={{eq stat_column.value option}}>{{option}}</option> 
+                          {{/each}}
+                        </select>
+                      {{/if}}
                       <div class="input-group-button">
                         <button {{action 'cancel-edit' character stat_column}} class="button cancel"><span class="fi-x"></span></button><button {{action 'save-edit' character stat_column}} class="button ok"><span class="fi-check"></span></button>
                       </div>
                     </div>
                   {{else}}
-                    <div class="float-right">
-                      <a href="#" {{action 'start-edit' character stat_column}}><span class="fi-pencil"></span></a>
-                    </div>
+                    {{#if stat_column.editable}}
+                      <div class="float-right">
+                        <a href="#" {{action 'start-edit' character stat_column}}><span class="fi-pencil"></span></a>
+                      </div>
+                    {{/if}}
                     {{#if (eq stat_column.data_type 'string')}}
                       {{stat_column.value}}
                     {{/if}}
                     {{#if (eq stat_column.data_type 'number')}}
-                      {{stat_column.value}}
+                      {{#if (gt stat_column.value 0)}}
+                        +{{stat_column.value}}
+                      {{else}}
+                        {{stat_column.value}}
+                      {{/if}}
                     {{/if}}
                     {{#if (eq stat_column.data_type 'boolean')}}
                       {{#if stat_column.value}}

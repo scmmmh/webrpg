@@ -148,6 +148,24 @@ def handle_single_model(request, model_name):
         raise_json_exception(HTTPNotFound)
 
 
+def update_single_model(request, model_name):
+    dbsession = DBSession()
+    data = JSONAPIValidator(not_empty=True).to_python(request.body)
+    item = dbsession.query(COMPONENTS[model_name]['class']).filter(COMPONENTS[model_name]['class'].id == request.matchdict['iid']).first()
+    if item:
+        with transaction.manager:
+            dbsession.add(item)
+            item.update_from_dict(data, dbsession)
+            dbsession.flush()
+            item_data, item_included = item.as_dict(request=request)
+            response = {'data': item_data}
+            if item_included:
+                response['included'] = item_included
+        return response
+    else:
+        raise_json_exception(HTTPNotFound)
+
+
 @view_config(route_name='api.item', renderer='json')
 @get_current_user()
 @json_defaults()
@@ -157,7 +175,7 @@ def handle_item(request):
         if request.method == 'GET' and 'item' in COMPONENTS[model_name]['actions']:
             return handle_single_model(request, model_name)
         elif request.method == 'PATCH' and 'update' in COMPONENTS[model_name]['actions']:
-            return handle_single_model(request, model_name)
+            return update_single_model(request, model_name)
         else:
             raise raise_json_exception(HTTPMethodNotAllowed)
     else:
