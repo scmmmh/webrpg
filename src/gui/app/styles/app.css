@@ -51,6 +51,9 @@ h1 small a {
 .characters .button.ok {
     background-color: #00cc00;
 }
+.characters .accordion-content {
+    padding: 0;
+}
 
 /**
  * Map styling
