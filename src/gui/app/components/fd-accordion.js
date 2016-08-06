@@ -8,6 +8,6 @@ export default Ember.Component.extend({
     'data-options': '',
     
     didInsertElement: function() {
-        Ember.$('.accordion').foundation();
-    },
+    	Ember.$('accordion').foundation();
+    }
 });
