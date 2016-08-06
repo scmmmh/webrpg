@@ -54,6 +54,25 @@ class JSONAPIMixin(object):
         else:
             return None
 
+    def update_from_dict(self, data, dbsession):
+        if hasattr(self, '__update_schema__'):
+            data = self.__update_schema__.to_python(convert_keys(data),
+                                                    State(dbsession=dbsession))
+            if 'relationships' in data:
+                for key, value in data['relationships'].items():
+                    if hasattr(self, key):
+                        if isinstance(value['data'], dict):
+                            rel_class = COMPONENTS[value['data']['type']]['class']
+                            rel = dbsession.query(rel_class).filter(rel_class.id == value['data']['id']).first()
+                            if rel:
+                                setattr(self, key, rel)
+                            else:
+                                raise Invalid('Relationship target "%s" with id "%s" does not exist' % (value['data']['type'], value['data']['id']), value, None)
+            if 'attributes' in data:
+                for key, value in data['attributes'].items():
+                    if hasattr(self, key):
+                        setattr(self, key, value)
+
     def as_dict(self, request=None, depth=1):
         data = {'id': self.id,
                 'type': self.__class__.__name__}

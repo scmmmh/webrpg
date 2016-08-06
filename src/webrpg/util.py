@@ -15,6 +15,28 @@ class State(object):
         self.__dict__.update(kwargs)
 
 
+class DictValidator(FancyValidator):
+
+    messages = {'not_dict': 'This is not a dictionary object'}
+
+    def to_python(self, value, state):
+        if isinstance(value, dict):
+            return value
+        else:
+            raise Invalid(self.message("not_dict", state), value, state)
+
+
+class ListValidator(FancyValidator):
+
+    messages = {'not_list': 'This is not a list object'}
+
+    def to_python(self, value, state):
+        if isinstance(value, list):
+            return value
+        else:
+            raise Invalid(self.message("not_list", state), value, state)
+
+
 class EmberSchema(Schema):
     
     allow_extra_fields = True
@@ -31,7 +53,7 @@ class DynamicSchema(EmberSchema):
                 self.add_field(key, value)
 
 
-class JSONAPISchema(Schema):
+class JSONAPISchema(EmberSchema):
 
     def __init__(self, type_, attribute_schema=None, relationship_schema=None):
         self.add_field('type', OneOf([type_]))

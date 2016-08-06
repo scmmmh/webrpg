@@ -16,7 +16,7 @@ from webrpg.components import register_component
 from webrpg.components.rule_set import RULE_SETS
 from webrpg.components.game import Game, GameRole
 from webrpg.models import DBSession, Base, JSONAPIMixin
-from webrpg.util import (EmberSchema, JSONAPISchema, DynamicSchema)
+from webrpg.util import (EmberSchema, JSONAPISchema, DynamicSchema, DictValidator)
 
 
 class NewCharacterSchema(EmberSchema):
@@ -146,19 +146,6 @@ def update_character_param_transform(character, params):
     return new_params
 
 
-#MODELS = {'character': {'class': Character,
-#                        'new': {'authenticate': True,
-#                                'schema': NewCharacterSchema,
-#                                'param_transform': new_character_param_transform},
-#                        'list': {'authenticate': True,
-#                                 'filter': filter_list_characters},
-#                        'update': {'authenticate': True,
-#                                   'schema': UpdateCharacterSchema,
-#                                   'param_transform': update_character_param_transform},
-#                        'delete': {'authenticate': True}
-#                        }}
-
-
 class Character(Base, JSONAPIMixin):
 
     __tablename__ = 'characters'
@@ -173,7 +160,7 @@ class Character(Base, JSONAPIMixin):
     game = relationship('Game')
 
     __create_schema__ = JSONAPISchema('characters',
-                                      attribute_schema=DynamicSchema({'rule_set': validators.OneOf(['dnd', 'eote'],
+                                      attribute_schema=DynamicSchema({'rule_set': validators.OneOf(['dnd5e', 'eote'],
                                                                                                    not_empty=True)}),
                                       relationship_schema=DynamicSchema({'game': {'data': {'type': validators.OneOf(['games'],
                                                                                                                     not_empty=True),
@@ -181,9 +168,19 @@ class Character(Base, JSONAPIMixin):
                                                                          'user': {'data': {'type': validators.OneOf(['users'],
                                                                                                                     not_empty=True),
                                                                                            'id': validators.Number}}}))
+    __update_schema__ = JSONAPISchema('characters',
+                                      attribute_schema=DynamicSchema({'stats': foreach.ForEach(DictValidator())}))
 
     __json_attributes__ = ['rule_set', 'stats']
     __json_relationships__ = ['user', 'game']
+    __json_computed__ = ['title']
+
+    def title(self, request):
+        if self.attr:
+            attrs = json.loads(self.attr)
+            if 'title' in RULE_SETS[self.rule_set] and RULE_SETS[self.rule_set]['title'] in attrs:
+                return attrs[RULE_SETS[self.rule_set]['title']]
+        return 'Unnamed'
 
     @property
     def stats(self):
@@ -192,57 +189,57 @@ class Character(Base, JSONAPIMixin):
         stats = []
         if 'stats' in rule_set:
             for source_table in rule_set['stats']:
-                stat_table = {'id': '%s.%s' % (self.id, source_table['id']),
+                table_id = source_table['id']
+                stat_table = {'id': table_id,
                               'title': source_table['title'],
                               'rows': []}
                 if 'columns' in source_table:
                     stat_table['columns'] = deepcopy(source_table['columns'])
                 for source_row in source_table['rows']:
-                    row_id = '%s.%s.%s._row' % (self.id, source_table['id'], source_row['id'])
-                    if 'multirow' in source_row and source_row['multirow']:
-                        if '%s.%s._ids' % (source_table['id'], source_row['id']) in attrs:
-                            multirow_ids = attrs['%s.%s._ids' % (source_table['id'], source_row['id'])]
-                            multirow_ids.append(max(multirow_ids) + 1)
+                    multirow = 'multirow' in source_row and source_row['multirow']
+                    if multirow:
+                        if '%s.__rowids' % table_id in attrs:
+                            rowids = attrs['%s.__rowids' % table_id]
+                            rowids.append(max(rowids) + 1)
                         else:
-                            multirow_ids = [0]
+                            rowids = [0]
                     else:
-                        multirow_ids = [None]
-                    for idx, multirow_id in enumerate(multirow_ids):
-                        if 'multirow' in source_row and source_row['multirow']:
-                            stat_row = {'id': row_id % multirow_id,
-                                        'columns': []}
-                            if 'title' in source_row:
-                                stat_row['title'] = '%i' % (idx + 1)
-                        else:
-                            stat_row = {'id': row_id,
-                                        'columns': []}
-                            if 'title' in source_row:
-                                stat_row['title'] = source_row['title']
+                        rowids = [None]
+                    for rowid in rowids:
+                        stat_row = {'columns': []}
+                        if 'title' in source_row:
+                            stat_row['title'] = source_row['title']
+                        if multirow:
+                            stat_row['multirow'] = rowid
                         for source_column in source_row['columns']:
-                            if 'multirow' in source_row and source_row['multirow']:
-                                column_id = source_column['id'] % (multirow_id,)
-                            else:
-                                column_id = source_column['id']
-                            stat_column = {'id': '%s.%s.%s' % (self.id, source_table['id'], column_id),
-                                       'data_type': source_column['data_type'],
-                                       'editable': source_column['editable'],
-                                       'value': None}
+                            column_id = '%s.%s' % (source_table['id'], source_column['id'])
+                            if multirow:
+                                column_id = column_id % rowid
+                            stat_column = {'id': column_id,
+                                           'data_type': source_column['data_type'],
+                                           'editable': source_column['editable']}
                             if 'options' in source_column:
                                 stat_column['options'] = source_column['options']
                             if 'formula' in source_column:
-                                if 'multirow' in source_row:
-                                    formula = source_column['formula'] % {'rowid': multirow_id}
+                                # Handle calculated fields
+                                if multirow:
+                                    formula = source_column['formula'] % {'rowid': rowid}
                                 else:
                                     formula = source_column['formula']
                                 tokens = add_variables(tokenise(formula), attrs)
                                 total = calculate(infix_to_postfix(tokens))
                                 stat_column['value'] = total
-                                attrs['%s.%s' % (source_table['id'], column_id)] = total
+                                attrs[column_id] = total
                             else:
-                                key = '%s.%s' % (source_table['id'], column_id)
-                                if key in attrs:
-                                    stat_column['value'] = attrs[key]
+                                if column_id in attrs:
+                                    stat_column['value'] = attrs[column_id]
+                                else:
+                                    stat_column['value'] = ''
+                            if 'action' in source_row:
+                                pass
                             stat_row['columns'].append(stat_column)
+                        stat_table['rows'].append(stat_row)
+                    """
                         for stat_column, source_column in zip(stat_row['columns'], source_row['columns']):
                             if 'action' in source_column:
                                 if 'action_title' in source_column:
@@ -280,118 +277,32 @@ class Character(Base, JSONAPIMixin):
                             else:
                                 stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
                             stat_row['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
-                        stat_table['rows'].append(stat_row)
+                        stat_table['rows'].append(stat_row)"""
                 stats.append(stat_table)
         return stats
 
+    @stats.setter
+    def stats(self, data):
+        attrs = {}
+        for table in data:
+            rowids = []
+            for row in table['rows']:
+                multirow = 'multirow' in row
+                has_value = False
+                for column in row['columns']:
+                    if 'editable' in column and column['editable']:
+                        if 'value' in column:
+                            if column['value']:
+                                attrs[column['id']] = column['value']
+                                has_value = True
+                if multirow and has_value:
+                    rowids.append(row['multirow'])
+            if rowids:
+                attrs['%s.__rowids' % table['id']] = rowids
+        self.attr = json.dumps(attrs)
+
     def allow(self, user, action):
         return True
-
-    def as_old_dict(self):
-        attrs = json.loads(self.attr) if self.attr else {}
-        rule_set = deepcopy(RULE_SETS[self.rule_set]) if self.rule_set else {}
-        stats = []
-        if 'stats' in rule_set:
-            for source_table in rule_set['stats']:
-                stat_table = {'id': '%s.%s' % (self.id, source_table['id']),
-                              'title': source_table['title'],
-                              'rows': []}
-                if 'columns' in source_table:
-                    stat_table['columns'] = deepcopy(source_table['columns'])
-                for source_row in source_table['rows']:
-                    row_id = '%s.%s.%s._row' % (self.id, source_table['id'], source_row['id'])
-                    if 'multirow' in source_row and source_row['multirow']:
-                        if '%s.%s._ids' % (source_table['id'], source_row['id']) in attrs:
-                            multirow_ids = attrs['%s.%s._ids' % (source_table['id'], source_row['id'])]
-                            multirow_ids.append(max(multirow_ids) + 1)
-                        else:
-                            multirow_ids = [0]
-                    else:
-                        multirow_ids = [None]
-                    for idx, multirow_id in enumerate(multirow_ids):
-                        if 'multirow' in source_row and source_row['multirow']:
-                            stat_row = {'id': row_id % multirow_id,
-                                        'columns': []}
-                            if 'title' in source_row:
-                                stat_row['title'] = '%i' % (idx + 1)
-                        else:
-                            stat_row = {'id': row_id,
-                                        'columns': []}
-                            if 'title' in source_row:
-                                stat_row['title'] = source_row['title']
-                        for source_column in source_row['columns']:
-                            if 'multirow' in source_row and source_row['multirow']:
-                                column_id = source_column['id'] % (multirow_id,)
-                            else:
-                                column_id = source_column['id']
-                            stat_column = {'id': '%s.%s.%s' % (self.id, source_table['id'], column_id),
-                                       'data_type': source_column['data_type'],
-                                       'editable': source_column['editable'],
-                                       'value': None}
-                            if 'options' in source_column:
-                                stat_column['options'] = source_column['options']
-                            if 'formula' in source_column:
-                                if 'multirow' in source_row:
-                                    formula = source_column['formula'] % {'rowid': multirow_id}
-                                else:
-                                    formula = source_column['formula']
-                                tokens = add_variables(tokenise(formula), attrs)
-                                total = calculate(infix_to_postfix(tokens))
-                                stat_column['value'] = total
-                                attrs['%s.%s' % (source_table['id'], column_id)] = total
-                            else:
-                                key = '%s.%s' % (source_table['id'], column_id)
-                                if key in attrs:
-                                    stat_column['value'] = attrs[key]
-                            stat_row['columns'].append(stat_column)
-                        for stat_column, source_column in zip(stat_row['columns'], source_row['columns']):
-                            if 'action' in source_column:
-                                if 'action_title' in source_column:
-                                    action_title = source_column['action_title']
-                                else:
-                                    action_title = source_row['title']
-                                if 'multirow' in source_row and source_row['multirow']:
-                                    action = source_column['action'] % {'rowid': multirow_id}
-                                    action_title = action_title % {'rowid': multirow_id}
-                                else:
-                                    action = source_column['action']
-                                stat_column['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
-                                stat_column['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
-                        if 'action' in source_row:
-                            if 'action_title' in source_row:
-                                action_title = source_row['action_title']
-                            else:
-                                action_title = source_row['title']
-                            if 'multirow' in source_row and source_row['multirow']:
-                                action = source_row['action'] % {'rowid': multirow_id}
-                                action_title = action_title % {'rowid': multirow_id}
-                            else:
-                                action = source_row['action']
-                            if 'action_calculate' in source_row and source_row['action_calculate']:
-                                calc_match = re.search(re.compile('\$([^$]*)\$'), action)
-                                while calc_match:
-                                    if calc_match.group(0).strip() == '':
-                                        break
-                                    action = re.sub(re.compile('\$([^$]*)\$'),
-                                                    str(calculate(infix_to_postfix(add_variables(tokenise(calc_match.group(1)), attrs)))),
-                                                    action,
-                                                    count=1)
-                                    calc_match = re.search(re.compile('\$([^$]*)\$'), action)
-                                stat_row['action'] = action
-                            else:
-                                stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
-                            stat_row['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
-                        stat_table['rows'].append(stat_row)
-                stats.append(stat_table)
-        title = 'Unnamed'
-        if 'title' in rule_set and rule_set['title'] in attrs:
-            title = attrs[rule_set['title']]
-        return {'id': self.id,
-                'title': title,
-                'user': self.user_id,
-                'game': self.game_id,
-                'ruleSet': self.rule_set,
-                'stats': stats}
 
 
 register_component('characters', Character, actions=['new', 'item', 'update'])

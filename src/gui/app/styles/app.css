@@ -42,7 +42,7 @@ h1 small a {
 #session-window .characters {
     flex-grow: 2;
 }
-.characters .input-group {
+.characters .input-group, .characters select, .characters input {
     margin-bottom: 0;
 }
 .characters .button.cancel {
