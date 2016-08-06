@@ -1,0 +1,24 @@
+<article class="row">
+  <div class="column small-12">
+    <h1>New Character for {{parent.model.title}}</h1>
+    <form {{action 'create' on='submit'}}>
+      <div class="row">
+        <div class="column small-12 medium-8 large-4">
+          {{#fd-input error=errors.rule-set label='Rule Set'}}
+            <select onchange={{action (mut rule-set) value='target.value'}}>
+              <option value="" selected={{eq dice-roller ''}}>--- Please select ---</option> 
+              <option value="dnd5e" selected={{eq dice-roller 'dnd'}}>Dungeons &amp; Dragons 5th Edition</option>
+              <option value="eote" selected={{eq dice-roller 'eote'}}>Edge of the Empire</option>
+            </select>
+          {{/fd-input}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="column small-12 medium-8 large-4 text-right">
+          {{#link-to 'games.game.index' parent.model.id class='button secondary'}}Don't Add{{/link-to}}
+          <input type="submit" value="Add" class="button"/>
+        </div>
+      </div>
+    </form>
+  </div>
+</article>

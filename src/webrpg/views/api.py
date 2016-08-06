@@ -155,6 +155,8 @@ def handle_item(request):
     if model_name in COMPONENTS:
         if request.method == 'GET' and 'item' in COMPONENTS[model_name]['actions']:
             return handle_single_model(request, model_name)
+        elif request.method == 'PATCH' and 'update' in COMPONENTS[model_name]['actions']:
+            return handle_single_model(request, model_name)
         else:
             raise raise_json_exception(HTTPMethodNotAllowed)
     else:

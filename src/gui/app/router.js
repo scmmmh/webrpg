@@ -13,6 +13,7 @@ Router.map(function() {
     this.route('game', {path: '/:gid'}, function() {
       this.route('new-session');
       this.route('session', {path: '/:sid'});
+      this.route('new-character');
     });
   });
   this.route('register');
