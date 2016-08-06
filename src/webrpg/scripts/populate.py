@@ -14,6 +14,7 @@ def init(subparsers):
     parser.set_defaults(func=initialise_database)
 
 def initialise_database(args):
+    from webrpg.components import character, chat_message, game, map, rule_set, session, user
     settings = get_appsettings(args.configuration)
     setup_logging(args.configuration)
     engine = engine_from_config(settings, 'sqlalchemy.')
