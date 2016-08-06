@@ -53,8 +53,9 @@ def get_current_user():
                 auth = request.headers['X-WebRPG-Authentication'].split(':')
                 if len(auth) == 2:
                     dbsession = DBSession()
-                    user = dbsession.query(User).filter(User.id == auth[0]).first()
-                    request.current_user = user
+                    if auth[0] and auth[0] != 'null':
+                        user = dbsession.query(User).filter(User.id == auth[0]).first()
+                        request.current_user = user
         return f(*args, **kwargs)
     return decorator(wrapper)
 
