@@ -1,0 +1,69 @@
+<div class="row">
+  <h3 class="small-8 column">{{#if character.title}}{{character.title}}{{else}}Unnamed{{/if}}</h3>
+  <div class="small-4 column text-right">
+    {{#if allow_delete}}
+      <a {{action 'delete-character' character}} class="button small alert">Delete</a>
+    {{/if}}
+  </div>
+</div>
+{{#fd-accordion data-options='allowAllClosed: true;'}}
+  {{#each character.stats as |stat_table|}}
+    {{#fd-accordion-item title=stat_table.title}}
+      <table>
+        {{#if stat_table.columns}}
+          <thead>
+            <tr>
+              {{#each stat_table.columns as |stat_column|}}
+                <th>{{stat_column}}</th>
+              {{/each}}
+            </tr>
+          </thead>
+        {{/if}}
+        <tbody>
+          {{#each stat_table.rows as |stat_row|}}
+            <tr>
+              {{#if stat_row.title}}
+                <th>{{stat_row.title}}</th>
+              {{/if}}
+              {{#each stat_row.columns as |stat_column|}}
+                <td>
+                  {{#if stat_column.isEditing}}
+                    <div class="input-group">
+                      {{#if (eq stat_column.data_type 'string')}}
+                        {{input type="text" value=stat_column.value class='input-group-field'}}
+                      {{/if}}
+                      <div class="input-group-button">
+                        <button {{action 'cancel-edit' character stat_column}} class="button cancel"><span class="fi-x"></span></button><button {{action 'save-edit' character stat_column}} class="button ok"><span class="fi-check"></span></button>
+                      </div>
+                    </div>
+                  {{else}}
+                    <div class="float-right">
+                      <a href="#" {{action 'start-edit' character stat_column}}><span class="fi-pencil"></span></a>
+                    </div>
+                    {{#if (eq stat_column.data_type 'string')}}
+                      {{stat_column.value}}
+                    {{/if}}
+                    {{#if (eq stat_column.data_type 'number')}}
+                      {{stat_column.value}}
+                    {{/if}}
+                    {{#if (eq stat_column.data_type 'boolean')}}
+                      {{#if stat_column.value}}
+                        <span class="fi-check"></span>
+                      {{/if}}
+                    {{/if}}
+                    {{#if (eq stat_column.data_type 'text')}}
+                      {{stat_column.value}}
+                    {{/if}}
+                    {{#if (eq stat_column.data_type 'option')}}
+                      {{stat_column.value}}
+                    {{/if}}
+                  {{/if}}
+                </td>
+              {{/each}}
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/fd-accordion-item}}
+  {{/each}}
+{{/fd-accordion}}

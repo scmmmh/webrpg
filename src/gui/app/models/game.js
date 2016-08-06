@@ -6,4 +6,5 @@ export default DS.Model.extend({
     owned: DS.attr('boolean', {defaultValue: false}),
     sessions: DS.hasMany('Session'),
     roles: DS.hasMany('GameRole'),
+    characters: DS.hasMany('Character')
 });
