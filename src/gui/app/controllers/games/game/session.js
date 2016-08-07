@@ -3,13 +3,6 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
     
-    init: function () {
-        this._super();
-        Ember.run.schedule("afterRender",this,function() {
-            Ember.$('#session-window').css('height', (Ember.$(window).innerHeight() - (Ember.$('.top-bar').outerHeight(true) + Ember.$('h1').outerHeight(true))) + 'px');
-        });
-    },
-    
     actions: {
         addChatMessage: function() {
             var controller = this;
