@@ -7,7 +7,8 @@
           {{#fd-input error=errors.rule-set label='Rule Set'}}
             <select onchange={{action (mut rule-set) value='target.value'}}>
               <option value="" selected={{eq dice-roller ''}}>--- Please select ---</option> 
-              <option value="dnd5e" selected={{eq dice-roller 'dnd'}}>Dungeons &amp; Dragons 5th Edition</option>
+              <option value="dnd5e" selected={{eq dice-roller 'dnd5e'}}>Dungeons &amp; Dragons 5th Edition</option>
+              <option value="dnd5em" selected={{eq dice-roller 'dnd5em'}}>Dungeons &amp; Dragons 5th Edition (Monster)</option>
               <option value="eote" selected={{eq dice-roller 'eote'}}>Edge of the Empire</option>
             </select>
           {{/fd-input}}
