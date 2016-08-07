@@ -27,10 +27,12 @@ h1 small a {
     flex-direction: column;
 }
 #session-window .main {
-    flex-grow: 1;
     display: flex;
+    flex-grow: 1;
+    overflow: hidden;
 }
 #session-window .bottom-bar {
+    min-height: 15rem;
     max-height: 15rem;
     display: flex;
     flex-direction: row;
@@ -40,7 +42,10 @@ h1 small a {
  * Character styling
  */
 #session-window .characters {
-    flex-grow: 2;
+    min-width: 30rem;
+    max-width: 30rem;
+    height: 100%;
+    overflow: auto;
 }
 .characters .input-group, .characters select, .characters input {
     margin-bottom: 0;
@@ -54,6 +59,12 @@ h1 small a {
 .characters .accordion-content {
     padding: 0;
 }
+.characters table {
+    margin-bottom: 0;
+}
+.characters table tbody th, .characters table tabody td {
+    vertical-align: top;
+}
 
 /**
  * Map styling
@@ -66,7 +77,8 @@ h1 small a {
  * Dice roller styling
  */
 #session-window .dice-roller {
-    flex-grow: 2;
+    min-width: 30rem;
+    max-width: 30rem;
 }
 
 /**

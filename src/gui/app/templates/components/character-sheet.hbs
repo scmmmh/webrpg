@@ -25,7 +25,13 @@
             {{#each stat_table.rows as |stat_row|}}
               <tr>
                 {{#if stat_row.title}}
-                  <th>{{stat_row.title}}</th>
+                  <th>
+                    {{#if (and action_handler stat_row.action)}}
+                      <a href="#" {{action action_handler 'chat' stat_row.action_title stat_row.action}}>{{stat_row.title}}</a>
+                    {{else}}
+                      {{stat_row.title}}
+                    {{/if}}
+                  </th>
                 {{/if}}
                 {{#each stat_row.columns as |stat_column|}}
                   <td>
@@ -60,26 +66,10 @@
                           <a href="#" {{action 'start-edit' character stat_column}}><span class="fi-pencil"></span></a>
                         </div>
                       {{/if}}
-                      {{#if (eq stat_column.data_type 'string')}}
-                        {{stat_column.value}}
-                      {{/if}}
-                      {{#if (eq stat_column.data_type 'number')}}
-                        {{#if (gt stat_column.value 0)}}
-                          +{{stat_column.value}}
-                        {{else}}
-                          {{stat_column.value}}
-                        {{/if}}
-                      {{/if}}
-                      {{#if (eq stat_column.data_type 'boolean')}}
-                        {{#if stat_column.value}}
-                          <span class="fi-check"></span>
-                        {{/if}}
-                      {{/if}}
-                      {{#if (eq stat_column.data_type 'text')}}
-                        {{stat_column.value}}
-                      {{/if}}
-                      {{#if (eq stat_column.data_type 'option')}}
-                        {{stat_column.value}}
+                      {{#if (and action_handler stat_column.action)}}
+                        <a href="#" {{action action_handler 'chat' stat_column.action_title stat_column.action}}>{{character-sheet-value stat_column.data_type stat_column.value}}</a>
+                      {{else}}
+                        {{character-sheet-value stat_column.data_type stat_column.value}}
                       {{/if}}
                     {{/if}}
                   </td>

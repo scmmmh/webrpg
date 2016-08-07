@@ -235,34 +235,28 @@ class Character(Base, JSONAPIMixin):
                                     stat_column['value'] = attrs[column_id]
                                 else:
                                     stat_column['value'] = ''
-                            if 'action' in source_row:
-                                pass
                             stat_row['columns'].append(stat_column)
-                        stat_table['rows'].append(stat_row)
-                    """
-                        for stat_column, source_column in zip(stat_row['columns'], source_row['columns']):
+                        for source_column, stat_column in zip(source_row['columns'], stat_row['columns']):
+                            # Calculate column-level actions
                             if 'action' in source_column:
                                 if 'action_title' in source_column:
                                     action_title = source_column['action_title']
                                 else:
-                                    action_title = source_row['title']
-                                if 'multirow' in source_row and source_row['multirow']:
-                                    action = source_column['action'] % {'rowid': multirow_id}
-                                    action_title = action_title % {'rowid': multirow_id}
+                                    action_title = source_column['title']
+                                if multirow:
+                                    action_title = action_title % {'rowid': rowid}
+                                    action = source_column['action'] % {'rowid': rowid}
                                 else:
                                     action = source_column['action']
                                 stat_column['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
                                 stat_column['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
                         if 'action' in source_row:
+                            # Calculate row-level actions
                             if 'action_title' in source_row:
-                                action_title = source_row['action_title']
+                                stat_row['action_title'] = source_row['action_title']
                             else:
-                                action_title = source_row['title']
-                            if 'multirow' in source_row and source_row['multirow']:
-                                action = source_row['action'] % {'rowid': multirow_id}
-                                action_title = action_title % {'rowid': multirow_id}
-                            else:
-                                action = source_row['action']
+                                stat_row['action_title'] = source_row['title']
+                            action = source_row['action']
                             if 'action_calculate' in source_row and source_row['action_calculate']:
                                 calc_match = re.search(re.compile('\$([^$]*)\$'), action)
                                 while calc_match:
@@ -276,8 +270,7 @@ class Character(Base, JSONAPIMixin):
                                 stat_row['action'] = action
                             else:
                                 stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
-                            stat_row['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
-                        stat_table['rows'].append(stat_row)"""
+                        stat_table['rows'].append(stat_row)
                 stats.append(stat_table)
         return stats
 
