@@ -106,6 +106,14 @@ def add_dice(tokens):
 
 
 def add_variables(tokens, values):
+    def minimalist_value(value):
+        try:
+            if value.is_integer():
+                return str(int(value))
+            else:
+                return str(value)
+        except:
+            return str(value)
     new_tokens = []
     for token in tokens:
         if token[0] == 'val':
@@ -118,7 +126,7 @@ def add_variables(tokens, values):
                                 if values[match.group(1)] is None:
                                     new_tokens.append(('val', '0'))
                                 else:
-                                    new_tokens.append(('val', str(values[match.group(1)])))
+                                    new_tokens.append(('val', minimalist_value(values[match.group(1)])))
                             except:
                                 new_tokens.append(('val', '0'))
                         else:
@@ -136,12 +144,12 @@ def add_variables(tokens, values):
                                 if values[match.group(1)] is None:
                                     new_tokens.append(('val', '0'))
                                 else:
-                                    new_tokens.append(('val', str(values[match.group(1)])))
+                                    new_tokens.append(('val', minimalist_value(values[match.group(1)])))
                             elif not values[match.group(2)] and match.group(3) in values:
                                 if values[match.group(3)] is None:
                                     new_tokens.append(('val', '0'))
                                 else:
-                                    new_tokens.append(('val', str(values[match.group(3)])))
+                                    new_tokens.append(('val', minimalist_value(values[match.group(3)])))
                             else:
                                 new_tokens.append(('val', '0'))
                         else:
@@ -157,16 +165,16 @@ def add_variables(tokens, values):
                                     if values[match.group(1)] is None:
                                         new_tokens.append(('val', '0'))
                                     else:
-                                        new_tokens.append(('val', str(values[match.group(1)])))
+                                        new_tokens.append(('val', minimalist_value(values[match.group(1)])))
                                 elif match.group(4) in values:
                                     if values[match.group(4)] is None:
                                         new_tokens.append(('val', '0'))
                                     else:
-                                        new_tokens.append(('val', str(values[match.group(4)])))
+                                        new_tokens.append(('val', minimalist_value(values[match.group(4)])))
                                 else:
                                     new_tokens.append(('val', '0'))
                             elif match.group(4) in values:
-                                new_tokens.append(('val', str(values[match.group(4)])))
+                                new_tokens.append(('val', minimalist_value(values[match.group(4)])))
                             else:
                                 new_tokens.append(('val', '0'))
                         else:
