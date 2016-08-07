@@ -14,8 +14,20 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                 session_id: params.sid
             });
         }, 2000));
+        Ember.run.schedule("afterRender",this,function() {
+            Ember.$('#session-window').css('height', (Ember.$(window).innerHeight() - (Ember.$('.top-bar').outerHeight(true) + Ember.$('h1').outerHeight(true))) + 'px');
+        });
+        Ember.$(window).on('resize', function() {
+            clearTimeout(route.get('window-resize-timeout'));
+            route.set('window-resize-timeout', setTimeout(function() {
+                Ember.run.schedule("afterRender",this,function() {
+                    Ember.$('#session-window').css('height', (Ember.$(window).innerHeight() - (Ember.$('.top-bar').outerHeight(true) + Ember.$('h1').outerHeight(true))) + 'px');
+                });
+            }, 100));
+        });
     },
     deactivate: function() {
         clearInterval(this.get('chat-messages-timer'));
+        Ember.$(window).off('resize');
     }
 });

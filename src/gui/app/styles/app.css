@@ -37,6 +37,15 @@ h1 small a {
     display: flex;
     flex-direction: row;
 }
+#session-window .accordion-title {
+    padding: 0.4rem;
+}
+#session-window .accordion-content table {
+    font-size: 0.8rem;
+}
+#session-window .accordion-content table tbody th, #session-window .accordion-content table tbody td {
+    padding: 0.4rem;
+}
 
 /**
  * Character styling
