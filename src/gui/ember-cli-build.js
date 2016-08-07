@@ -22,6 +22,7 @@ module.exports = function(defaults) {
   app.import('bower_components/foundation-sites/dist/foundation.min.css');
   app.import('bower_components/foundation-sites/dist/foundation.min.js');
   app.import('vendor/foundation-icons.css');
+  app.import('vendor/eote-icons.css');
 
   return app.toTree();
 };

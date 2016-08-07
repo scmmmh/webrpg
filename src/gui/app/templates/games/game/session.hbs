@@ -22,7 +22,7 @@
             {{#each model.chatMessages as |chatMessage|}}
               <li>
                 <div>{{chatMessage.user.displayName}}:</div>
-                <div>{{chatMessage.message}}</div>
+                <div>{{{chatMessage.message}}}</div>
               </li>
             {{/each}}
           </ol>

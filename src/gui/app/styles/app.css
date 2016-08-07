@@ -101,6 +101,7 @@ h1 small a {
     font-weight: bold;
     flex-grow: 1;
     max-width: 10rem;
+    min-width: 10rem;
 }
 #session-window .chat-message-list li:nth-child(2n) div:nth-child(1) {
     background: #f6f6f6;
