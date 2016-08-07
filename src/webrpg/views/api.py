@@ -9,7 +9,8 @@ import transaction
 
 from decorator import decorator
 from formencode import Invalid, FancyValidator
-from pyramid.httpexceptions import (HTTPNotFound, HTTPMethodNotAllowed, HTTPClientError, HTTPUnauthorized)
+from pyramid.httpexceptions import (HTTPNotFound, HTTPMethodNotAllowed, HTTPClientError, HTTPUnauthorized,
+    HTTPNoContent)
 from pyramid.request import Request
 from pyramid.view import view_config
 
@@ -166,6 +167,17 @@ def update_single_model(request, model_name):
         raise_json_exception(HTTPNotFound)
 
 
+def delete_single_model(request, model_name):
+    dbsession = DBSession()
+    item = dbsession.query(COMPONENTS[model_name]['class']).filter(COMPONENTS[model_name]['class'].id == request.matchdict['iid']).first()
+    if item:
+        with transaction.manager:
+            dbsession.delete(item)
+        raise_json_exception(HTTPNoContent)
+    else:
+        raise_json_exception(HTTPNotFound)
+
+
 @view_config(route_name='api.item', renderer='json')
 @get_current_user()
 @json_defaults()
@@ -176,6 +188,8 @@ def handle_item(request):
             return handle_single_model(request, model_name)
         elif request.method == 'PATCH' and 'update' in COMPONENTS[model_name]['actions']:
             return update_single_model(request, model_name)
+        elif request.method == 'DELETE' and 'update' in COMPONENTS[model_name]['actions']:
+            return delete_single_model(request, model_name)
         else:
             raise raise_json_exception(HTTPMethodNotAllowed)
     else:
