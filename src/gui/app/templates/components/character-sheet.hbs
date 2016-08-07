@@ -1,9 +1,10 @@
 <div class="row">
-  <h3 class="small-8 column">{{#if character.title}}{{character.title}}{{else}}Unnamed{{/if}}</h3>
-  <div class="small-4 column text-right">
-    {{#if allow_delete}}
-      <a {{action 'delete-character' character}} class="button small alert">Delete</a>
-    {{/if}}
+  <div class="column small-12">
+    <div class="float-right">
+      <a href="#" {{action 'delete' character}}><span class="fi-trash"></span></a>
+      <a href="#" {{action 'reload' character}}><span class="fi-refresh"></span></a>
+    </div>
+    <h3>{{#if character.title}}{{character.title}}{{else}}Unnamed{{/if}}</h3>
   </div>
 </div>
 {{#fd-accordion data-options='allowAllClosed: true; slideSpeed: 0;'}}

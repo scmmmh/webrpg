@@ -295,7 +295,10 @@ class Character(Base, JSONAPIMixin):
         self.attr = json.dumps(attrs)
 
     def allow(self, user, action):
-        return True
+        if user and self.user_id == user.id:
+            return True
+        else:
+            return self.game.has_role(user, 'owner')
 
 
-register_component('characters', Character, actions=['new', 'item', 'update'])
+register_component('characters', Character, actions=['new', 'list', 'item', 'update'])
