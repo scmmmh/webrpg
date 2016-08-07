@@ -4,7 +4,11 @@
     <div id="session-window">
       <div class="main">
         <div class="characters">
-          Characters
+          <ul class="no-bullet">
+            {{#each model.game.characters as |character|}}
+              <li>{{character-sheet character=character action_handler=(action 'csAction')}}</li>
+            {{/each}}
+          </ul>
         </div>
         <div class="maps">
           Maps

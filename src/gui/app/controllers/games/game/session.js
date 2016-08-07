@@ -27,6 +27,12 @@ export default Ember.Controller.extend({
                     });
                 }
             });
+        },
+        csAction: function(type, title, content) {
+            if(type == 'chat') {
+                this.set('chatMessage', title + ': ' + content);
+                Ember.$('.chat input[type=text').focus();
+            }
         }
     }
 });
