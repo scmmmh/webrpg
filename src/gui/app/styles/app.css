@@ -30,6 +30,7 @@ h1 small a {
     display: flex;
     flex-grow: 1;
     overflow: hidden;
+    box-sizing: border-box;
 }
 #session-window .bottom-bar {
     min-height: 15rem;
@@ -55,6 +56,8 @@ h1 small a {
     max-width: 30rem;
     height: 100%;
     overflow: auto;
+    box-sizing: border-box;
+    padding-right: 0.4rem;
 }
 .characters .input-group, .characters select, .characters input {
     margin-bottom: 0;
@@ -64,6 +67,9 @@ h1 small a {
 }
 .characters .button.ok {
     background-color: #00cc00;
+}
+.characters .accordion {
+    margin-bottom: 1rem;
 }
 .characters .accordion-content {
     padding: 0;
@@ -80,6 +86,8 @@ h1 small a {
  */
 #session-window .maps {
     flex-grow: 10;
+    box-sizing: border-box;
+    padding-left: 0.4rem;
 }
  
 /**
@@ -88,6 +96,8 @@ h1 small a {
 #session-window .dice-roller {
     min-width: 30rem;
     max-width: 30rem;
+    box-sizing: border-box;
+    padding-right: 0.4rem;
 }
 
 /**
@@ -97,6 +107,9 @@ h1 small a {
     display: flex;
     flex-direction: column;
     flex-grow: 10;
+    box-sizing: border-box;
+    padding-top: 0.4rem;
+    padding-left: 0.4rem;
 }
 #session-window .chat-message-list {
     overflow: auto;
@@ -106,18 +119,22 @@ h1 small a {
     display: flex;
     flex-direction: row;
 }
+#session-window .chat-message-list li div {
+    box-sizing: border-box;
+    padding: 0 0.4rem;
+}
 #session-window .chat-message-list li div:nth-child(1) {
-    background: #e6e6e6;
+    background: #f6f6f6;
     font-weight: bold;
     flex-grow: 1;
     max-width: 10rem;
     min-width: 10rem;
 }
 #session-window .chat-message-list li:nth-child(2n) div:nth-child(1) {
-    background: #f6f6f6;
+    background: #ffffff;
 }
 #session-window .chat-message-list li div:nth-child(2) {
-    background: #f0f0f0;
+    background: #f6f6f6;
     flex-grow: 11;
 }
 #session-window .chat-message-list li:nth-child(2n) div:nth-child(2) {
