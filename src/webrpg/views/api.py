@@ -86,8 +86,15 @@ def handle_list_model(request, model_name):
     cls = COMPONENTS[model_name]['class']
     query = dbsession.query(cls)
     for key, value in request.params.items():
+        comparator = 'eq'
+        if key.startswith('$') and key.find(':') > 0:
+            comparator = key[1:key.find(':')]
+            key = key[key.find(':') + 1:]
         if hasattr(cls, key):
-            query = query.filter(getattr(cls, key) == value)
+            if comparator == 'eq':
+                query = query.filter(getattr(cls, key) == value)
+            elif comparator == 'gt':
+                query = query.filter(getattr(cls, key) > value)
     response = {'data': [],
                 'included': []}
     for obj in query:
