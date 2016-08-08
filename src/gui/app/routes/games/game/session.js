@@ -12,6 +12,16 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         route.set('chat-messages-timer', setInterval(function() {
             route.store.query('ChatMessage', {
                 session_id: params.sid
+            }).then(function(data) {
+                Ember.run.schedule('afterRender', this, function() {
+                    var messages = Ember.$('.chat-message-list');
+                    var scrollTop = messages.scrollTop();
+                    var innerHeight = messages.innerHeight();
+                    var last_top = messages.children(':last-child()').position().top;
+                    if(scrollTop + innerHeight / 2 > last_top) {
+                        Ember.$('.chat-message-list').scrollTop(scrollTop + 1000);
+                    }
+                });
             });
         }, 2000));
         Ember.run.schedule("afterRender",this,function() {
@@ -20,7 +30,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         Ember.$(window).on('resize', function() {
             clearTimeout(route.get('window-resize-timeout'));
             route.set('window-resize-timeout', setTimeout(function() {
-                Ember.run.schedule("afterRender",this,function() {
+                Ember.run.schedule("afterRender",this, function() {
                     Ember.$('#session-window').css('height', (Ember.$(window).innerHeight() - (Ember.$('.top-bar').outerHeight(true) + Ember.$('h1').outerHeight(true))) + 'px');
                 });
             }, 100));
