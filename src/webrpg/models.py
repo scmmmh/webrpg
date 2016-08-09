@@ -1,19 +1,12 @@
-import hashlib
 import inflection
-import json
-import random
-import re
 
-from copy import deepcopy
 from formencode import Invalid
-from sqlalchemy import (Column, Integer, Unicode, UnicodeText, ForeignKey)
 from sqlalchemy.ext.declarative import (declarative_base)
-from sqlalchemy.orm import (scoped_session, sessionmaker, relationship)
+from sqlalchemy.orm import (scoped_session, sessionmaker)
 from zope.sqlalchemy import ZopeTransactionExtension
 
 from webrpg.components import COMPONENTS
-from webrpg.calculator import (tokenise, add_variables, infix_to_postfix, calculate, process_unary)
-from webrpg.util import State
+from webrpg.util import State, DoNotStore
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
@@ -48,7 +41,7 @@ class JSONAPIMixin(object):
                                 raise Invalid('Relationship target "%s" with id "%s" does not exist' % (value['data']['type'], value['data']['id']), value, None)
             if 'attributes' in data:
                 for key, value in data['attributes'].items():
-                    if hasattr(obj, key):
+                    if hasattr(obj, key) and value != DoNotStore:
                         setattr(obj, key, value)
             return obj
         else:
@@ -70,7 +63,7 @@ class JSONAPIMixin(object):
                                 raise Invalid('Relationship target "%s" with id "%s" does not exist' % (value['data']['type'], value['data']['id']), value, None)
             if 'attributes' in data:
                 for key, value in data['attributes'].items():
-                    if hasattr(self, key):
+                    if hasattr(self, key) and value != DoNotStore:
                         setattr(self, key, value)
 
     def as_dict(self, request=None, depth=1):
@@ -125,19 +118,3 @@ class JSONAPIMixin(object):
                         if rel_included:
                             included.extend(rel_included)
         return data, included
-
-
-class SessionRole(Base):
-    
-    __tablename__ = 'sessions_roles'
-    
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id', name='session_roles_user_id_fk'))
-    session_id = Column(Integer, ForeignKey('sessions.id', name='sessions_roles_session_id_fk'))
-    role = Column(Unicode(255))
-    
-    def as_dict(self):
-        return {'id': self.id,
-                'user': self.user_id,
-                'session': self.session_id,
-                'role': self.role}
