@@ -49,7 +49,8 @@ class EmberSchema(Schema):
 
 class DynamicSchema(EmberSchema):
 
-    def __init__(self, fields):
+    def __init__(self, fields, *args, **kwargs):
+        EmberSchema.__init__(self, *args, **kwargs)
         for key, value in fields.items():
             if isinstance(value, dict):
                 self.add_field(key, DynamicSchema(value))
