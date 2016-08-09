@@ -6,5 +6,5 @@ export default DS.Model.extend({
     
     game: DS.belongsTo('Game'),
     chatMessages: DS.hasMany('ChatMessage'),
-    //maps: DS.hasMany('Map')
+    maps: DS.hasMany('Map')
 });

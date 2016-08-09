@@ -4,64 +4,42 @@ u"""
 .. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
 
-from formencode import validators, All, Invalid
-from sqlalchemy import and_
+from formencode import validators
+from sqlalchemy import Column, Integer, ForeignKey, Unicode, UnicodeText
+from sqlalchemy.orm import relationship
 
-from webrpg.components.game import Game, GameRole
-from webrpg.components.session import Session
-from webrpg.models import (DBSession, Map)
-from webrpg.util import (EmberSchema)
-
-
-class NewMapSchema(EmberSchema):
-    
-    title = validators.UnicodeString(not_empty=True)
+from webrpg.components import register_component
+from webrpg.models import (Base, JSONAPIMixin)
+from webrpg.util import JSONAPISchema, DynamicSchema
 
 
-def new_map_param_transform(params):
-    return {'title': params['title'],
-            'session_id': params['session'],
-            'map': '',
-            'fog': ''}
+class Map(Base, JSONAPIMixin):
+
+    __tablename__ = 'maps'
+
+    id = Column(Integer, primary_key=True)
+    session_id = Column(Integer, ForeignKey('sessions.id', name='maps_session_id_fk'))
+    title = Column(Unicode(255))
+    map = Column(UnicodeText)
+    fog = Column(UnicodeText)
+
+    session = relationship('Session')
+
+    __create_schema__ = JSONAPISchema('maps',
+                                      attribute_schema=DynamicSchema({'title': validators.UnicodeString(not_empty=True)}),
+                                      relationship_schema=DynamicSchema({'session': {'data': {'type': validators.OneOf(['sessions'],
+                                                                                                                       not_empty=True),
+                                                                                              'id': validators.Number}}}))
+    __update_schema__ = JSONAPISchema('maps',
+                                      attribute_schema=DynamicSchema({'title': validators.UnicodeString(),
+                                                                      'map': validators.UnicodeString(),
+                                                                      'fog': validators.UnicodeString()}))
+
+    __json_attributes__ = ['title', 'map', 'fog']
+    __json_relationships__ = ['session']
+
+    def allow(self, user, action):
+        return True
 
 
-def new_map_authorisation(request, params):
-    user = get_current_user(request)
-    if user:
-        dbsession = DBSession()
-        #game = dbsession.query(Game).join(Game.roles, Session.game).filter(and_(Session.id == params['session_id'],
-        #                                                                        GameRole.user_id == user.id,
-        #                                                                        GameRole.role == 'owner')).first()
-        game = True
-        if game:
-            return True
-        else:
-            return False
-    else:
-        return False
-
-
-class UpdateMapSchema(EmberSchema):
-    
-    title = validators.UnicodeString(not_empty=True)
-    map = validators.UnicodeString()
-    fog = validators.UnicodeString()
-
-
-def update_map_param_transform(map, params):
-    return {'title': params['title'],
-            'session_id': params['session'],
-            'map': params['map'] if params['map'] else map.map,
-            'fog': params['fog'] if params['fog'] else map.fog}
-
-
-MODELS = {'map': {'class': Map,
-                      'new': {'schema': NewMapSchema,
-                              'authentication': True,
-                              'authorisation': new_map_authorisation,
-                              'param_transform': new_map_param_transform},
-                      'list': {'authenticate': True},
-                      'item': {'authenticate': True},
-                      'update': {'authenticate': True,
-                                 'schema': UpdateMapSchema,
-                                 'param_transform': update_map_param_transform},}}
+register_component('maps', Map, actions=['new', 'list', 'item', 'update'])

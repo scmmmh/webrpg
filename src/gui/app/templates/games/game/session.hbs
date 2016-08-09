@@ -11,7 +11,62 @@
           </ul>
         </div>
         <div class="maps">
-          Maps
+          <div class="map-bar">
+            {{#if model.game.owned}}
+              <div class="float-right">
+                {{#if addingMap}}
+                  <form {{action 'saveMap' on='submit'}} class="input-group">
+                    {{input value=mapTitle type="text" class="input-group-field" placeholder="Enter the new map's title"}}
+                    <div class="input-group-button">
+                      <button class="button cancel"><span class="fi-x"></span></button><button class="button ok"><span class="fi-check"></span></button>
+                    </div>
+                  </form>
+                {{else}}
+                  <button {{action 'addMap'}} class="button">New Map</button>
+                {{/if}}
+              </div>
+            {{/if}}
+            <ul class="menu">
+              <li class="menu-text">Maps:</li>
+              {{#each model.maps as |map|}}
+                <li class="{{if map.active 'active'}}">
+                  <a href="#" {{action 'selectMap' map}}>{{map.title}}</a>
+                </li>
+              {{else}}
+                <li class="menu-text">No maps</li>
+              {{/each}}
+            </ul>
+            {{#if selectedMap}}
+              <ul class="menu">
+                <li class="menu-text">{{selectedMap.title}}:</li>
+                <li><a href="#" {{action 'reloadMap' selectedMap}} title="Reload"><span class="fi-refresh"></span></a></li>
+                {{#if model.game.owned}}
+                  <li><a href="#" {{action 'uploadSelectMap' selectedMap}} title="Upload Map"><span class="fi-upload"></span></a><input id="mapFileUpload" type="file" class="show-for-sr" {{action 'uploadMap' selectedMap on='change'}}/></li>
+                  <li class="separator"></li>
+                  <li class="cursor-small {{if (eq cursorSize 10) 'active'}}"><a href="#" {{action 'setCursorSize' 10}} title="Small Cursor"><span class="fi-record"></span></a></li>
+                  <li class="cursor-medium {{if (eq cursorSize 30) 'active'}}"><a href="#" {{action 'setCursorSize' 30}} title="Medium Cursor"><span class="fi-record"></span></a></li>
+                  <li class="cursor-large {{if (eq cursorSize 90) 'active'}}"><a href="#" {{action 'setCursorSize' 90}} title="Small Cursor"><span class="fi-record"></span></a></li>
+                  <li class="separator"></li>
+                  <li class="cursor-large {{if (eq cursorMode 'reveal') 'active'}}"><a href="#" {{action 'setCursorMode' 'reveal'}} title="Reveal Map"><span class="fi-plus"></span></a></li>
+                  <li class="cursor-large {{if (eq cursorMode 'hide') 'active'}}"><a href="#" {{action 'setCursorMode' 'hide'}} title="Hide Map"><span class="fi-minus"></span></a></li>
+                {{/if}}
+                {{#if selectedMap.saving}}
+                  <li class="separator"></li>
+                  <li><span class="fi-save"></span></li>
+                {{/if}}
+              </ul>
+            {{/if}}
+          </div>
+          <div class="map-view">
+            {{#if selectedMap}}
+              <img src={{selectedMap.map}} class="map-data"/>
+              {{#if model.game.owned}}
+                {{map-overlay map=selectedMap cursorSize=cursorSize cursorMode=cursorMode}}
+              {{else}}
+                <img src={{selectedMap.fog}} class="map-fog"/>
+              {{/if}}
+            {{/if}}
+          </div>
         </div>
       </div>
       <div class="bottom-bar">

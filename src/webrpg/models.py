@@ -141,23 +141,3 @@ class SessionRole(Base):
                 'user': self.user_id,
                 'session': self.session_id,
                 'role': self.role}
-
-
-class Map(Base):
-
-    __tablename__ = 'maps'
-
-    id = Column(Integer, primary_key=True)
-    session_id = Column(Integer, ForeignKey('sessions.id', name='maps_session_id_fk'))
-    title = Column(Unicode(255))
-    map = Column(UnicodeText)
-    fog = Column(UnicodeText)
-
-    session = relationship('Session')
-
-    def as_dict(self):
-        return {'id': self.id,
-                'session': self.session_id,
-                'title': self.title,
-                'map': self.map,
-                'fog': self.fog}

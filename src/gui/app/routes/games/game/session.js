@@ -34,7 +34,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                     }
                 });
             });
-        }, 5000));
+        }, 10000));
         Ember.run.schedule("afterRender",this,function() {
             Ember.$('#session-window').css('height', (Ember.$(window).innerHeight() - (Ember.$('.top-bar').outerHeight(true) + Ember.$('h1').outerHeight(true))) + 'px');
         });

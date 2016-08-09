@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
+    cursorSize: 10,
+    cursorMode: 'reveal',
     
     actions: {
         addChatMessage: function() {
@@ -22,10 +24,69 @@ export default Ember.Controller.extend({
             });
         },
         csAction: function(type, title, content) {
-            if(type == 'chat') {
+            if(type === 'chat') {
                 this.set('chatMessage', title + ': ' + content);
                 Ember.$('.chat input[type=text').focus();
             }
+        },
+        addMap: function() {
+            var controller = this;
+            controller.set('addingMap', true);
+        },
+        cancelMap: function() {
+            var controller = this;
+            controller.set('mapTitle', '');
+            controller.set('addingMap', false);
+        },
+        saveMap: function() {
+            var controller = this;
+            var title = controller.get('mapTitle');
+            if(title) {
+                var map = controller.store.createRecord('map', {
+                    title: title,
+                    session: controller.get('model')
+                });
+                map.save().then(function() {
+                    controller.set('mapTitle', '');
+                    controller.set('addingMap', false);
+                });
+            }
+        },
+        reloadMap: function(map) {
+            map.reload();
+        },
+        uploadSelectMap: function() {
+            Ember.$('#mapFileUpload').click();
+        },
+        uploadMap: function(map) {
+            var controller = this;
+            var file = Ember.$('#mapFileUpload').get(0).files[0];
+            if(file) {
+                if(/^image\//.test(file.type)) {
+                    map.set('saving', true);
+                    map.set('map', '');
+                    map.set('fog', '');
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        map.set('map', event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        },
+        selectMap: function(map) {
+            var controller = this;
+            if(controller.get('selectedMap')) {
+                controller.set('selectedMap.activeactive', false);
+            }
+            map.set('active', true);
+            controller.set('selectedMap', map);
+        },
+        setCursorSize: function(size) {
+            this.set('cursorSize', size);
+        },
+        setCursorMode: function(mode) {
+            this.set('cursorMode', mode);
         }
     }
 });
