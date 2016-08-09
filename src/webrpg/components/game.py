@@ -56,7 +56,7 @@ class Game(Base, JSONAPIMixin):
         """Check if the given :class:`~webrpg.components.user.User` has the given
         ``role`` for this :class:`~webrpg.components.game.Game`."""
         for role_data in self.roles:
-            if role_data.role == role and role_data.user_id == user.id:
+            if user and role_data.role == role and role_data.user_id == user.id:
                 return True
         return False
 

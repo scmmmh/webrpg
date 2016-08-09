@@ -35,7 +35,7 @@ def json_defaults():
                 break
         if request:
             request.response.headers['Cache-Control'] = 'no-cache'
-            request.response.headers['Content-Type'] = 'application/vnd.api+json'
+            request.response.headers['Content-Type'] = 'application/vnd.api+json;charset=utf-8'
         return f(*args, **kwargs)
     return decorator(wrapper)
 
@@ -69,7 +69,7 @@ class JSONAPIValidator(FancyValidator):
 
     def _to_python(self, value, state):
         try:
-            value = json.loads(value)
+            value = json.loads(value.decode('utf-8'))
             if isinstance(value, dict):
                 if 'data' in value:
                     return value['data']

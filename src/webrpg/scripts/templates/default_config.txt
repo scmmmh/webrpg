@@ -7,21 +7,12 @@
 # *************************************
 # SQLAlchemy database connection string
 # *************************************
-sqlalchemy.url = ${sqlalchemy_url}
-
-# ******************************
-# Session handling configuration
-# ******************************
-beaker.session.lock_dir = %(here)s/tmp
-beaker.session.type = cookie
-beaker.session.key = webrpg
-beaker.session.encrypt_key = ${encrypt_key}
-beaker.session.validate_key = ${validate_key}
+sqlalchemy.url = %(sqlalchemy_url)s
 
 # *******************************
 # Pyramid framework configuration
 # *******************************
-pyramid.reload_templates = true
+pyramid.reload_templates = false
 pyramid.debug_authorization = false
 pyramid.debug_notfound = false
 pyramid.debug_routematch = false
