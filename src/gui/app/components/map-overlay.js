@@ -66,13 +66,21 @@ export default Ember.Component.extend({
     mouseUp: function(ev) {
         var component = this;
         component.set('isMouseDown', false);
+        var canvas = component.$();
+        var ctx = canvas[0].getContext('2d');
+        var drawingTmp = component.get('drawing-tmp');
+        if(drawingTmp) {
+            ctx.putImageData(drawingTmp.data, drawingTmp.x, drawingTmp.y);
+        }
         component.set('map.fog', component.$()[0].toDataURL());
         component.set('map-fog.src', component.$()[0].toDataURL());
         component.set('map.saving', true);
         component.get('map').save().then(function() {
             component.set('map.saving', false);
+            component.updateCanvas(ev);
         }, function() {
             component.set('map.saving', false);
+            component.updateCanvas(ev);
         });
     },
     updateCanvas: function(ev) {
@@ -83,6 +91,10 @@ export default Ember.Component.extend({
         var radius = component.get('cursorSize');
         var ctx = canvas[0].getContext('2d');
         if(component.get('isMouseDown')) {
+            var drawingTmp = component.get('drawing-tmp');
+            if(drawingTmp) {
+                ctx.putImageData(drawingTmp.data, drawingTmp.x, drawingTmp.y);
+            }
             if(component.get('cursorMode') === 'reveal') {
                 ctx.save();
                 ctx.beginPath();
@@ -96,6 +108,14 @@ export default Ember.Component.extend({
                 ctx.arc(mx, my, radius + 1, 0, 2 * Math.PI, true);
                 ctx.fill();
             }
+            component.set('drawing-tmp', {
+                x: mx - radius - 10,
+                y: my - radius - 10,
+                data: ctx.getImageData(mx - radius - 10, my - radius - 10, mx + radius + 10, my + radius + 10)
+            });
+            ctx.beginPath();
+            ctx.arc(mx, my, radius, 0, 2 * Math.PI, true);
+            ctx.stroke();
         } else {
             ctx.clearRect(0, 0, canvas.attr('width'), canvas.attr('height'));
             ctx.drawImage(component.get('map-fog'), 0, 0);
@@ -104,7 +124,7 @@ export default Ember.Component.extend({
             ctx.stroke();
         }
     },
-    mouseLeave: function(ev) {
+    mouseLeave: function() {
         var component = this;
         var canvas = component.$();
         var ctx = canvas[0].getContext('2d');
