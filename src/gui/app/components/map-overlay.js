@@ -31,6 +31,7 @@ export default Ember.Component.extend({
                 var fogImg = new Image();
                 fogImg.onload = function() {
                     ctx.drawImage(this, 0, 0);
+                    fogImg.onload = null;
                 };
                 fogImg.src = component.get('map.fog');
                 component.set('map-fog', fogImg);
@@ -56,7 +57,9 @@ export default Ember.Component.extend({
         var component = this;
         var canvas = component.$();
         var ctx = canvas[0].getContext('2d');
+        ctx.clearRect(0, 0, canvas.attr('width'), canvas.attr('height'));
         ctx.drawImage(component.get('map-fog'), 0, 0);
+        component.set('isFirstDraw', true);
         component.set('isMouseDown', true);
         component.updateCanvas(ev);
     },
@@ -71,7 +74,6 @@ export default Ember.Component.extend({
         }, function() {
             component.set('map.saving', false);
         });
-        component.updateCanvas(ev);
     },
     updateCanvas: function(ev) {
         var component = this;
@@ -91,7 +93,7 @@ export default Ember.Component.extend({
             } else if(component.get('cursorMode') === 'hide') {
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
-                ctx.arc(mx, my, radius, 0, 2 * Math.PI, true);
+                ctx.arc(mx, my, radius + 1, 0, 2 * Math.PI, true);
                 ctx.fill();
             }
         } else {
