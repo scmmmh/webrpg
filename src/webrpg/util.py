@@ -9,6 +9,10 @@ from formencode import Schema, Invalid, FancyValidator
 from formencode.validators import OneOf
 
 
+class DoNotStore(object):
+    pass
+
+
 class State(object):
 
     def __init__(self, **kwargs):

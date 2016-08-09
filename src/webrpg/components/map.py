@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship
 
 from webrpg.components import register_component
 from webrpg.models import (Base, JSONAPIMixin)
-from webrpg.util import JSONAPISchema, DynamicSchema
+from webrpg.util import JSONAPISchema, DynamicSchema, DoNotStore
 
 
 class Map(Base, JSONAPIMixin):
@@ -31,9 +31,9 @@ class Map(Base, JSONAPIMixin):
                                                                                                                        not_empty=True),
                                                                                               'id': validators.Number}}}))
     __update_schema__ = JSONAPISchema('maps',
-                                      attribute_schema=DynamicSchema({'title': validators.UnicodeString(),
-                                                                      'map': validators.UnicodeString(),
-                                                                      'fog': validators.UnicodeString()}))
+                                      attribute_schema=DynamicSchema({'title': validators.UnicodeString(if_missing=DoNotStore),
+                                                                      'map': validators.UnicodeString(if_missing=DoNotStore),
+                                                                      'fog': validators.UnicodeString(if_missing=DoNotStore)}))
 
     __json_attributes__ = ['title', 'map', 'fog']
     __json_relationships__ = ['session']
