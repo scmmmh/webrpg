@@ -97,6 +97,7 @@ def handle_list_model(request, model_name):
                 query = query.filter(getattr(cls, key) > value)
     response = {'data': [],
                 'included': []}
+    query = query.order_by(cls.id)
     for obj in query:
         if obj.allow(request.current_user, 'view'):
             data, included = obj.as_dict(request=request)
