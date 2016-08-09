@@ -42,6 +42,7 @@
                 <li><a href="#" {{action 'reloadMap' selectedMap}} title="Reload"><span class="fi-refresh"></span></a></li>
                 {{#if model.game.owned}}
                   <li><a href="#" {{action 'uploadSelectMap' selectedMap}} title="Upload Map"><span class="fi-upload"></span></a><input id="mapFileUpload" type="file" class="show-for-sr" {{action 'uploadMap' selectedMap on='change'}}/></li>
+                  <li><a href="#" {{action 'deleteMap' selectedMap}} title="Delete Map"><span class="fi-trash"></span></a></li>
                   <li class="separator"></li>
                   <li class="cursor-small {{if (eq cursorSize 10) 'active'}}"><a href="#" {{action 'setCursorSize' 10}} title="Small Cursor"><span class="fi-record"></span></a></li>
                   <li class="cursor-medium {{if (eq cursorSize 30) 'active'}}"><a href="#" {{action 'setCursorSize' 30}} title="Medium Cursor"><span class="fi-record"></span></a></li>

@@ -59,7 +59,6 @@ export default Ember.Controller.extend({
             Ember.$('#mapFileUpload').click();
         },
         uploadMap: function(map) {
-            var controller = this;
             var file = Ember.$('#mapFileUpload').get(0).files[0];
             if(file) {
                 if(/^image\//.test(file.type)) {
@@ -74,10 +73,19 @@ export default Ember.Controller.extend({
                 }
             }
         },
+        deleteMap: function(map) {
+            var controller = this;
+            if(confirm('Please confirm that you wish to delete this map')) {
+                map.deleteRecord();
+                map.save().then(function() {
+                    controller.set('selectedMap', null);
+                });
+            }
+        },
         selectMap: function(map) {
             var controller = this;
             if(controller.get('selectedMap')) {
-                controller.set('selectedMap.activeactive', false);
+                controller.set('selectedMap.active', false);
             }
             map.set('active', true);
             controller.set('selectedMap', map);
