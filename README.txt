@@ -8,7 +8,9 @@ Getting Started
 
 - $VENV/bin/python setup.py develop
 
-- $VENV/bin/initialize_WebRPG_db development.ini
+- $VENV/bin/WebRPG generate-config --filename development.ini
 
-- $VENV/bin/pserve development.ini
+- $VENV/bin/WebRPG initialise-database development.ini
+
+- $VENV/bin/pserve development.ini --reload
 
