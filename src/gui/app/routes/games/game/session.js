@@ -9,6 +9,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     activate: function() {
         var route = this;
         var params = route.get('params');
+        var controller = route.controllerFor('games.game.session');
+        controller.set('selectedMap', null);
         route.set('chat-messages-timer', setInterval(function() {
             var query = {
                 session_id: params.sid
