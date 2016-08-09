@@ -83,6 +83,14 @@
             {{/each}}
           </ol>
           <form {{action 'addChatMessage' on='submit'}} class="input-group">
+            <span class="input-group-label"><select onchange={{action (mut chatAddressee) value='target.value'}}>
+              <option value="">@Everybody</option>
+              <option value="gm">@GM</option>
+              <option value="players">@Players</option>
+              {{#each model.game.roles as |role|}}
+                <option value={{role.user.displayName}}>@{{role.user.displayName}}</option>
+              {{/each}}
+            </select></span>
             {{input value=chatMessage type="text" class="input-group-field"}}
             <div class="input-group-button">
               <input type="submit" value="Send" class="button postfix"/>

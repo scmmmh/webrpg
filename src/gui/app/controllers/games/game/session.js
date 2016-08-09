@@ -12,6 +12,9 @@ export default Ember.Controller.extend({
             user.then(function() {
                 var txt = controller.get('chatMessage');
                 if(txt !== '') {
+                	if(controller.get('chatAddressee')){
+                		txt = '@' + controller.get('chatAddressee') + ' ' + txt;
+                	}
                     var message = controller.store.createRecord('chatMessage', {
                         message: txt,
                         user: user,

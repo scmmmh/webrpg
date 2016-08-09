@@ -172,5 +172,12 @@ h1 small a {
 #session-window .chat-message-list li:nth-child(2n) div:nth-child(2) {
     background: #ffffff;
 }
-#session-window .chat form {
+#session-window .chat form .input-group-label {
+    padding: 0;
+}
+#session-window .chat form .input-group-label select {
+    margin: 0;
+    background-color: #e6e6e6;
+    border: 0;
+    width: 8rem;
 }
