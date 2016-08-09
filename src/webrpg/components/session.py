@@ -30,7 +30,7 @@ class Session(Base, JSONAPIMixin):
     dice_roller = Column(Unicode(255))
 
     game = relationship('Game')
-    maps = relationship('Map')
+    maps = relationship('Map', order_by='Map.title')
     chat_messages = relationship('ChatMessage', order_by='ChatMessage.id')
 
     __create_schema__ = JSONAPISchema('sessions',
@@ -42,7 +42,7 @@ class Session(Base, JSONAPIMixin):
                                                                                            'id': validators.Number}}}))
 
     __json_attributes__ = ['title', 'dice_roller']
-    __json_relationships__ = ['game', 'chat_messages']
+    __json_relationships__ = ['game', 'chat_messages', 'maps']
 
     def allow(self, user, action):
         return True

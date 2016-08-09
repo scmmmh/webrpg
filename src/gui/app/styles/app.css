@@ -18,6 +18,15 @@ ul.inline li + li:before, ol.inline li + li:before {
 h1 small a {
     color: #cacaca;
 }
+.button.cancel {
+    background-color: #cc0000;
+}
+.button.ok {
+    background-color: #00cc00;
+}
+.menu .separator {
+    width: 3rem;
+}
 
 /**
  * Session view styling
@@ -62,12 +71,6 @@ h1 small a {
 .characters .input-group, .characters select, .characters input {
     margin-bottom: 0;
 }
-.characters .button.cancel {
-    background-color: #cc0000;
-}
-.characters .button.ok {
-    background-color: #00cc00;
-}
 .characters .accordion {
     margin-bottom: 1rem;
 }
@@ -85,11 +88,40 @@ h1 small a {
  * Map styling
  */
 #session-window .maps {
+    display: flex;
+    flex-direction: column;
     flex-grow: 10;
     box-sizing: border-box;
     padding-left: 0.4rem;
 }
- 
+#session-window .maps .map-bar {
+    
+}
+#session-window .maps .map-view {
+    flex-grow: 1;
+    overflow: auto;
+    position: relative;
+    height: 100%;
+}
+#session-window .maps .map-view .map-fog {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#session-window .maps .map-view .map-fog {
+    z-index: 1;
+}
+#session-window .maps .map-view canvas.map-fog {
+    opacity: 0.7;
+}
+#session-window .map-bar .cursor-small span {
+    font-size: 50%;
+}
+#session-window .map-bar .cursor-medium span {
+    font-size: 75%;
+}
+
+
 /**
  * Dice roller styling
  */
