@@ -36,9 +36,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                     }
                 });
             });
-        }, 10000));
+        }, 1000));
         Ember.run.schedule("afterRender",this,function() {
-            Ember.$('#session-window').css('height', (Ember.$(window).innerHeight() - (Ember.$('.top-bar').outerHeight(true) + Ember.$('h1').outerHeight(true))) + 'px');
+            var height = (Ember.$(window).innerHeight() - (Ember.$('.top-bar').outerHeight(true) + Ember.$('h1').outerHeight(true)));
+            if(navigator.userAgent.indexOf('Edge/') >= 0) { // Hack for MS Edge
+                height = height - 20;
+            }
+            Ember.$('#session-window').css('height', height + 'px');
             Ember.$('.chat-message-list').scrollTop(100000);
         });
         Ember.$(window).on('resize', function() {
