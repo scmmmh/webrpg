@@ -1,16 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    didInsertElement: function() {
-    	var controller = this;
-        Ember.$('.accordion').foundation();
-        Ember.$('.accordion').on('down.zf.accordion', function(_, tab) {
-            controller.set('selected-tab', tab.data('itemId'));
-        });
-        Ember.$('.accordion').on('up.zf.accordion', function() {
-            controller.set('selected-tab', '');
-        });
-    },
     actions: {
         'start-edit': function(character, column) {
             Ember.set(column, 'isEditing', true);
@@ -23,11 +13,7 @@ export default Ember.Component.extend({
         'save-edit': function(character, column) {
             var controller = this;
             Ember.set(column, 'isEditing', false);
-            character.save().then(function() {
-            	Ember.run.schedule('afterRender', function() {
-            		Foundation.reInit(controller.$('.accordion'));
-            	});
-            });
+            character.save();
         },
         'delete': function(character) {
             if(confirm('Please confirm you wish to delete this character')) {
@@ -37,11 +23,10 @@ export default Ember.Component.extend({
         },
         'reload': function(character) {
             var controller = this;
-            character.reload().then(function() {
-                Ember.run.schedule('afterRender', function() {
-                    Foundation.reInit(controller.$('.accordion'));
-                });
-            });
+            character.reload();
+        },
+        'selectTab': function(tab) {
+            this.set('selectedTab', tab);
         }
     }
 });
