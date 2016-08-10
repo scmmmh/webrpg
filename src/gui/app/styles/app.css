@@ -82,6 +82,9 @@ h1 small a {
 .characters table tbody th, .characters table tabody td {
     vertical-align: top;
 }
+.characters .accordion .is-active .accordion-content {
+    display: block;
+}
 
 /**
  * Map styling

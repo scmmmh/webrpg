@@ -7,11 +7,11 @@
     <h3>{{#if character.title}}{{character.title}}{{else}}Unnamed{{/if}}</h3>
   </div>
 </div>
-{{#fd-accordion data-options='allowAllClosed: true; slideSpeed: 0;'}}
+{{#fd-accordion selectTab=(action 'selectTab')}}
   {{#each character.stats as |stat_table|}}
-    <li class="accordion-item is-active {{if (eq stat_table.id selected-tab) 'is-active'}}" data-accordion-item="">
+    <li class="accordion-item {{if (eq selectedTab stat_table.id) 'is-active'}}" data-accordion-item="{{stat_table.id}}">
       <a href="#" class="accordion-title">{{stat_table.title}}</a>
-      <div class="accordion-content" data-tab-content="" data-item-id={{stat_table.id}} style="display:block;">
+      <div class="accordion-content" data-tab-content="" data-item-id={{stat_table.id}}>
         <table>
           {{#if stat_table.columns}}
             <thead>
