@@ -8,6 +8,6 @@ export default Ember.Component.extend({
     'data-options': '',
     
     didInsertElement: function() {
-        this.$().foundation();
+        //this.$().foundation();
     }
 });

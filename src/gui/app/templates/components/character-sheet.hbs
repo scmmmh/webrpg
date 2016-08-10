@@ -9,9 +9,9 @@
 </div>
 {{#fd-accordion data-options='allowAllClosed: true; slideSpeed: 0;'}}
   {{#each character.stats as |stat_table|}}
-    <li class="accordion-item {{if (eq stat_table.id selected-tab) 'is-active'}}" data-accordion-item="">
+    <li class="accordion-item is-active {{if (eq stat_table.id selected-tab) 'is-active'}}" data-accordion-item="">
       <a href="#" class="accordion-title">{{stat_table.title}}</a>
-      <div class="accordion-content" data-tab-content="" data-item-id={{stat_table.id}}>
+      <div class="accordion-content" data-tab-content="" data-item-id={{stat_table.id}} style="display:block;">
         <table>
           {{#if stat_table.columns}}
             <thead>
