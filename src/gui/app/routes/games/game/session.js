@@ -58,9 +58,11 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                 var messages = Ember.$('.chat-message-list');
                 var scrollTop = messages.scrollTop();
                 var innerHeight = messages.innerHeight();
-                var last_top = messages.children(':last-child()').position().top;
-                if(scrollTop + innerHeight / 2 > last_top) {
-                    Ember.$('.chat-message-list').scrollTop(scrollTop + 1000);
+                if(messages.children(':last-child()').position()) {
+                    var last_top = messages.children(':last-child()').position().top;
+                    if(scrollTop + innerHeight / 2 > last_top) {
+                        Ember.$('.chat-message-list').scrollTop(scrollTop + 1000);
+                    }
                 }
             });
         });
