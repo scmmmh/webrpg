@@ -23,7 +23,7 @@ requires = [
     ]
 
 setup(name='WebRPG',
-      version='0.4.5',
+      version='0.5.0',
       description='WebRPG',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
