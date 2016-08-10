@@ -49,7 +49,7 @@ class ChatMessage(Base, JSONAPIMixin):
                                                                                               'id': validators.Number}}}))
 
     __json_attributes__ = ['message']
-    __json_relationships__ = ['user', 'session']
+    __json_relationships__ = [('user', True), 'session']
 
 
     def allow(self, user, action):
@@ -265,4 +265,4 @@ def calculate_dicerolls(target, value, old_value, initiator):
             substitutions.append('d100 = %i' % random.randint(1, 100))
     return message % tuple(substitutions)
 
-register_component('chat-messages', ChatMessage, actions=['list', 'new', 'item'])
+register_component(ChatMessage, actions=['list', 'new', 'item'])

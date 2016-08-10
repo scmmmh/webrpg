@@ -1,3 +1,13 @@
+0.5.1
+-----
+
+- UPDATE: Performance improvements
+
+0.5.0
+-----
+
+- UPDATE: Rewrite of both the backend and frontend
+
 0.4.6
 -----
 

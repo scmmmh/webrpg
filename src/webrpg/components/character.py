@@ -191,4 +191,4 @@ class Character(Base, JSONAPIMixin):
             return self.game.has_role(user, 'owner')
 
 
-register_component('characters', Character, actions=['new', 'list', 'item', 'update'])
+register_component(Character, actions=['new', 'list', 'item', 'update'])
