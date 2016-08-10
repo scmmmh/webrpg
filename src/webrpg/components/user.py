@@ -117,4 +117,4 @@ def login(request):
 
 
 # Register the user as a component in the system
-register_component('users', User, actions=['new', 'item'])
+register_component(User, actions=['new', 'item'])

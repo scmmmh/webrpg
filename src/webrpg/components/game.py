@@ -90,7 +90,7 @@ class GameRole(Base, JSONAPIMixin):
                                                                                            'id': validators.Number}}}))
     __json_attributes__ = ['role']
     __json_computed__ = ['is_me']
-    __json_relationships__ = ['game', 'user']
+    __json_relationships__ = ['game', ('user', True)]
 
     def is_me(self, request):
         """Check if the current :class:`~webrpg.components.user.User` is the one linked to
@@ -104,5 +104,5 @@ class GameRole(Base, JSONAPIMixin):
         return True
 
 
-register_component('games', Game, actions=['list', 'new', 'item'])
-register_component('game-roles', GameRole, actions=['list', 'new', 'item'])
+register_component(Game, actions=['list', 'new', 'item'])
+register_component(GameRole, actions=['list', 'new', 'item'])

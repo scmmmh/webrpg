@@ -23,7 +23,7 @@ def init(config):
     config.add_route('login', '/api/users/login')
     config.add_route('api.collection', '/api/{model}')
     config.add_route('api.item', '/api/{model}/{iid}')
-    config.add_route('session.refresh', '/api/sessions/{iid}/refresh')
+    config.add_route('api.item.relationship', '/api/{model}/{iid}/{rid}')
 
 
 def json_defaults():
@@ -81,6 +81,17 @@ class JSONAPIValidator(FancyValidator):
             raise Invalid(self.message('notjson', state), value, state)
 
 
+def filter_list(items):
+    seen = []
+    result = []
+    for item in items:
+        uid = (item['type'], item['id'])
+        if uid not in seen:
+            result.append(item)
+            seen.append(uid)
+    return result
+
+
 def handle_list_model(request, model_name):
     dbsession = DBSession()
     cls = COMPONENTS[model_name]['class']
@@ -104,7 +115,9 @@ def handle_list_model(request, model_name):
             response['data'].append(data)
             if included:
                 response['included'].extend(included)
-    if not response['included']:
+    if response['included']:
+        response['included'] = filter_list(response['included'])
+    else:
         del response['included']
     return response
 
@@ -120,7 +133,7 @@ def handle_new_model(request, model_name):
             item_data, item_included = item.as_dict(request=request)
             response = {'data': item_data}
             if item_included:
-                response['included'] = item_included
+                response['included'] = filter_list(item_included)
         return response
     return {}
 
@@ -151,7 +164,7 @@ def handle_single_model(request, model_name):
         item_data, item_included = item.as_dict(request=request)
         response = {'data': item_data}
         if item_included:
-            response['included'] = item_included
+            response['included'] = filter_list(item_included)
         return response
     else:
         raise_json_exception(HTTPNotFound)
@@ -169,7 +182,7 @@ def update_single_model(request, model_name):
             item_data, item_included = item.as_dict(request=request)
             response = {'data': item_data}
             if item_included:
-                response['included'] = item_included
+                response['included'] = filter_list(item_included)
         return response
     else:
         raise_json_exception(HTTPNotFound)
@@ -198,6 +211,54 @@ def handle_item(request):
             return update_single_model(request, model_name)
         elif request.method == 'DELETE' and 'update' in COMPONENTS[model_name]['actions']:
             return delete_single_model(request, model_name)
+        else:
+            raise raise_json_exception(HTTPMethodNotAllowed)
+    else:
+        raise_json_exception(HTTPNotFound)
+
+
+def handle_fetch_relationship(request, model_name):
+    dbsession = DBSession()
+    item = dbsession.query(COMPONENTS[model_name]['class']).filter(COMPONENTS[model_name]['class'].id == request.matchdict['iid']).first()
+    if item:
+        rel_name = request.matchdict['rid']
+        if hasattr(item, '__json_relationships__') and rel_name in item.__json_relationships__:
+            try:
+                response = {'data': [],
+                            'included': []}
+                for rel in getattr(item, rel_name):
+                    if rel and rel.allow(request.current_user, 'view'):
+                        rel_data, rel_included = rel.as_dict(request=request)
+                        response['data'].append(rel_data)
+                        response['included'].extend(rel_included)
+            except:
+                rel = getattr(item, rel_name)
+                if rel and rel.allow(request.current_user, 'view'):
+                    rel_data, rel_included = rel.as_dict(request=request)
+                    response = {'data': rel_data,
+                                'included': rel_included}
+                else:
+                    response = {'data': {},
+                                'included': []}
+            if response['included']:
+                response['included'] = filter_list(response['included'])
+            else:
+                del response['included']
+            return response
+        else:
+            raise_json_exception(HTTPNotFound)
+    else:
+        raise_json_exception(HTTPNotFound)
+
+
+@view_config(route_name='api.item.relationship', renderer='json')
+@get_current_user()
+@json_defaults()
+def handle_relationship(request):
+    model_name = request.matchdict['model']
+    if model_name in COMPONENTS:
+        if request.method == 'GET':
+            return handle_fetch_relationship(request, model_name)
         else:
             raise raise_json_exception(HTTPMethodNotAllowed)
     else:
