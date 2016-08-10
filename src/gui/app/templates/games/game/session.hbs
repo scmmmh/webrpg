@@ -76,7 +76,7 @@
         <div class="chat">
           <ol class="no-bullet chat-message-list">
             {{#each model.chatMessages as |chatMessage|}}
-              <li>
+              <li class="{{if chatMessage.newMessage 'new'}}">
                 <div>{{chatMessage.user.displayName}}:</div>
                 <div>{{{chatMessage.message}}}</div>
               </li>

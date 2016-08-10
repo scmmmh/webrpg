@@ -154,6 +154,7 @@ h1 small a {
 #session-window .chat-message-list li div {
     box-sizing: border-box;
     padding: 0 0.4rem;
+    transition: background 0.5s;
 }
 #session-window .chat-message-list li div:nth-child(1) {
     background: #f6f6f6;
@@ -171,6 +172,9 @@ h1 small a {
 }
 #session-window .chat-message-list li:nth-child(2n) div:nth-child(2) {
     background: #ffffff;
+}
+#session-window .chat-message-list li.new div:nth-child(1),  #session-window .chat-message-list li.new div:nth-child(2) {
+    background: #ffffcc;
 }
 #session-window .chat form .input-group-label {
     padding: 0;
