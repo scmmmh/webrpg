@@ -47,6 +47,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                 var max_id = 0;
                 data.forEach(function(message) {
                     max_id = Math.max(max_id, message.get('id'));
+                    message.set('newMessage', true);
+                    setTimeout(function() {
+                        message.set('newMessage', false);
+                    }, 5000);
                 });
                 route.set('chat-message-min-id', max_id);
             }

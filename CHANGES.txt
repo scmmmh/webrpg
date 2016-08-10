@@ -1,3 +1,9 @@
+0.5.2
+-----
+
+- NEW: Show the target player in the chat window
+- UPDATE: Highlight new messages
+
 0.5.1
 -----
 
