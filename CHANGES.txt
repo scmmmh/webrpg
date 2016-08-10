@@ -3,6 +3,7 @@
 
 - BUGFIX: Scrolling on characters
 - BUGFIX: Fixed an error with empty messages
+- WORKAROUND: Workaround for the accordion not initialising correctly
 
 0.5.2
 -----
