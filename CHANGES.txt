@@ -2,6 +2,7 @@
 -----
 
 - BUGFIX: Scrolling on characters
+- BUGFIX: Fixed an error with empty messages
 
 0.5.2
 -----
