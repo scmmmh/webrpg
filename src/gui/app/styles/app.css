@@ -63,7 +63,6 @@ h1 small a {
 #session-window .characters {
     min-width: 30rem;
     max-width: 30rem;
-    height: 100%;
     overflow: auto;
     box-sizing: border-box;
     padding-right: 0.4rem;
