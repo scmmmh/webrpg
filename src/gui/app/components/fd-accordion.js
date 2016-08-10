@@ -6,7 +6,6 @@ export default Ember.Component.extend({
 
     click: function(ev) {
         var link = $(ev.target);
-        console.log(link);
         if(link.hasClass('accordion-title')) {
             ev.preventDefault();
             if(link.parent().hasClass('is-active')) {
