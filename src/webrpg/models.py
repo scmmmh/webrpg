@@ -23,6 +23,10 @@ def convert_keys(data):
 
 class JSONAPIMixin(object):
 
+    @classmethod
+    def json_api_name(self):
+        return inflection.underscore(inflection.pluralize(self.__name__)).replace('_', '-')
+
     @classmethod    
     def from_dict(self, data, dbsession):
         if hasattr(self, '__create_schema__'):
@@ -84,37 +88,54 @@ class JSONAPIMixin(object):
         if hasattr(self, '__json_relationships__'):
             data['relationships'] = {}
             for rel_name in self.__json_relationships__:
-                data['relationships'][rel_name.replace('_', '-')] = {'data': []}
-                try:
-                    for rel in getattr(self, rel_name):
+                if isinstance(rel_name, tuple):
+                    rel_name, force_include = rel_name
+                else:
+                    force_include = False
+                if depth > 0 or force_include:
+                    # Include related ids
+                    data['relationships'][rel_name.replace('_', '-')] = {'data': []}
+                    try:
+                        for rel in getattr(self, rel_name):
+                            if rel and rel.allow(request.current_user, 'view'):
+                                data['relationships'][rel_name.replace('_', '-')]['data'].append({'id': rel.id,
+                                                                                                  'type': rel.__class__.__name__})
+                    except:
+                        rel = getattr(self, rel_name)
                         if rel and rel.allow(request.current_user, 'view'):
-                            data['relationships'][rel_name.replace('_', '-')]['data'].append({'id': rel.id,
-                                                                                              'type': rel.__class__.__name__})
-                except:
-                    rel = getattr(self, rel_name)
-                    if rel and rel.allow(request.current_user, 'view'):
-                        data['relationships'][rel_name.replace('_', '-')]['data'] = {'id': rel.id,
-                                                                                     'type': rel.__class__.__name__}
-                if not data['relationships'][rel_name.replace('_', '-')]['data']:
-                    del data['relationships'][rel_name.replace('_', '-')]
+                            data['relationships'][rel_name.replace('_', '-')]['data'] = {'id': rel.id,
+                                                                                         'type': rel.__class__.__name__}
+                    if not data['relationships'][rel_name.replace('_', '-')]['data']:
+                        del data['relationships'][rel_name.replace('_', '-')]
+                else:
+                    # Include link to load data
+                    data['relationships'][rel_name.replace('_', '-')] = {'links': {'related': request.route_url('api.item.relationship',
+                                                                                                                model=self.__class__.json_api_name(),
+                                                                                                                iid=self.id,
+                                                                                                                rid=rel_name)}}
         included = []
         # Handle included data
-        if depth > 0 and hasattr(self, '__json_relationships__'):
+        if hasattr(self, '__json_relationships__'):
             for rel_name in self.__json_relationships__:
-                if inflection.pluralize(rel_name) == rel_name:
-                    for rel in getattr(self, rel_name):
+                if isinstance(rel_name, tuple):
+                    rel_name, force_include = rel_name
+                else:
+                    force_include = False
+                if depth > 0 or force_include:
+                    try:
+                        for rel in getattr(self, rel_name):
+                            if rel and rel.allow(request.current_user, 'view'):
+                                rel_data, rel_included = rel.as_dict(request=request,
+                                                                     depth=depth - 1)
+                                included.append(rel_data)
+                                if rel_included:
+                                    included.extend(rel_included)
+                    except:
+                        rel = getattr(self, rel_name)
                         if rel and rel.allow(request.current_user, 'view'):
                             rel_data, rel_included = rel.as_dict(request=request,
                                                                  depth=depth - 1)
                             included.append(rel_data)
                             if rel_included:
                                 included.extend(rel_included)
-                else:
-                    rel = getattr(self, rel_name)
-                    if rel and rel.allow(request.current_user, 'view'):
-                        rel_data, rel_included = rel.as_dict(request=request,
-                                                             depth=depth - 1)
-                        included.append(rel_data)
-                        if rel_included:
-                            included.extend(rel_included)
         return data, included
