@@ -42,4 +42,4 @@ class Map(Base, JSONAPIMixin):
         return True
 
 
-register_component('maps', Map, actions=['new', 'list', 'item', 'update', 'delete'])
+register_component(Map, actions=['new', 'list', 'item', 'update', 'delete'])

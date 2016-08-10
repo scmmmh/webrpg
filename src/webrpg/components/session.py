@@ -48,4 +48,4 @@ class Session(Base, JSONAPIMixin):
         return True
 
 
-register_component('sessions', Session, actions=['new', 'item'])
+register_component(Session, actions=['new', 'item'])
