@@ -19,7 +19,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                 height = height - 20;
             }
             Ember.$('#session-window').css('height', height + 'px');
-            Ember.$('.chat-message-list').scrollTop(100000);
         });
         Ember.$(window).on('resize', function() {
             clearTimeout(route.get('window-resize-timeout'));
@@ -36,6 +35,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     },
     updateChat: function() {
         var route = this;
+        var controller = route.controllerFor('games.game.session');
         var query = {
             session_id: route.get('params').sid
         };
@@ -53,18 +53,16 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                     }, 5000);
                 });
                 route.set('chat-message-min-id', max_id);
-            }
-            Ember.run.schedule('afterRender', this, function() {
-                var messages = Ember.$('.chat-message-list');
-                var scrollTop = messages.scrollTop();
-                var innerHeight = messages.innerHeight();
-                if(messages.children(':last-child()').position()) {
-                    var last_top = messages.children(':last-child()').position().top;
-                    if(scrollTop + innerHeight / 2 > last_top) {
-                        Ember.$('.chat-message-list').scrollTop(scrollTop + 1000);
-                    }
+                if(controller.get('chatMessageAutoScroll')) {
+                    Ember.run.schedule('afterRender', this, function() {
+                        var messages = Ember.$('.chat-message-list');
+                        if(messages.children(':last-child()').length > 0) {
+                            var last_top = messages.children(':last-child()').position().top;
+                            Ember.$('.chat-message-list').scrollTop(messages.scrollTop() + last_top);
+                        }
+                    });
                 }
-            });
+            }
         });
         route.set('chat-messages-timer', setTimeout(function() {
             route.updateChat();
