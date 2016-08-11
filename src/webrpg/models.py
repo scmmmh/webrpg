@@ -1,3 +1,14 @@
+"""
+############################################
+:mod:`~webrpg.models` - Database foundations
+############################################
+
+Provides the :data:`~webrpg.models.DBSession` for database access and the
+:class:`~webrpg.models.JSONAPIMixin` that provides the functionality for
+exposing a model via a JSON API.
+
+.. moduleauthor:: Mark Hall <mark.hall@work.room3b.eu>
+"""
 import inflection
 
 from formencode import Invalid
@@ -13,6 +24,11 @@ Base = declarative_base()
 
 
 def convert_keys(data):
+    """Converts all keys in the ``data`` to JSON API needs ('-' instead of '_').
+
+    :param data: The data to convert
+    :return: The converted data
+    """
     if isinstance(data, dict):
         return dict([(k.replace('-', '_'), convert_keys(v)) for (k, v) in data.items()])
     elif isinstance(data, list):
@@ -22,13 +38,34 @@ def convert_keys(data):
 
 
 class JSONAPIMixin(object):
+    """Mixin that provides the necessary functions for integrating an SQLAlchemy model
+    into a JSON API interface. To use the mixin, the following attributes need to be
+    defined on the class:
+
+    * ``__create_schema__``:
+    * ``__update_schema__``:
+    * ``__json_attributes__``: List of attribute names to include in the resulting JSON
+    * ``__json_computed__``: List of function properties to include as attributes in the resulting JSON
+    * ``__json_relationships__``: List of relationships to include as relationships in the JSON
+    """
 
     @classmethod
     def json_api_name(self):
+        """Converts the class name into a JSON API representation."""
         return inflection.underscore(inflection.pluralize(self.__name__)).replace('_', '-')
 
-    @classmethod    
+    @classmethod
     def from_dict(self, data, dbsession):
+        """Construct a new instance of the model based on the JSON ``data`` dictionary. Will
+        only construct a new instance if the class has a ``__create_schema__`` attribute and
+        the ``data`` validates against that schema.
+
+        :param data: The data to use for the new instance
+        :type data: ``dict``
+        :param dbsession`: Database session to use for linking relationships
+        :type dbsession: :data:`~webrpg.models.DBSession`
+        :return: The new instance of the class
+        """
         if hasattr(self, '__create_schema__'):
             data = self.__create_schema__.to_python(convert_keys(data),
                                                     State(dbsession=dbsession))
@@ -52,6 +89,14 @@ class JSONAPIMixin(object):
             return None
 
     def update_from_dict(self, data, dbsession):
+        """Update the instance using the ``data``. Will only update if the class has a
+        ``__update_schema__`` and the ``data`` validates against that schema.
+
+        :param data: The data to use for updating
+        :type data: ``dict``
+        :param dbsession`: Database session to use for linking relationships
+        :type dbsession: :data:`~webrpg.models.DBSession`
+        """
         if hasattr(self, '__update_schema__'):
             data = self.__update_schema__.to_python(convert_keys(data),
                                                     State(dbsession=dbsession))
@@ -71,6 +116,22 @@ class JSONAPIMixin(object):
                         setattr(self, key, value)
 
     def as_dict(self, request=None, depth=1):
+        """Convert this instance to a JSON API representation. What is output depends on the following properties:
+
+        * ``__json_attributes__``: List of attribute names to include in the resulting JSON
+        * ``__json_computed__``: List of function properties to include as attributes in the resulting JSON
+        * ``__json_relationships__``: List of relationships to include as relationships in the JSON
+
+        If the ``depth`` is greater than 0, it will recursively include relationship objects in the response. Additionally
+        if the relationship name is a tuple ``(name, True)`` then this will always be included, regardless of ``depth``.
+
+        :param request: Request to use for building URLs
+        :type request: :class:`~pyramid.request.Request`
+        :param depth: Depth of recursive inclusion (default: 1)
+        :type depth: ``int``
+        :return: The JSON API representation of this instance
+        :rtype: ``dict``
+        """
         data = {'id': self.id,
                 'type': self.__class__.__name__}
         # Set plain attributes

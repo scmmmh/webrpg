@@ -6,7 +6,6 @@ Handles all game-related model interactions
 
 .. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
-
 from formencode import validators
 from sqlalchemy import Column, Integer, Unicode, ForeignKey
 from sqlalchemy.orm import relationship
@@ -88,13 +87,14 @@ class GameRole(Base, JSONAPIMixin):
                                                                          'user': {'data': {'type': validators.OneOf(['users'],
                                                                                                                     not_empty=True),
                                                                                            'id': validators.Number}}}))
+
     __json_attributes__ = ['role']
     __json_computed__ = ['is_me']
     __json_relationships__ = ['game', ('user', True)]
 
     def is_me(self, request):
         """Check if the current :class:`~webrpg.components.user.User` is the one linked to
-        this this :class:`~webrpg.components.game.GameRole`.""" 
+        this this :class:`~webrpg.components.game.GameRole`."""
         if request.current_user and request.current_user.id == self.user_id:
             return True
         else:

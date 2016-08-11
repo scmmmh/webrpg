@@ -20,7 +20,6 @@ from webrpg.components import register_component
 from webrpg.models import Base, JSONAPIMixin
 from webrpg.util import (JSONAPISchema, DynamicSchema, DictValidator)
 
-
 RULE_SETS = {}
 RULE_SETS['dnd5e'] = json.loads(resource_string('webrpg', 'data/dnd5e.json').decode('utf8'))
 RULE_SETS['dnd5em'] = json.loads(resource_string('webrpg', 'data/dnd5em.json').decode('utf8'))
@@ -165,7 +164,7 @@ class Character(Base, JSONAPIMixin):
 
     @stats.setter
     def stats(self, data):
-        """Updates the stored "attr" stats for this :class:`~webrpg.components.character.Character`.""" 
+        """Updates the stored "attr" stats for this :class:`~webrpg.components.character.Character`."""
         attrs = {}
         for table in data:
             rowids = []
@@ -191,4 +190,4 @@ class Character(Base, JSONAPIMixin):
             return self.game.has_role(user, 'owner')
 
 
-register_component(Character, actions=['new', 'list', 'item', 'update'])
+register_component(Character, actions=['new', 'list', 'item', 'update', 'delete'])
