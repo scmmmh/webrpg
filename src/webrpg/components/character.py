@@ -131,6 +131,10 @@ class Character(Base, JSONAPIMixin):
                                     action_title = source_column['action_title']
                                 else:
                                     action_title = source_column['title']
+                                if 'action_target' in source_column:
+                                    stat_column['action_target'] = source_column['action_target']
+                                else:
+                                    stat_column['action_target'] = None
                                 if multirow:
                                     action_title = action_title % {'rowid': rowid}
                                     action = source_column['action'] % {'rowid': rowid}
@@ -144,6 +148,10 @@ class Character(Base, JSONAPIMixin):
                                 stat_row['action_title'] = source_row['action_title']
                             else:
                                 stat_row['action_title'] = source_row['title']
+                            if 'action_target' in source_row:
+                                stat_row['action_target'] = source_row['action_target']
+                            else:
+                                stat_row['action_target'] = None
                             action = source_row['action']
                             if 'action_calculate' in source_row and source_row['action_calculate']:
                                 calc_match = re.search(re.compile('\$([^$]*)\$'), action)

@@ -27,6 +27,12 @@ h1 small a {
 .menu .separator {
     width: 3rem;
 }
+.input-group-label select {
+    margin: 0;
+    background-color: #e6e6e6;
+    border: 0;
+    width: 8rem;
+}
 
 /**
  * Session view styling
@@ -131,8 +137,13 @@ h1 small a {
     min-width: 30rem;
     max-width: 30rem;
     box-sizing: border-box;
+    padding-top: 0.4rem;
     padding-right: 0.4rem;
 }
+#session-window .dice-roller form .input-group-label.no-padding {
+    padding: 0;
+}
+
 
 /**
  * Chat message styling
@@ -178,12 +189,6 @@ h1 small a {
 #session-window .chat-message-list li.new div:nth-child(1),  #session-window .chat-message-list li.new div:nth-child(2) {
     background: #ffffcc;
 }
-#session-window .chat form .input-group-label {
+#session-window .chat form .input-group-label.no-padding {
     padding: 0;
-}
-#session-window .chat form .input-group-label select {
-    margin: 0;
-    background-color: #e6e6e6;
-    border: 0;
-    width: 8rem;
 }

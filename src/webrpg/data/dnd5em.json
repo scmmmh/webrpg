@@ -21,6 +21,7 @@
              {"id": "strength",
               "title": "Strength",
               "action": "d20 + {abilities.str}",
+              "action_target": "setChatMessage",
               "columns": [
                   {"id": "strength",
                    "data_type": "number",
@@ -33,6 +34,7 @@
              {"id": "dexterity",
               "title": "Dexterity",
               "action": "d20 + {abilities.dex}",
+              "action_target": "setChatMessage",
               "columns": [
                   {"id": "dexterity",
                    "data_type": "number",
@@ -45,6 +47,7 @@
              {"id": "constitution",
               "title": "Constitution",
               "action": "d20 + {abilities.con}",
+              "action_target": "setChatMessage",
               "columns": [
                   {"id": "constitution",
                    "data_type": "number",
@@ -57,6 +60,7 @@
              {"id": "intelligence",
               "title": "Intelligence",
               "action": "d20 + {abilities.int}",
+              "action_target": "setChatMessage",
               "columns": [
                   {"id": "intelligence",
                    "data_type": "number",
@@ -69,6 +73,7 @@
              {"id": "wisdom",
               "title": "Wisdom",
               "action": "d20 + {abilities.wis}",
+              "action_target": "setChatMessage",
               "columns": [
                   {"id": "wisdom",
                    "data_type": "number",
@@ -81,6 +86,7 @@
              {"id": "charisma",
               "title": "Charisma",
               "action": "d20 + {abilities.cha}",
+              "action_target": "setChatMessage",
               "columns": [
                   {"id": "charisma",
                    "data_type": "number",
