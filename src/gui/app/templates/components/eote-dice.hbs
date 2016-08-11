@@ -1,0 +1,71 @@
+<form {{action 'rollDice' on='submit'}}>
+  <div class="row collapse">
+    <div class="column small-12">
+      <div class="input-group">
+        <span class="input-group-label no-padding"><select onchange={{action (mut addressee) value='target.value'}}>
+          <option value="" selected={{eq addressee ''}}>@Everybody</option>
+          <option value="gm" selected={{eq addressee 'gm'}}>@GM</option>
+          <option value="players" selected={{eq addressee 'players'}}>@Players</option>
+          {{#each roles as |role|}}
+            <option value={{role.user.displayName}} selected={{eq addressee role.user.displayName}}>@{{role.user.displayName}}</option>
+          {{/each}}
+        </select></span>
+        {{input value=title class="input-group-field"}}
+      </div>
+    </div>
+  </div>
+  <div class="row collapse">
+    <div class="column small-4">
+      <div class="input-group">
+        {{input type="number" value=boost class="input-group-field"}}
+        <span class="input-group-label"><span class="eote-boost"></span></span>
+      </div>
+    </div>
+    <div class="column small-4">
+      <div class="input-group">
+        {{input type="number" value=ability class="input-group-field"}}
+        <span class="input-group-label"><span class="eote-ability"></span></span>
+      </div>
+    </div>
+    <div class="column small-4">
+      <div class="input-group">
+        {{input type="number" value=proficiency class="input-group-field"}}
+        <span class="input-group-label"><span class="eote-proficiency"></span></span>
+      </div>
+    </div>
+  </div>
+  <div class="row collapse">
+    <div class="column small-4">
+      <div class="input-group">
+        {{input type="number" value=setback class="input-group-field"}}
+        <span class="input-group-label"><span class="eote-setback"></span></span>
+      </div>
+    </div>
+    <div class="column small-4">
+      <div class="input-group">
+        {{input type="number" value=difficulty class="input-group-field"}}
+        <span class="input-group-label"><span class="eote-difficulty"></span></span>
+      </div>
+    </div>
+    <div class="column small-4">
+      <div class="input-group">
+        {{input type="number" value=challenge class="input-group-field"}}
+        <span class="input-group-label"><span class="eote-challenge"></span></span>
+      </div>
+    </div>
+  </div>
+  <div class="row collapse">
+    <div class="column small-4">
+      <div class="input-group">
+        {{input type="number" value=force class="input-group-field"}}
+        <span class="input-group-label"><span class="eote-force"></span></span>
+      </div>
+    </div>
+    <div class="column small-4">
+      <button class="button secondary expanded" {{action 'resetDice'}}>Clear</button>
+    </div>
+    <div class="column small-4">
+      <input type="submit" value="Roll!" class="button expanded"/>
+    </div>
+  </div>
+</form>

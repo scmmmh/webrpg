@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
+    bus: Ember.inject.service('session-bus'),
     cursorSize: 10,
     cursorMode: 'reveal',
     chatMessageAutoScroll: true,
@@ -15,33 +16,25 @@ export default Ember.Controller.extend({
         if(localStorage.getItem('webrpg.chatMessageSound') === 'false') {
             this.set('chatMessageSound', false);
         }
+        this.get('bus').register('sendChatMessage', this);
     },
     actions: {
-        addChatMessage: function() {
+        sendChatMessage: function(text) {
             var controller = this;
             var user = controller.store.findRecord('user', controller.get('session.data.authenticated.userid'));
             user.then(function() {
-                var txt = controller.get('chatMessage');
-                if(txt !== '') {
-                	if(controller.get('chatAddressee')){
-                		txt = '@' + controller.get('chatAddressee') + ' ' + txt;
-                	}
+                if(text !== '') {
                     var message = controller.store.createRecord('chatMessage', {
-                        message: txt,
+                        message: text,
                         user: user,
                         session: controller.get('model')
                     });
-                    message.save().then(function() {
-                        controller.set('chatMessage', '');
-                    });
+                    message.save();
                 }
             });
         },
         csAction: function(type, title, content) {
-            if(type === 'chat') {
-                this.set('chatMessage', title + ': ' + content);
-                Ember.$('.chat input[type=text').focus();
-            }
+            this.get('bus').send(type, title, content);
         },
         addMap: function() {
             var controller = this;

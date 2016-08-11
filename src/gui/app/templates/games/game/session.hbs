@@ -72,35 +72,11 @@
       </div>
       <div class="bottom-bar">
         <div class="dice-roller">
+          {{#if (eq model.diceRoller 'eote')}}
+            {{eote-dice roles=model.game.roles}}
+          {{/if}}
         </div>
-        <div class="chat">
-          <div class="text-right">
-            <a href="#" {{action 'toggleChatMessageSound'}}>{{#if chatMessageSound}}<span class="fi-volume" title="Stop playing a notification sound"></span>{{else}}<span class="fi-volume-strike" title="Play a notification sound"></span>{{/if}}</a>
-            <a href="#" {{action 'toggleChatMessageAutoScroll'}}>{{#if chatMessageAutoScroll}}<span class="fi-link" title="Stop automatic scrolling"></span>{{else}}<span class="fi-unlink" title="Start automatic scrolling"></span>{{/if}}</a>
-          </div>
-          <ol class="no-bullet chat-message-list">
-            {{#each model.chatMessages as |chatMessage|}}
-              <li class="{{if chatMessage.newMessage 'new'}}">
-                <div>{{chatMessage.user.displayName}}:</div>
-                <div>{{{chatMessage.message}}}</div>
-              </li>
-            {{/each}}
-          </ol>
-          <form {{action 'addChatMessage' on='submit'}} class="input-group">
-            <span class="input-group-label"><select onchange={{action (mut chatAddressee) value='target.value'}}>
-              <option value="">@Everybody</option>
-              <option value="gm">@GM</option>
-              <option value="players">@Players</option>
-              {{#each model.game.roles as |role|}}
-                <option value={{role.user.displayName}}>@{{role.user.displayName}}</option>
-              {{/each}}
-            </select></span>
-            {{input value=chatMessage type="text" class="input-group-field"}}
-            <div class="input-group-button">
-              <input type="submit" value="Send" class="button postfix"/>
-            </div>
-          </form>
-        </div>
+        {{chat-messages messages=model.chatMessages roles=model.game.roles chatMessageSound=chatMessageSound toggleChatMessageSound=(action 'toggleChatMessageSound') chatMessageAutoScroll=chatMessageAutoScroll toggleChatMessageAutoScroll=(action 'toggleChatMessageAutoScroll')}}
       </div>
     </div>
   </div>

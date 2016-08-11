@@ -28,7 +28,7 @@
                 {{#if stat_row.title}}
                   <th>
                     {{#if (and action_handler stat_row.action)}}
-                      <a href="#" {{action action_handler 'chat' stat_row.action_title stat_row.action}}>{{stat_row.title}}</a>
+                      <a href="#" {{action action_handler stat_row.action_target stat_row.action_title stat_row.action}}>{{stat_row.title}}</a>
                     {{else}}
                       {{stat_row.title}}
                     {{/if}}
@@ -68,7 +68,7 @@
                         </div>
                       {{/if}}
                       {{#if (and action_handler stat_column.action)}}
-                        <a href="#" {{action action_handler 'chat' stat_column.action_title stat_column.action}}>{{character-sheet-value stat_column.data_type stat_column.value}}</a>
+                        <a href="#" {{action action_handler stat_row.action_target stat_column.action_title stat_column.action}}>{{character-sheet-value stat_column.data_type stat_column.value}}</a>
                       {{else}}
                         {{character-sheet-value stat_column.data_type stat_column.value}}
                       {{/if}}
