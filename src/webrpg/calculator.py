@@ -1,9 +1,25 @@
-# -*- coding: utf-8 -*-
-u"""
-
-.. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
+#############################################
+:mod:`~webrpg.calculator` - Calculator engine
+#############################################
 
+Provides a generic calculator that supports the following operators: "*", "/", "+", "-", "floor",
+"max", "min", and "if". The minimalist use of the calculator is:
+
+.. sourcecode:: python
+
+  calculate(infix_to_postfix(process_unary(tokenise('1 + 1'))))
+
+After the :func:`~webrpg.calculator.tokenise` function, the :func:`~webrpg.calculator.add_variables`
+function can be used to include replacement variables:
+
+.. sourcecode:: python
+
+  calculate(infix_to_postfix(process_unary(add_variables(tokenise('1 + ${var}'),
+                                                         {'var': 2}))))
+
+.. moduleauthor:: Mark Hall <mark.hall@work.room3b.eu>
+"""
 import math
 import random
 import re
@@ -37,7 +53,15 @@ OPERATORS = {'(': {'precedence': 0},
                      'params': 2,
                      'func': min}}
 
+
 def token_type(string):
+    """Converts the given ``string`` into either an operator or value.
+
+    :param string: The string to convert
+    :type string: ``unicode``
+    :return: The converted value, either ``('op', string)`` or ``('val', string)``
+    :rtype: ``tuple``
+    """
     if string in OPERATORS.keys():
         return ('op', string)
     else:
@@ -45,6 +69,13 @@ def token_type(string):
 
 
 def tokenise(string):
+    """Tokenise the ``string``, splitting on operators, brackets, and white-space.
+
+    :param string: The string to tokenise
+    :type string: ``unicode``
+    :return: The list of tokens
+    :rtype: ``list``
+    """
     tokens = []
     tmp = []
     mode = 0
@@ -70,7 +101,7 @@ def tokenise(string):
             tmp.append(c)
         elif c == ' ':
             if mode == 0:
-                if tmp: 
+                if tmp:
                     tokens.append(token_type(''.join(tmp).strip()))
                     tmp = []
             elif mode == 1:
@@ -106,7 +137,19 @@ def add_dice(tokens):
 
 
 def add_variables(tokens, values):
+    """Process any variables "${variable_name}" in the ``tokens``, replacing their value
+    with the value from ``values``. If a variable is not found in ``values``, replaces
+    it with a 0 value.
+
+    :param tokens: The tokens to add variable values to
+    :type tokens: ``list``
+    :param values: The replacement values
+    :type values: ``dict``
+    :return: The replaced tokens
+    :type: ``list``
+    """
     def minimalist_value(value):
+        """Ensure that integer values are represented as integers, not floats."""
         try:
             if value.is_integer():
                 return str(int(value))
@@ -187,10 +230,23 @@ def add_variables(tokens, values):
 
 
 def op_precedence(op):
+    """Returns the operator precedence value for ``op``.
+
+    :param op: The operator to calculate precedence for
+    :type op: ``string``
+    :return: Integer precedence value
+    :rtype: ``int``"""
     return OPERATORS[op]['precedence']
 
 
 def process_unary(tokens):
+    """Processes any unary "-" tokens.
+
+    :param tokens: The tokens to process
+    :type tokens: ``list``
+    :return: The processes tokens
+    :rtype: ``list``
+    """
     output = []
     modifier = None
     for idx in range(0, len(tokens)):
@@ -207,6 +263,13 @@ def process_unary(tokens):
 
 
 def infix_to_postfix(tokens):
+    """Convert the infix tokens to a postfix representation.
+
+    :param tokens: The tokens to convert
+    :type tokens: ``list``
+    :return: The postfix token order
+    :rtype: ``list``
+    """
     stack = []
     output = []
     for token in tokens:
@@ -236,6 +299,13 @@ def infix_to_postfix(tokens):
 
 
 def calculate(tokens):
+    """Calculate the result for the ``tokens``.
+
+    :param tokens: The tokens that represent the calculation
+    :type tokens: ``list``
+    :return: The calculation result
+    :rtype: ``float`` or ``int``
+    """
     try:
         stack = []
         for token in tokens:

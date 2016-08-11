@@ -6,7 +6,6 @@ Handles all game-session model interactions
 
 .. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
-
 from formencode import validators
 from sqlalchemy import Column, Integer, Unicode, ForeignKey
 from sqlalchemy.orm import relationship
@@ -45,6 +44,8 @@ class Session(Base, JSONAPIMixin):
     __json_relationships__ = ['game', 'chat_messages', 'maps']
 
     def allow(self, user, action):
+        """Check if the given :class:`~webrpg.components.user.User` is allowed
+        to undertake the given ``action``."""
         return True
 
 

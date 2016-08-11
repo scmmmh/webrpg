@@ -1,19 +1,21 @@
-"""Add maps
+"""
+#####################
+Add support for maps.
+#####################
 
 Revision ID: 9590ee34be
-Revises: 
+Revises:
 Create Date: 2015-07-16 10:49:50.931272
 
 """
+from alembic import op
+import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '9590ee34be'
 down_revision = None
 branch_labels = None
 depends_on = None
-
-from alembic import op
-import sqlalchemy as sa
 
 
 def upgrade():

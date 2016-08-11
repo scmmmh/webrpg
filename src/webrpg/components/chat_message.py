@@ -6,7 +6,6 @@ Handles all chat-message-related model interactions
 
 .. moduleauthor:: Mark Hall <mark.hall@work.room3b.eu>
 """
-
 import random
 import re
 
@@ -29,16 +28,16 @@ class ChatMessage(Base, JSONAPIMixin):
     """
 
     __tablename__ = 'chat_messages'
-    
+
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id', name='chat_messages_user_id_fk'))
     session_id = Column(Integer, ForeignKey('sessions.id', name='chat_messages_session_id_fk'))
     message = Column(UnicodeText)
     filters = Column(Unicode(255))
-    
+
     user = relationship('User')
     session = relationship('Session')
-    
+
     __create_schema__ = JSONAPISchema('chat-messages',
                                       attribute_schema=DynamicSchema({'message': validators.UnicodeString(not_empty=True)}),
                                       relationship_schema=DynamicSchema({'user': {'data': {'type': validators.OneOf(['users'],
@@ -50,7 +49,6 @@ class ChatMessage(Base, JSONAPIMixin):
 
     __json_attributes__ = ['message']
     __json_relationships__ = [('user', True), 'session']
-
 
     def allow(self, user, action):
         """Check if the given :class:`~webrpg.components.user.User` is allowed
@@ -160,7 +158,7 @@ def calculate_dicerolls(target, value, old_value, initiator):
                         if 2 <= value <= 3:
                             rolls.append('<span class="eote eote-success" title="Success"></span>')
                             outcomes['success'] = outcomes['success'] + 1
-                        elif 4 <= value <=5:
+                        elif 4 <= value <= 5:
                             rolls.append('<span class="eote eote-success-double" title="Double Success"></span>')
                             outcomes['success'] = outcomes['success'] + 2
                         elif value == 6:

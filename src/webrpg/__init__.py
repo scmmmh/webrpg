@@ -1,3 +1,12 @@
+"""
+########################################
+:mod:`~webrpg` - Web-based RPG interface
+########################################
+
+The main package for the WebRPG system.
+
+.. moduleauthor:: Mark Hall <mark.hall@work.room3b.eu>
+"""
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
 
@@ -6,7 +15,7 @@ from .models import (DBSession, Base)
 
 
 def main(global_config, **settings):
-    """ This function returns a Pyramid WSGI application.
+    """Initialises and returns the WebRPG Pyramid WSGI application.
     """
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)

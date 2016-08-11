@@ -1,6 +1,8 @@
 WebRPG README
 =============
 
+These instructions are for developers.
+
 Setup virtual environment [once]
 --------------------------------
 
@@ -20,15 +22,14 @@ Setup development environment insive virtual environment [once]
 
 - WebRPG generate-config --filename development.ini
 
-Remove previous database instance [optional]
---------------------------------------------
-
-- rm pyire_test.db
-
 Create or upgrade database instance inside virtual environment
 --------------------------------------------------------------
 
 - WebRPG initialise-database development.ini
+
+To automatically drop existing tables
+
+- WebRPG initialise-database development.ini --drop-existing
 
 Build GUI resources [once]
 --------------------------
@@ -42,6 +43,8 @@ Rebuild GUI resources [as necessary]
 ------------------------------------
 
 - node_modules/.bin/ember build --output-path ../webrpg/gui/
+
+Run this in the "src/gui" directory.
 
 Activate service
 ----------------

@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
-u"""
+"""
+##########################################
+Handles all map-related model interactions
+##########################################
 
 .. moduleauthor:: Mark Hall <mark.hall@mail.room3b.eu>
 """
-
 from formencode import validators
 from sqlalchemy import Column, Integer, ForeignKey, Unicode, UnicodeText
 from sqlalchemy.orm import relationship
@@ -14,6 +15,11 @@ from webrpg.util import JSONAPISchema, DynamicSchema, DoNotStore
 
 
 class Map(Base, JSONAPIMixin):
+    """The :class:`~webrpg.components.map.Map` represents a game map.
+    It has the following attributes: "title", "map", "fog". The "map"
+    and "fog" attributes use DataURLs to represent the base map image
+    data and the fog-of-war overlay image data.
+    """
 
     __tablename__ = 'maps'
 
@@ -39,6 +45,8 @@ class Map(Base, JSONAPIMixin):
     __json_relationships__ = ['session']
 
     def allow(self, user, action):
+        """Check if the given :class:`~webrpg.components.user.User` is allowed
+        to undertake the given ``action``."""
         return True
 
 
