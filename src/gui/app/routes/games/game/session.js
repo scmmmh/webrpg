@@ -1,3 +1,4 @@
+/* global createjs */
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
@@ -52,6 +53,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                         message.set('newMessage', false);
                     }, 5000);
                 });
+                if(controller.get('chatMessageSound')) {
+                    createjs.Sound.play("notification");
+                }
                 route.set('chat-message-min-id', max_id);
                 if(controller.get('chatMessageAutoScroll')) {
                     Ember.run.schedule('afterRender', this, function() {
