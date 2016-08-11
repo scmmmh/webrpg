@@ -74,8 +74,14 @@
 .eote-darkside:before {
     content: 'z';
 }
+.eote-darkside-double:before {
+    content: 'zz';
+}
 .eote-lightside:before {
     content: 'Z';
+}
+.eote-lightside-double:before {
+    content: 'ZZ';
 }
 .eote-boost:before {
     content: 'b';
