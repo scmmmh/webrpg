@@ -11,7 +11,6 @@ export default Ember.Component.extend({
             Ember.set(column, 'value', Ember.get(column, 'oldValue'));
         },
         'save-edit': function(character, column) {
-            var controller = this;
             Ember.set(column, 'isEditing', false);
             character.save();
         },
@@ -22,7 +21,6 @@ export default Ember.Component.extend({
             }
         },
         'reload': function(character) {
-            var controller = this;
             character.reload();
         },
         'selectTab': function(tab) {
