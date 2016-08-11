@@ -20,9 +20,9 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
   app.import('bower_components/foundation-sites/dist/foundation.min.css');
-  app.import('bower_components/foundation-sites/dist/foundation.min.js');
   app.import('vendor/foundation-icons.css');
   app.import('vendor/eote-icons.css');
+  app.import('bower_components/SoundJS/lib/soundjs-0.6.2.min.js');
 
   return app.toTree();
 };
