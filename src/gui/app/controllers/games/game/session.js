@@ -9,7 +9,6 @@ export default Ember.Controller.extend({
     
     init: function() {
         this._super(...arguments);
-        console.log(localStorage.getItem('webrpg.chatMessageAutoScroll'));
         if(localStorage.getItem('webrpg.chatMessageAutoScroll') === 'false') {
             this.set('chatMessageAutoScroll', false);
         }
