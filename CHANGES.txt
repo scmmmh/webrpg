@@ -1,3 +1,8 @@
+0.5.4
+-----
+
+- UPDATE: Added manual chat-message auto-follow toggle
+
 0.5.3
 -----
 

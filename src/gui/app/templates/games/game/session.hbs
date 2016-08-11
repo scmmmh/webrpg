@@ -74,6 +74,10 @@
         <div class="dice-roller">
         </div>
         <div class="chat">
+          <div class="text-right">
+            <a href="#" {{action 'toggleChatMessageSound'}}>{{#if chatMessageSound}}<span class="fi-volume" title="Stop playing a notification sound"></span>{{else}}<span class="fi-volume-strike" title="Play a notification sound"></span>{{/if}}</a>
+            <a href="#" {{action 'toggleChatMessageAutoScroll'}}>{{#if chatMessageAutoScroll}}<span class="fi-link" title="Stop automatic scrolling"></span>{{else}}<span class="fi-unlink" title="Start automatic scrolling"></span>{{/if}}</a>
+          </div>
           <ol class="no-bullet chat-message-list">
             {{#each model.chatMessages as |chatMessage|}}
               <li class="{{if chatMessage.newMessage 'new'}}">

@@ -4,7 +4,19 @@ export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
     cursorSize: 10,
     cursorMode: 'reveal',
+    chatMessageAutoScroll: true,
+    chatMessageSound: true,
     
+    init: function() {
+        this._super(...arguments);
+        console.log(localStorage.getItem('webrpg.chatMessageAutoScroll'));
+        if(localStorage.getItem('webrpg.chatMessageAutoScroll') === 'false') {
+            this.set('chatMessageAutoScroll', false);
+        }
+        if(localStorage.getItem('webrpg.chatMessageSound') === 'false') {
+            this.set('chatMessageSound', false);
+        }
+    },
     actions: {
         addChatMessage: function() {
             var controller = this;
@@ -98,6 +110,14 @@ export default Ember.Controller.extend({
         },
         setCursorMode: function(mode) {
             this.set('cursorMode', mode);
+        },
+        toggleChatMessageAutoScroll: function() {
+            this.set('chatMessageAutoScroll', !this.get('chatMessageAutoScroll'));
+            localStorage.setItem('webrpg.chatMessageAutoScroll', this.get('chatMessageAutoScroll'));
+        },
+        toggleChatMessageSound: function() {
+            this.set('chatMessageSound', !this.get('chatMessageSound'));
+            localStorage.setItem('webrpg.chatMessageSound', this.get('chatMessageSound'));
         }
     }
 });
