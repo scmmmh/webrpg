@@ -74,6 +74,9 @@
         <div class="dice-roller">
         </div>
         <div class="chat">
+          <div class="text-right">
+            <a href="#" {{action 'toggleChatMessageAutoScroll'}}>{{#if chatMessageAutoScroll}}<span class="fi-unlink" title="Stop automatic scrolling"></span>{{else}}<span class="fi-link" title="Start automatic scrolling"></span>{{/if}}</a>
+          </div>
           <ol class="no-bullet chat-message-list">
             {{#each model.chatMessages as |chatMessage|}}
               <li class="{{if chatMessage.newMessage 'new'}}">

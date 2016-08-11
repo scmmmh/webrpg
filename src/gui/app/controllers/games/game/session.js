@@ -4,6 +4,7 @@ export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
     cursorSize: 10,
     cursorMode: 'reveal',
+    chatMessageAutoScroll: true,
     
     actions: {
         addChatMessage: function() {
@@ -98,6 +99,9 @@ export default Ember.Controller.extend({
         },
         setCursorMode: function(mode) {
             this.set('cursorMode', mode);
+        },
+        toggleChatMessageAutoScroll: function() {
+            this.set('chatMessageAutoScroll', !this.get('chatMessageAutoScroll'));
         }
     }
 });
