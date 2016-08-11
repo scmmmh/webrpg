@@ -52,6 +52,7 @@ h1 small a {
     max-height: 15rem;
     display: flex;
     flex-direction: row;
+    border-top: 1px solid #e6e6e6;
 }
 #session-window .accordion-title {
     padding: 0.4rem;
@@ -139,6 +140,7 @@ h1 small a {
     box-sizing: border-box;
     padding-top: 0.4rem;
     padding-right: 0.4rem;
+    border-right: 1px solid #e6e6e6;
 }
 #session-window .dice-roller form .input-group-label.no-padding {
     padding: 0;
