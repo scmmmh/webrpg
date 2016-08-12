@@ -21,7 +21,8 @@
              {"id": "strength",
               "title": "Strength",
               "action": {
-                  "content": "d20 + {abilities.str}"
+                  "content": "d20 + {abilities.str}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "strength",
@@ -35,7 +36,8 @@
              {"id": "dexterity",
               "title": "Dexterity",
               "action": {
-                  "content": "d20 + {abilities.dex}"
+                  "content": "d20 + {abilities.dex}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "dexterity",
@@ -49,7 +51,8 @@
              {"id": "constitution",
               "title": "Constitution",
               "action": {
-                  "content": "d20 + {abilities.con}"
+                  "content": "d20 + {abilities.con}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "constitution",
@@ -63,7 +66,8 @@
              {"id": "intelligence",
               "title": "Intelligence",
               "action": {
-                  "content": "d20 + {abilities.int}"
+                  "content": "d20 + {abilities.int}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "intelligence",
@@ -77,7 +81,8 @@
              {"id": "wisdom",
               "title": "Wisdom",
               "action": {
-                  "content": "d20 + {abilities.wis}"
+                  "content": "d20 + {abilities.wis}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "wisdom",
@@ -91,7 +96,8 @@
              {"id": "charisma",
               "title": "Charisma",
               "action": {
-                  "content": "d20 + {abilities.cha}"
+                  "content": "d20 + {abilities.cha}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "charisma",

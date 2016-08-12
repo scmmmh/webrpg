@@ -68,7 +68,7 @@
                         </div>
                       {{/if}}
                       {{#if (and action_handler stat_column.action)}}
-                        <a href="#" {{action action_handler stat_row.action_target stat_column.action_title stat_column.action}}>{{character-sheet-value stat_column.data_type stat_column.value}}</a>
+                        <a href="#" {{action action_handler stat_column.action.target stat_column.action.title stat_column.action.content}}>{{character-sheet-value stat_column.data_type stat_column.value}}</a>
                       {{else}}
                         {{character-sheet-value stat_column.data_type stat_column.value}}
                       {{/if}}

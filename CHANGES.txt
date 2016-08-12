@@ -2,6 +2,7 @@
 ---------
 
 - NEW: EOTE dice roller interface
+- NEW: D20 dice roller interface
 
 0.5.4
 -----
