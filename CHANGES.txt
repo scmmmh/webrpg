@@ -1,3 +1,8 @@
+0.6.0-dev
+---------
+
+- NEW: EOTE dice roller interface
+
 0.5.4
 -----
 
