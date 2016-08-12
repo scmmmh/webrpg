@@ -28,7 +28,7 @@
                 {{#if stat_row.title}}
                   <th>
                     {{#if (and action_handler stat_row.action)}}
-                      <a href="#" {{action action_handler stat_row.action_target stat_row.action_title stat_row.action}}>{{stat_row.title}}</a>
+                      <a href="#" {{action action_handler stat_row.action.target stat_row.action.title stat_row.action.content}}>{{stat_row.title}}</a>
                     {{else}}
                       {{stat_row.title}}
                     {{/if}}

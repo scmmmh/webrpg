@@ -69,8 +69,9 @@
          "rows": [
              {"id": "strength",
               "title": "Strength",
-              "action": "d20 + {abilities.str}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.str}"
+              },
               "columns": [
                   {"id": "strength",
                    "data_type": "number",
@@ -82,8 +83,9 @@
               ]},
              {"id": "dexterity",
               "title": "Dexterity",
-              "action": "d20 + {abilities.dex}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.dex}"
+              },
               "columns": [
                   {"id": "dexterity",
                    "data_type": "number",
@@ -95,8 +97,9 @@
               ]},
              {"id": "constitution",
               "title": "Constitution",
-              "action": "d20 + {abilities.con}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.con}"
+              },
               "columns": [
                   {"id": "constitution",
                    "data_type": "number",
@@ -108,8 +111,9 @@
               ]},
              {"id": "intelligence",
               "title": "Intelligence",
-              "action": "d20 + {abilities.int}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.int}"
+              },
               "columns": [
                   {"id": "intelligence",
                    "data_type": "number",
@@ -121,8 +125,9 @@
               ]},
              {"id": "wisdom",
               "title": "Wisdom",
-              "action": "d20 + {abilities.wis}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.wis}"
+              },
               "columns": [
                   {"id": "wisdom",
                    "data_type": "number",
@@ -134,8 +139,9 @@
               ]},
              {"id": "charisma",
               "title": "Charisma",
-              "action": "d20 + {abilities.cha}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.cha}"
+              },
               "columns": [
                   {"id": "charisma",
                    "data_type": "number",
@@ -152,8 +158,9 @@
          "rows": [
              {"id": "acrobatics",
               "title": "Acrobatics",
-              "action": "d20 + {skills.acrobatics}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.acrobatics}"
+              },
               "columns": [
                   {"id": "acrobatics.proficient",
                    "data_type": "boolean",
@@ -165,8 +172,9 @@
               ]},
              {"id": "animal_handling",
               "title": "Animal Handling",
-              "action": "d20 + {skills.animal_handling}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.animal_handling}"
+              },
               "columns": [
                   {"id": "animal_handling.proficient",
                    "data_type": "boolean",
@@ -178,8 +186,9 @@
               ]},
              {"id": "arcana",
               "title": "Arcana",
-              "action": "d20 + {skills.arcana}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.arcana}"
+              },
               "columns": [
                   {"id": "arcana.proficient",
                    "data_type": "boolean",
@@ -191,8 +200,9 @@
               ]},
              {"id": "athletics",
               "title": "Athletics",
-              "action": "d20 + {skills.athletics}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.athletics}"
+              },
               "columns": [
                   {"id": "athletics.proficient",
                    "data_type": "boolean",
@@ -204,8 +214,9 @@
               ]},
              {"id": "deception",
               "title": "Deception",
-              "action": "d20 + {skills.deception}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.deception}"
+              },
               "columns": [
                   {"id": "deception.proficient",
                    "data_type": "boolean",
@@ -217,8 +228,9 @@
               ]},
              {"id": "history",
               "title": "History",
-              "action": "d20 + {skills.history}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.history}"
+              },
               "columns": [
                   {"id": "history.proficient",
                    "data_type": "boolean",
@@ -230,8 +242,9 @@
               ]},
              {"id": "insight",
               "title": "Insight",
-              "action": "d20 + {skills.insight}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.insight}"
+              },
               "columns": [
                   {"id": "insight.proficient",
                    "data_type": "boolean",
@@ -243,8 +256,9 @@
               ]},
              {"id": "intimidation",
               "title": "Intimidation",
-              "action": "d20 + {skills.intimidation}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.intimidation}"
+              },
               "columns": [
                   {"id": "intimidation.proficient",
                    "data_type": "boolean",
@@ -256,8 +270,9 @@
               ]},
              {"id": "investigation",
               "title": "Investigation",
-              "action": "d20 + {skills.investigation}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.investigation}"
+              },
               "columns": [
                   {"id": "investigation.proficient",
                    "data_type": "boolean",
@@ -269,8 +284,9 @@
               ]},
              {"id": "medicine",
               "title": "Medicine",
-              "action": "d20 + {skills.medicine}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.medicine}"
+              },
               "columns": [
                   {"id": "medicine.proficient",
                    "data_type": "boolean",
@@ -282,8 +298,9 @@
               ]},
              {"id": "nature",
               "title": "Nature",
-              "action": "d20 + {skills.nature}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.nature}"
+              },
               "columns": [
                   {"id": "nature.proficient",
                    "data_type": "boolean",
@@ -295,8 +312,9 @@
               ]},
              {"id": "perception",
               "title": "Perception",
-              "action": "d20 + {skills.perception}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.perception}"
+              },
               "columns": [
                   {"id": "perception.proficient",
                    "data_type": "boolean",
@@ -308,8 +326,9 @@
               ]},
              {"id": "passive_perception",
               "title": "Passive Perception",
-              "action": "d20 + {skills.passive_perception}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.passive_perception}"
+              },
               "columns": [
                   {"id": "passive_perception.proficient",
                    "data_type": "boolean",
@@ -321,8 +340,9 @@
               ]},
              {"id": "performance",
               "title": "Performance",
-              "action": "d20 + {skills.performance}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.performance}"
+              },
               "columns": [
                   {"id": "performance.proficient",
                    "data_type": "boolean",
@@ -334,8 +354,9 @@
               ]},
              {"id": "persuasion",
               "title": "Persuasion",
-              "action": "d20 + {skills.persuasion}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.persuasion}"
+              },
               "columns": [
                   {"id": "persuasion.proficient",
                    "data_type": "boolean",
@@ -347,8 +368,9 @@
               ]},
              {"id": "religion",
               "title": "Religion",
-              "action": "d20 + {skills.religion}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.religion}"
+              },
               "columns": [
                   {"id": "religion.proficient",
                    "data_type": "boolean",
@@ -360,8 +382,9 @@
               ]},
              {"id": "sleight_of_hand",
               "title": "Sleight of Hand",
-              "action": "d20 + {skills.sleight_of_hand}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.sleight_of_hand}"
+              },
               "columns": [
                   {"id": "sleight_of_hand.proficient",
                    "data_type": "boolean",
@@ -373,8 +396,9 @@
               ]},
              {"id": "stealth",
               "title": "Stealth",
-              "action": "d20 + {skills.stealth}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.stealth}"
+              },
               "columns": [
                   {"id": "stealth.proficient",
                    "data_type": "boolean",
@@ -386,8 +410,9 @@
               ]},
              {"id": "survival",
               "title": "Survival",
-              "action": "d20 + {skills.survival}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {skills.survival}"
+              },
               "columns": [
                   {"id": "survival.proficient",
                    "data_type": "boolean",
@@ -404,8 +429,9 @@
          "rows": [
              {"id": "strength",
               "title": "Strength",
-              "action": "d20 + {saving.strength}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {saving.strength}"
+              },
               "columns": [
                   {"id": "strength.proficient",
                    "data_type": "boolean",
@@ -417,8 +443,9 @@
               ]},
              {"id": "dexterity",
               "title": "Dexterity",
-              "action": "d20 + {saving.dexterity}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {saving.dexterity}"
+              },
               "columns": [
                   {"id": "dexterity.proficient",
                    "data_type": "boolean",
@@ -430,8 +457,9 @@
               ]},
              {"id": "constitution",
               "title": "Constitution",
-              "action": "d20 + {saving.constitution}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {saving.constitution}"
+              },
               "columns": [
                   {"id": "constitution.proficient",
                    "data_type": "boolean",
@@ -443,8 +471,9 @@
               ]},
              {"id": "intelligence",
               "title": "Intelligence",
-              "action": "d20 + {saving.intelligence}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {saving.intelligence}"
+              },
               "columns": [
                   {"id": "intelligence.proficient",
                    "data_type": "boolean",
@@ -456,8 +485,9 @@
               ]},
              {"id": "wisdom",
               "title": "Wisdom",
-              "action": "d20 + {saving.wisdom}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {saving.wisdom}"
+              },
               "columns": [
                   {"id": "wisdom.proficient",
                    "data_type": "boolean",
@@ -469,8 +499,9 @@
               ]},
              {"id": "charisma",
               "title": "Charisma",
-              "action": "d20 + {saving.charisma}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {saving.charisma}"
+              },
               "columns": [
                   {"id": "charisma.proficient",
                    "data_type": "boolean",
@@ -564,9 +595,10 @@
                   {"id": "%i.name",
                    "data_type": "string",
                    "editable": true,
-                   "action": "d20 + {attacks.%(rowid)i.bonus}",
-                   "action_target": "setChatMessage",
-                   "action_title": "{attacks.%(rowid)i.name}"},
+                   "action": {
+                       "title": "{attacks.%(rowid)i.name}"},
+                       "content": "d20 + {attacks.%(rowid)i.bonus}"
+                   },
                   {"id": "%i.type",
                    "data_type": "option",
                    "editable": true,
@@ -581,9 +613,10 @@
                   {"id": "%i.damage",
                    "data_type": "string",
                    "editable": true,
-                   "action": "{attacks.%(rowid)i.damage}",
-                   "action_target": "setChatMessage",
-                   "action_title": "{attacks.%(rowid)i.name} Damage"}
+                   "action": {
+                       "title": "{attacks.%(rowid)i.name} Damage"},
+                       "content": "{attacks.%(rowid)i.damage}"
+                   }
               ]}
          ]},
         {"id": "personality",

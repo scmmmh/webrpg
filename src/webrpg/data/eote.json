@@ -199,10 +199,12 @@
          "rows": [
              {"id": "astrogation",
               "title": "Astrogation (Int)",
-              "action": "$max({characteristics.int} {skills.astrogation.rank}) - min({characteristics.int} {skills.astrogation.rank})$A$max({characteristics.int} {skills.astrogation.rank}) - (max({characteristics.int} {skills.astrogation.rank}) - min({characteristics.int} {skills.astrogation.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Astrogation",
+              "action": {
+                  "target": "setDice",
+                  "title": "Astrogation",
+                  "content": "$max({characteristics.int} {skills.astrogation.rank}) - min({characteristics.int} {skills.astrogation.rank})$A$max({characteristics.int} {skills.astrogation.rank}) - (max({characteristics.int} {skills.astrogation.rank}) - min({characteristics.int} {skills.astrogation.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "astrogation.career",
                    "data_type": "boolean",
@@ -214,10 +216,12 @@
               ]},
              {"id": "athletics",
               "title": "Athletics (Br)",
-              "action": "$max({characteristics.br} {skills.athletics.rank}) - min({characteristics.br} {skills.athletics.rank})$A$max({characteristics.br} {skills.athletics.rank}) - (max({characteristics.br} {skills.athletics.rank}) - min({characteristics.br} {skills.athletics.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Athletics",
+              "action": {
+                  "target": "setDice",
+                  "title": "Athletics",
+                  "content": "$max({characteristics.br} {skills.athletics.rank}) - min({characteristics.br} {skills.athletics.rank})$A$max({characteristics.br} {skills.athletics.rank}) - (max({characteristics.br} {skills.athletics.rank}) - min({characteristics.br} {skills.athletics.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "athletics.career",
                    "data_type": "boolean",
@@ -229,10 +233,12 @@
               ]},
              {"id": "charm",
               "title": "Charm (Pr)",
-              "action": "$max({characteristics.pr} {skills.charm.rank}) - min({characteristics.pr} {skills.charm.rank})$A$max({characteristics.pr} {skills.charm.rank}) - (max({characteristics.pr} {skills.charm.rank}) - min({characteristics.pr} {skills.charm.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Charm",
+              "action": {
+                  "target": "setDice",
+                  "title": "Charm",
+                  "content": "$max({characteristics.pr} {skills.charm.rank}) - min({characteristics.pr} {skills.charm.rank})$A$max({characteristics.pr} {skills.charm.rank}) - (max({characteristics.pr} {skills.charm.rank}) - min({characteristics.pr} {skills.charm.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "charm.career",
                    "data_type": "boolean",
@@ -244,10 +250,12 @@
               ]},
              {"id": "coercion",
               "title": "Coercion (Will)",
-              "action": "$max({characteristics.will} {skills.coercion.rank}) - min({characteristics.will} {skills.coercion.rank})$A$max({characteristics.will} {skills.coercion.rank}) - (max({characteristics.will} {skills.coercion.rank}) - min({characteristics.will} {skills.coercion.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Coercion",
+              "action": {
+                  "target": "setDice",
+                  "title": "Coercion",
+                  "content": "$max({characteristics.will} {skills.coercion.rank}) - min({characteristics.will} {skills.coercion.rank})$A$max({characteristics.will} {skills.coercion.rank}) - (max({characteristics.will} {skills.coercion.rank}) - min({characteristics.will} {skills.coercion.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "coercion.career",
                    "data_type": "boolean",
@@ -259,10 +267,12 @@
               ]},
              {"id": "computers",
               "title": "Computers (Int)",
-              "action": "$max({characteristics.int} {skills.computers.rank}) - min({characteristics.int} {skills.computers.rank})$A$max({characteristics.int} {skills.computers.rank}) - (max({characteristics.int} {skills.computers.rank}) - min({characteristics.int} {skills.computers.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Computers",
+              "action": {
+                  "target": "setDice",
+                  "title": "Computers",
+                  "content": "$max({characteristics.int} {skills.computers.rank}) - min({characteristics.int} {skills.computers.rank})$A$max({characteristics.int} {skills.computers.rank}) - (max({characteristics.int} {skills.computers.rank}) - min({characteristics.int} {skills.computers.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "computers.career",
                    "data_type": "boolean",
@@ -274,10 +284,12 @@
               ]},
              {"id": "cool",
               "title": "Cool (Pr)",
-              "action": "$max({characteristics.pr} {skills.cool.rank}) - min({characteristics.pr} {skills.cool.rank})$A$max({characteristics.pr} {skills.cool.rank}) - (max({characteristics.pr} {skills.cool.rank}) - min({characteristics.pr} {skills.cool.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Cool",
+              "action": {
+                  "target": "setDice",
+                  "title": "Cool",
+                  "content": "$max({characteristics.pr} {skills.cool.rank}) - min({characteristics.pr} {skills.cool.rank})$A$max({characteristics.pr} {skills.cool.rank}) - (max({characteristics.pr} {skills.cool.rank}) - min({characteristics.pr} {skills.cool.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "cool.career",
                    "data_type": "boolean",
@@ -289,10 +301,12 @@
               ]},
              {"id": "coordination",
               "title": "Coordination (Int)",
-              "action": "$max({characteristics.ag} {skills.coordination.rank}) - min({characteristics.ag} {skills.coordination.rank})$A$max({characteristics.ag} {skills.coordination.rank}) - (max({characteristics.ag} {skills.coordination.rank}) - min({characteristics.ag} {skills.coordination.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Coordination",
+              "action": {
+                  "target": "setDice",
+                  "title": "Coordination",
+                  "content": "$max({characteristics.ag} {skills.coordination.rank}) - min({characteristics.ag} {skills.coordination.rank})$A$max({characteristics.ag} {skills.coordination.rank}) - (max({characteristics.ag} {skills.coordination.rank}) - min({characteristics.ag} {skills.coordination.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "coordination.career",
                    "data_type": "boolean",
@@ -304,10 +318,12 @@
               ]},
              {"id": "deception",
               "title": "Deception (Cun)",
-              "action": "$max({characteristics.cun} {skills.deception.rank}) - min({characteristics.cun} {skills.deception.rank})$A$max({characteristics.cun} {skills.deception.rank}) - (max({characteristics.cun} {skills.deception.rank}) - min({characteristics.cun} {skills.deception.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Deception",
+              "action": {
+                  "target": "setDice",
+                  "title": "Deception",
+                  "content": "$max({characteristics.cun} {skills.deception.rank}) - min({characteristics.cun} {skills.deception.rank})$A$max({characteristics.cun} {skills.deception.rank}) - (max({characteristics.cun} {skills.deception.rank}) - min({characteristics.cun} {skills.deception.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "deception.career",
                    "data_type": "boolean",
@@ -319,10 +335,12 @@
               ]},
              {"id": "discipline",
               "title": "Discipline (Will)",
-              "action": "$max({characteristics.will} {skills.discipline.rank}) - min({characteristics.will} {skills.discipline.rank})$A$max({characteristics.will} {skills.discipline.rank}) - (max({characteristics.will} {skills.discipline.rank}) - min({characteristics.will} {skills.discipline.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Discipline",
+              "action": {
+                  "target": "setDice",
+                  "title": "Discipline",
+                  "content": "$max({characteristics.will} {skills.discipline.rank}) - min({characteristics.will} {skills.discipline.rank})$A$max({characteristics.will} {skills.discipline.rank}) - (max({characteristics.will} {skills.discipline.rank}) - min({characteristics.will} {skills.discipline.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "discipline.career",
                    "data_type": "boolean",
@@ -334,10 +352,12 @@
               ]},
              {"id": "leadership",
               "title": "Leadership (Pr)",
-              "action": "$max({characteristics.pr} {skills.leadership.rank}) - min({characteristics.pr} {skills.leadership.rank})$A$max({characteristics.pr} {skills.leadership.rank}) - (max({characteristics.pr} {skills.leadership.rank}) - min({characteristics.pr} {skills.leadership.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Leadership",
+              "action": {
+                  "target": "setDice",
+                  "title": "Leadership",
+                  "content": "$max({characteristics.pr} {skills.leadership.rank}) - min({characteristics.pr} {skills.leadership.rank})$A$max({characteristics.pr} {skills.leadership.rank}) - (max({characteristics.pr} {skills.leadership.rank}) - min({characteristics.pr} {skills.leadership.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "leadership.career",
                    "data_type": "boolean",
@@ -349,10 +369,12 @@
               ]},
              {"id": "mechanics",
               "title": "Mechanics (Int)",
-              "action": "$max({characteristics.int} {skills.mechanics.rank}) - min({characteristics.int} {skills.mechanics.rank})$A$max({characteristics.int} {skills.mechanics.rank}) - (max({characteristics.int} {skills.mechanics.rank}) - min({characteristics.int} {skills.mechanics.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Mechanics",
+              "action": {
+                  "target": "setDice",
+                  "title": "Mechanics",
+                  "content": "$max({characteristics.int} {skills.mechanics.rank}) - min({characteristics.int} {skills.mechanics.rank})$A$max({characteristics.int} {skills.mechanics.rank}) - (max({characteristics.int} {skills.mechanics.rank}) - min({characteristics.int} {skills.mechanics.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "mechanics.career",
                    "data_type": "boolean",
@@ -364,10 +386,12 @@
               ]},
              {"id": "medicine",
               "title": "Medicine (Int)",
-              "action": "$max({characteristics.int} {skills.medicine.rank}) - min({characteristics.int} {skills.medicine.rank})$A$max({characteristics.int} {skills.medicine.rank}) - (max({characteristics.int} {skills.medicine.rank}) - min({characteristics.int} {skills.medicine.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Medicine",
+              "action": {
+                  "target": "setDice",
+                  "title": "Medicine",
+                  "content": "$max({characteristics.int} {skills.medicine.rank}) - min({characteristics.int} {skills.medicine.rank})$A$max({characteristics.int} {skills.medicine.rank}) - (max({characteristics.int} {skills.medicine.rank}) - min({characteristics.int} {skills.medicine.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "medicine.career",
                    "data_type": "boolean",
@@ -379,10 +403,12 @@
               ]},
              {"id": "negotiation",
               "title": "Negotation (Pr)",
-              "action": "$max({characteristics.pr} {skills.negotiation.rank}) - min({characteristics.pr} {skills.negotiation.rank})$A$max({characteristics.pr} {skills.negotiation.rank}) - (max({characteristics.pr} {skills.negotiation.rank}) - min({characteristics.pr} {skills.negotiation.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Negotiation",
+              "action": {
+                  "target": "setDice",
+                  "title": "Negotiation",
+                  "content": "$max({characteristics.pr} {skills.negotiation.rank}) - min({characteristics.pr} {skills.negotiation.rank})$A$max({characteristics.pr} {skills.negotiation.rank}) - (max({characteristics.pr} {skills.negotiation.rank}) - min({characteristics.pr} {skills.negotiation.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "negotiation.career",
                    "data_type": "boolean",
@@ -394,10 +420,12 @@
               ]},
              {"id": "perception",
               "title": "Perception (Cun)",
-              "action": "$max({characteristics.cun} {skills.perception.rank}) - min({characteristics.cun} {skills.perception.rank})$A$max({characteristics.cun} {skills.perception.rank}) - (max({characteristics.cun} {skills.perception.rank}) - min({characteristics.cun} {skills.perception.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Perception",
+              "action": {
+                  "target": "setDice",
+                  "title": "Perception",
+                  "content": "$max({characteristics.cun} {skills.perception.rank}) - min({characteristics.cun} {skills.perception.rank})$A$max({characteristics.cun} {skills.perception.rank}) - (max({characteristics.cun} {skills.perception.rank}) - min({characteristics.cun} {skills.perception.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "perception.career",
                    "data_type": "boolean",
@@ -409,10 +437,12 @@
               ]},
              {"id": "piloting.planetary",
               "title": "Piloting - Planetary (Ag)",
-              "action": "$max({characteristics.ag} {skills.piloting.planetary.rank}) - min({characteristics.ag} {skills.piloting.planetary.rank})$A$max({characteristics.ag} {skills.piloting.planetary.rank}) - (max({characteristics.ag} {skills.piloting.planetary.rank}) - min({characteristics.ag} {skills.piloting.planetary.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Piloting - Planetary",
+              "action": {
+                  "target": "setDice",
+                  "title": "Piloting - Planetary",
+                  "content": "$max({characteristics.ag} {skills.piloting.planetary.rank}) - min({characteristics.ag} {skills.piloting.planetary.rank})$A$max({characteristics.ag} {skills.piloting.planetary.rank}) - (max({characteristics.ag} {skills.piloting.planetary.rank}) - min({characteristics.ag} {skills.piloting.planetary.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "piloting.planetary.career",
                    "data_type": "boolean",
@@ -424,10 +454,12 @@
               ]},
              {"id": "piloting.space",
               "title": "Piloting - Space (Ag)",
-              "action": "$max({characteristics.ag} {skills.piloting.space.rank}) - min({characteristics.ag} {skills.piloting.space.rank})$A$max({characteristics.ag} {skills.piloting.space.rank}) - (max({characteristics.ag} {skills.piloting.space.rank}) - min({characteristics.ag} {skills.piloting.space.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Piloting - Space",
+              "action": {
+                  "target": "setDice",
+                  "title": "Piloting - Space",
+                  "content": "$max({characteristics.ag} {skills.piloting.space.rank}) - min({characteristics.ag} {skills.piloting.space.rank})$A$max({characteristics.ag} {skills.piloting.space.rank}) - (max({characteristics.ag} {skills.piloting.space.rank}) - min({characteristics.ag} {skills.piloting.space.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "piloting.space.career",
                    "data_type": "boolean",
@@ -439,10 +471,12 @@
               ]},
              {"id": "resilience",
               "title": "Resilience (Br)",
-              "action": "$max({characteristics.br} {skills.resilience.rank}) - min({characteristics.br} {skills.resilience.rank})$A$max({characteristics.br} {skills.resilience.rank}) - (max({characteristics.br} {skills.resilience.rank}) - min({characteristics.br} {skills.resilience.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Resilience",
+              "action": {
+                  "target": "setDice",
+                  "title": "Resilience",
+                  "content": "$max({characteristics.br} {skills.resilience.rank}) - min({characteristics.br} {skills.resilience.rank})$A$max({characteristics.br} {skills.resilience.rank}) - (max({characteristics.br} {skills.resilience.rank}) - min({characteristics.br} {skills.resilience.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "resilience.career",
                    "data_type": "boolean",
@@ -454,10 +488,12 @@
               ]},
              {"id": "skulduggery",
               "title": "Skulduggery (Cun)",
-              "action": "$max({characteristics.cun} {skills.skulduggery.rank}) - min({characteristics.cun} {skills.skulduggery.rank})$A$max({characteristics.cun} {skills.skulduggery.rank}) - (max({characteristics.cun} {skills.skulduggery.rank}) - min({characteristics.cun} {skills.skulduggery.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Skulduggery",
+              "action": {
+                  "target": "setDice",
+                  "title": "Skulduggery",
+                  "content": "$max({characteristics.cun} {skills.skulduggery.rank}) - min({characteristics.cun} {skills.skulduggery.rank})$A$max({characteristics.cun} {skills.skulduggery.rank}) - (max({characteristics.cun} {skills.skulduggery.rank}) - min({characteristics.cun} {skills.skulduggery.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "skulduggery.career",
                    "data_type": "boolean",
@@ -469,10 +505,12 @@
               ]},
              {"id": "stealth",
               "title": "Stealth (Ag)",
-              "action": "$max({characteristics.ag} {skills.stealth.rank}) - min({characteristics.ag} {skills.stealth.rank})$A$max({characteristics.ag} {skills.stealth.rank}) - (max({characteristics.ag} {skills.stealth.rank}) - min({characteristics.ag} {skills.stealth.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Stealth",
+              "action": {
+                  "target": "setDice",
+                  "title": "Stealth",
+                  "content": "$max({characteristics.ag} {skills.stealth.rank}) - min({characteristics.ag} {skills.stealth.rank})$A$max({characteristics.ag} {skills.stealth.rank}) - (max({characteristics.ag} {skills.stealth.rank}) - min({characteristics.ag} {skills.stealth.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "stealth.career",
                    "data_type": "boolean",
@@ -484,10 +522,12 @@
               ]},
              {"id": "streetwise",
               "title": "Streetwise (Cun)",
-              "action": "$max({characteristics.cun} {skills.streetwise.rank}) - min({characteristics.cun} {skills.streetwise.rank})$A$max({characteristics.cun} {skills.streetwise.rank}) - (max({characteristics.cun} {skills.streetwise.rank}) - min({characteristics.cun} {skills.streetwise.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Streetwise",
+              "action": {
+                  "target": "setDice",
+                  "title": "Streetwise",
+                  "content": "$max({characteristics.cun} {skills.streetwise.rank}) - min({characteristics.cun} {skills.streetwise.rank})$A$max({characteristics.cun} {skills.streetwise.rank}) - (max({characteristics.cun} {skills.streetwise.rank}) - min({characteristics.cun} {skills.streetwise.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "streetwise.career",
                    "data_type": "boolean",
@@ -499,10 +539,12 @@
               ]},
              {"id": "survival",
               "title": "Survival (Cun)",
-              "action": "$max({characteristics.cun} {skills.survival.rank}) - min({characteristics.cun} {skills.survival.rank})$A$max({characteristics.cun} {skills.survival.rank}) - (max({characteristics.cun} {skills.survival.rank}) - min({characteristics.cun} {skills.survival.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Survival",
+              "action": {
+                  "target": "setDice",
+                  "title": "Survival",
+                  "content": "$max({characteristics.cun} {skills.survival.rank}) - min({characteristics.cun} {skills.survival.rank})$A$max({characteristics.cun} {skills.survival.rank}) - (max({characteristics.cun} {skills.survival.rank}) - min({characteristics.cun} {skills.survival.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "survival.career",
                    "data_type": "boolean",
@@ -514,10 +556,12 @@
               ]},
              {"id": "vigilance",
               "title": "Vigilance (Will)",
-              "action": "$max({characteristics.will} {skills.vigilance.rank}) - min({characteristics.will} {skills.vigilance.rank})$A$max({characteristics.will} {skills.vigilance.rank}) - (max({characteristics.will} {skills.vigilance.rank}) - min({characteristics.will} {skills.vigilance.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Vigilance",
+              "action": {
+                  "target": "setDice",
+                  "title": "Vigilance",
+                  "content": "$max({characteristics.will} {skills.vigilance.rank}) - min({characteristics.will} {skills.vigilance.rank})$A$max({characteristics.will} {skills.vigilance.rank}) - (max({characteristics.will} {skills.vigilance.rank}) - min({characteristics.will} {skills.vigilance.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "vigilance.career",
                    "data_type": "boolean",
@@ -532,12 +576,14 @@
          "title": "Attacks",
          "columns": ["", "Career", "Rank"],
          "rows": [
-              {"id": "brawl",
+             {"id": "brawl",
               "title": "Brawl (Br)",
-              "action": "$max({characteristics.br} {attacks.brawl.rank}) - min({characteristics.br} {attacks.brawl.rank})$A$max({characteristics.br} {attacks.brawl.rank}) - (max({characteristics.br} {attacks.brawl.rank}) - min({characteristics.br} {attacks.brawl.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Brawl",
+              "action": {
+                  "target": "setDice",
+                  "title": "Brawl",
+                  "content": "$max({characteristics.br} {attacks.brawl.rank}) - min({characteristics.br} {attacks.brawl.rank})$A$max({characteristics.br} {attacks.brawl.rank}) - (max({characteristics.br} {attacks.brawl.rank}) - min({characteristics.br} {attacks.brawl.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "brawl.career",
                    "data_type": "boolean",
@@ -547,12 +593,14 @@
                    "editable": true,
                    "options": [0, 1, 2, 3, 4, 5]}
               ]},
-              {"id": "gunnery",
+             {"id": "gunnery",
               "title": "Gunnery (Ag)",
-              "action": "$max({characteristics.ag} {attacks.gunnery.rank}) - min({characteristics.ag} {attacks.gunnery.rank})$A$max({characteristics.ag} {attacks.gunnery.rank}) - (max({characteristics.ag} {attacks.gunnery.rank}) - min({characteristics.ag} {attacks.gunnery.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Gunnery",
+              "action": {
+                  "target": "setDice",
+                  "title": "Gunnery",
+                  "content": "$max({characteristics.ag} {attacks.gunnery.rank}) - min({characteristics.ag} {attacks.gunnery.rank})$A$max({characteristics.ag} {attacks.gunnery.rank}) - (max({characteristics.ag} {attacks.gunnery.rank}) - min({characteristics.ag} {attacks.gunnery.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "gunnery.career",
                    "data_type": "boolean",
@@ -562,12 +610,14 @@
                    "editable": true,
                    "options": [0, 1, 2, 3, 4, 5]}
               ]},
-              {"id": "melee",
+             {"id": "melee",
               "title": "Melee (Br)",
-              "action": "$max({characteristics.br} {attacks.melee.rank}) - min({characteristics.br} {attacks.melee.rank})$A$max({characteristics.br} {attacks.melee.rank}) - (max({characteristics.br} {attacks.melee.rank}) - min({characteristics.br} {attacks.melee.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Melee",
+              "action": {
+                  "target": "setDice",
+                  "title": "Melee",
+                  "content": "$max({characteristics.br} {attacks.melee.rank}) - min({characteristics.br} {attacks.melee.rank})$A$max({characteristics.br} {attacks.melee.rank}) - (max({characteristics.br} {attacks.melee.rank}) - min({characteristics.br} {attacks.melee.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "melee.career",
                    "data_type": "boolean",
@@ -577,12 +627,14 @@
                    "editable": true,
                    "options": [0, 1, 2, 3, 4, 5]}
               ]},
-             {"id": "ranged.light",
+            {"id": "ranged.light",
               "title": "Ranged - Light (Ag)",
-              "action": "$max({characteristics.ag} {attacks.ranged.light.rank}) - min({characteristics.ag} {attacks.ranged.light.rank})$A$max({characteristics.ag} {attacks.ranged.light.rank}) - (max({characteristics.ag} {attacks.ranged.light.rank}) - min({characteristics.ag} {attacks.ranged.light.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Ranged - Light",
+              "action": {
+                  "target": "setDice",
+                  "title": "Ranged - Light",
+                  "content": "$max({characteristics.ag} {attacks.ranged.light.rank}) - min({characteristics.ag} {attacks.ranged.light.rank})$A$max({characteristics.ag} {attacks.ranged.light.rank}) - (max({characteristics.ag} {attacks.ranged.light.rank}) - min({characteristics.ag} {attacks.ranged.light.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "ranged.light.career",
                    "data_type": "boolean",
@@ -594,10 +646,12 @@
               ]},
              {"id": "ranged.heavy",
               "title": "Ranged - Heavy (Ag)",
-              "action": "$max({characteristics.ag} {attacks.ranged.heavy.rank}) - min({characteristics.ag} {attacks.ranged.heavy.rank})$A$max({characteristics.ag} {attacks.ranged.heavy.rank}) - (max({characteristics.ag} {attacks.ranged.heavy.rank}) - min({characteristics.ag} {attacks.ranged.heavy.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Ranged - Heavy",
+              "action": {
+                  "target": "setDice",
+                  "title": "Ranged - Heavy",
+                  "content": "$max({characteristics.ag} {attacks.ranged.heavy.rank}) - min({characteristics.ag} {attacks.ranged.heavy.rank})$A$max({characteristics.ag} {attacks.ranged.heavy.rank}) - (max({characteristics.ag} {attacks.ranged.heavy.rank}) - min({characteristics.ag} {attacks.ranged.heavy.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "ranged.heavy.career",
                    "data_type": "boolean",
@@ -614,10 +668,12 @@
          "rows": [
              {"id": "core_worlds",
               "title": "Core Worlds (Int)",
-              "action": "$max({characteristics.int} {knowledge.core_worlds.rank}) - min({characteristics.int} {knowledge.core_worlds.rank})$A$max({characteristics.int} {knowledge.core_worlds.rank}) - (max({characteristics.int} {knowledge.core_worlds.rank}) - min({characteristics.int} {knowledge.core_worlds.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Core Worlds",
+              "action": {
+                  "target": "setDice",
+                  "title": "Core Worlds",
+                  "content": "$max({characteristics.int} {knowledge.core_worlds.rank}) - min({characteristics.int} {knowledge.core_worlds.rank})$A$max({characteristics.int} {knowledge.core_worlds.rank}) - (max({characteristics.int} {knowledge.core_worlds.rank}) - min({characteristics.int} {knowledge.core_worlds.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "core_worlds.career",
                    "data_type": "boolean",
@@ -629,10 +685,12 @@
               ]},
              {"id": "education",
               "title": "Education (Int)",
-              "action": "$max({characteristics.int} {knowledge.education.rank}) - min({characteristics.int} {knowledge.education.rank})$A$max({characteristics.int} {knowledge.education.rank}) - (max({characteristics.int} {knowledge.education.rank}) - min({characteristics.int} {knowledge.education.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Education",
+              "action": {
+                  "target": "setDice",
+                  "title": "Education",
+                  "content": "$max({characteristics.int} {knowledge.education.rank}) - min({characteristics.int} {knowledge.education.rank})$A$max({characteristics.int} {knowledge.education.rank}) - (max({characteristics.int} {knowledge.education.rank}) - min({characteristics.int} {knowledge.education.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "education.career",
                    "data_type": "boolean",
@@ -644,10 +702,12 @@
               ]},
              {"id": "lore",
               "title": "Lore (Int)",
-              "action": "$max({characteristics.int} {knowledge.lore.rank}) - min({characteristics.int} {knowledge.lore.rank})$A$max({characteristics.int} {knowledge.lore.rank}) - (max({characteristics.int} {knowledge.lore.rank}) - min({characteristics.int} {knowledge.lore.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Lore",
+              "action": {
+                  "target": "setDice",
+                  "title": "Lore",
+                  "content": "$max({characteristics.int} {knowledge.lore.rank}) - min({characteristics.int} {knowledge.lore.rank})$A$max({characteristics.int} {knowledge.lore.rank}) - (max({characteristics.int} {knowledge.lore.rank}) - min({characteristics.int} {knowledge.lore.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "lore.career",
                    "data_type": "boolean",
@@ -659,10 +719,12 @@
               ]},
              {"id": "outer_rim",
               "title": "Outer Rim (Int)",
-              "action": "$max({characteristics.int} {knowledge.outer_rim.rank}) - min({characteristics.int} {knowledge.outer_rim.rank})$A$max({characteristics.int} {knowledge.outer_rim.rank}) - (max({characteristics.int} {knowledge.outer_rim.rank}) - min({characteristics.int} {knowledge.outer_rim.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Outer Rim",
+              "action": {
+                  "target": "setDice",
+                  "title": "Outer Rim",
+                  "content": "$max({characteristics.int} {knowledge.outer_rim.rank}) - min({characteristics.int} {knowledge.outer_rim.rank})$A$max({characteristics.int} {knowledge.outer_rim.rank}) - (max({characteristics.int} {knowledge.outer_rim.rank}) - min({characteristics.int} {knowledge.outer_rim.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "outer_rim.career",
                    "data_type": "boolean",
@@ -674,10 +736,12 @@
               ]},
              {"id": "underworld",
               "title": "Underworld (Int)",
-              "action": "$max({characteristics.int} {knowledge.underworld.rank}) - min({characteristics.int} {knowledge.underworld.rank})$A$max({characteristics.int} {knowledge.underworld.rank}) - (max({characteristics.int} {knowledge.underworld.rank}) - min({characteristics.int} {knowledge.underworld.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Underworld",
+              "action": {
+                  "target": "setDice",
+                  "title": "Underworld",
+                  "content": "$max({characteristics.int} {knowledge.underworld.rank}) - min({characteristics.int} {knowledge.underworld.rank})$A$max({characteristics.int} {knowledge.underworld.rank}) - (max({characteristics.int} {knowledge.underworld.rank}) - min({characteristics.int} {knowledge.underworld.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "underworld.career",
                    "data_type": "boolean",
@@ -689,10 +753,12 @@
               ]},
              {"id": "xenology",
               "title": "Xenology (Int)",
-              "action": "$max({characteristics.int} {knowledge.xenology.rank}) - min({characteristics.int} {knowledge.xenology.rank})$A$max({characteristics.int} {knowledge.xenology.rank}) - (max({characteristics.int} {knowledge.xenology.rank}) - min({characteristics.int} {knowledge.xenology.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Xenology",
+              "action": {
+                  "target": "setDice",
+                  "title": "Xenology",
+                  "content": "$max({characteristics.int} {knowledge.xenology.rank}) - min({characteristics.int} {knowledge.xenology.rank})$A$max({characteristics.int} {knowledge.xenology.rank}) - (max({characteristics.int} {knowledge.xenology.rank}) - min({characteristics.int} {knowledge.xenology.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "xenology.career",
                    "data_type": "boolean",
@@ -704,10 +770,12 @@
               ]},
              {"id": "other",
               "title": "Other (Int)",
-              "action": "$max({characteristics.int} {knowledge.other.rank}) - min({characteristics.int} {knowledge.other.rank})$A$max({characteristics.int} {knowledge.other.rank}) - (max({characteristics.int} {knowledge.other.rank}) - min({characteristics.int} {knowledge.other.rank}))$P",
-              "action_target": "setDice",
-              "action_calculate": true,
-              "action_title": "Other",
+              "action": {
+                  "target": "setDice",
+                  "title": "Other",
+                  "content": "$max({characteristics.int} {knowledge.other.rank}) - min({characteristics.int} {knowledge.other.rank})$A$max({characteristics.int} {knowledge.other.rank}) - (max({characteristics.int} {knowledge.other.rank}) - min({characteristics.int} {knowledge.other.rank}))$P",
+                  "calculate": true
+              },
               "columns": [
                   {"id": "other.career",
                    "data_type": "boolean",

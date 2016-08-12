@@ -12,7 +12,7 @@ export default Ember.Component.extend({
     },
     actions: {
         setChatMessage: function() {
-            this.set('chatMessage', Array.join(arguments, ': '));
+            this.set('message', Array.join(arguments, ': '));
         },
         addChatMessage: function() {
             var message = '';
