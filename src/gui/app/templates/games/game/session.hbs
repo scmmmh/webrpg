@@ -75,6 +75,9 @@
           {{#if (eq model.diceRoller 'eote')}}
             {{eote-dice roles=model.game.roles}}
           {{/if}}
+          {{#if (eq model.diceRoller 'd20')}}
+            {{d20-dice roles=model.game.roles}}
+          {{/if}}
         </div>
         {{chat-messages messages=model.chatMessages roles=model.game.roles chatMessageSound=chatMessageSound toggleChatMessageSound=(action 'toggleChatMessageSound') chatMessageAutoScroll=chatMessageAutoScroll toggleChatMessageAutoScroll=(action 'toggleChatMessageAutoScroll')}}
       </div>

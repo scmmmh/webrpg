@@ -70,7 +70,8 @@
              {"id": "strength",
               "title": "Strength",
               "action": {
-                  "content": "d20 + {abilities.str}"
+                  "content": "d20 + {abilities.str}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "strength",
@@ -84,7 +85,8 @@
              {"id": "dexterity",
               "title": "Dexterity",
               "action": {
-                  "content": "d20 + {abilities.dex}"
+                  "content": "d20 + {abilities.dex}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "dexterity",
@@ -98,7 +100,8 @@
              {"id": "constitution",
               "title": "Constitution",
               "action": {
-                  "content": "d20 + {abilities.con}"
+                  "content": "d20 + {abilities.con}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "constitution",
@@ -112,7 +115,8 @@
              {"id": "intelligence",
               "title": "Intelligence",
               "action": {
-                  "content": "d20 + {abilities.int}"
+                  "content": "d20 + {abilities.int}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "intelligence",
@@ -126,7 +130,8 @@
              {"id": "wisdom",
               "title": "Wisdom",
               "action": {
-                  "content": "d20 + {abilities.wis}"
+                  "content": "d20 + {abilities.wis}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "wisdom",
@@ -140,7 +145,8 @@
              {"id": "charisma",
               "title": "Charisma",
               "action": {
-                  "content": "d20 + {abilities.cha}"
+                  "content": "d20 + {abilities.cha}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "charisma",
@@ -159,7 +165,8 @@
              {"id": "acrobatics",
               "title": "Acrobatics",
               "action": {
-                  "content": "d20 + {skills.acrobatics}"
+                  "content": "d20 + {skills.acrobatics}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "acrobatics.proficient",
@@ -173,7 +180,8 @@
              {"id": "animal_handling",
               "title": "Animal Handling",
               "action": {
-                  "content": "d20 + {skills.animal_handling}"
+                  "content": "d20 + {skills.animal_handling}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "animal_handling.proficient",
@@ -187,7 +195,8 @@
              {"id": "arcana",
               "title": "Arcana",
               "action": {
-                  "content": "d20 + {skills.arcana}"
+                  "content": "d20 + {skills.arcana}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "arcana.proficient",
@@ -201,7 +210,8 @@
              {"id": "athletics",
               "title": "Athletics",
               "action": {
-                  "content": "d20 + {skills.athletics}"
+                  "content": "d20 + {skills.athletics}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "athletics.proficient",
@@ -215,7 +225,8 @@
              {"id": "deception",
               "title": "Deception",
               "action": {
-                  "content": "d20 + {skills.deception}"
+                  "content": "d20 + {skills.deception}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "deception.proficient",
@@ -229,7 +240,8 @@
              {"id": "history",
               "title": "History",
               "action": {
-                  "content": "d20 + {skills.history}"
+                  "content": "d20 + {skills.history}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "history.proficient",
@@ -243,7 +255,8 @@
              {"id": "insight",
               "title": "Insight",
               "action": {
-                  "content": "d20 + {skills.insight}"
+                  "content": "d20 + {skills.insight}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "insight.proficient",
@@ -257,7 +270,8 @@
              {"id": "intimidation",
               "title": "Intimidation",
               "action": {
-                  "content": "d20 + {skills.intimidation}"
+                  "content": "d20 + {skills.intimidation}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "intimidation.proficient",
@@ -271,7 +285,8 @@
              {"id": "investigation",
               "title": "Investigation",
               "action": {
-                  "content": "d20 + {skills.investigation}"
+                  "content": "d20 + {skills.investigation}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "investigation.proficient",
@@ -285,7 +300,8 @@
              {"id": "medicine",
               "title": "Medicine",
               "action": {
-                  "content": "d20 + {skills.medicine}"
+                  "content": "d20 + {skills.medicine}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "medicine.proficient",
@@ -299,7 +315,8 @@
              {"id": "nature",
               "title": "Nature",
               "action": {
-                  "content": "d20 + {skills.nature}"
+                  "content": "d20 + {skills.nature}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "nature.proficient",
@@ -313,7 +330,8 @@
              {"id": "perception",
               "title": "Perception",
               "action": {
-                  "content": "d20 + {skills.perception}"
+                  "content": "d20 + {skills.perception}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "perception.proficient",
@@ -327,7 +345,8 @@
              {"id": "passive_perception",
               "title": "Passive Perception",
               "action": {
-                  "content": "d20 + {skills.passive_perception}"
+                  "content": "d20 + {skills.passive_perception}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "passive_perception.proficient",
@@ -341,7 +360,8 @@
              {"id": "performance",
               "title": "Performance",
               "action": {
-                  "content": "d20 + {skills.performance}"
+                  "content": "d20 + {skills.performance}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "performance.proficient",
@@ -355,7 +375,8 @@
              {"id": "persuasion",
               "title": "Persuasion",
               "action": {
-                  "content": "d20 + {skills.persuasion}"
+                  "content": "d20 + {skills.persuasion}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "persuasion.proficient",
@@ -369,7 +390,8 @@
              {"id": "religion",
               "title": "Religion",
               "action": {
-                  "content": "d20 + {skills.religion}"
+                  "content": "d20 + {skills.religion}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "religion.proficient",
@@ -383,7 +405,8 @@
              {"id": "sleight_of_hand",
               "title": "Sleight of Hand",
               "action": {
-                  "content": "d20 + {skills.sleight_of_hand}"
+                  "content": "d20 + {skills.sleight_of_hand}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "sleight_of_hand.proficient",
@@ -397,7 +420,8 @@
              {"id": "stealth",
               "title": "Stealth",
               "action": {
-                  "content": "d20 + {skills.stealth}"
+                  "content": "d20 + {skills.stealth}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "stealth.proficient",
@@ -411,7 +435,8 @@
              {"id": "survival",
               "title": "Survival",
               "action": {
-                  "content": "d20 + {skills.survival}"
+                  "content": "d20 + {skills.survival}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "survival.proficient",
@@ -430,7 +455,8 @@
              {"id": "strength",
               "title": "Strength",
               "action": {
-                  "content": "d20 + {saving.strength}"
+                  "content": "d20 + {saving.strength}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "strength.proficient",
@@ -444,7 +470,8 @@
              {"id": "dexterity",
               "title": "Dexterity",
               "action": {
-                  "content": "d20 + {saving.dexterity}"
+                  "content": "d20 + {saving.dexterity}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "dexterity.proficient",
@@ -458,7 +485,8 @@
              {"id": "constitution",
               "title": "Constitution",
               "action": {
-                  "content": "d20 + {saving.constitution}"
+                  "content": "d20 + {saving.constitution}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "constitution.proficient",
@@ -472,7 +500,8 @@
              {"id": "intelligence",
               "title": "Intelligence",
               "action": {
-                  "content": "d20 + {saving.intelligence}"
+                  "content": "d20 + {saving.intelligence}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "intelligence.proficient",
@@ -486,7 +515,8 @@
              {"id": "wisdom",
               "title": "Wisdom",
               "action": {
-                  "content": "d20 + {saving.wisdom}"
+                  "content": "d20 + {saving.wisdom}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "wisdom.proficient",
@@ -500,7 +530,8 @@
              {"id": "charisma",
               "title": "Charisma",
               "action": {
-                  "content": "d20 + {saving.charisma}"
+                  "content": "d20 + {saving.charisma}",
+                  "target": "setDice"
               },
               "columns": [
                   {"id": "charisma.proficient",
@@ -524,7 +555,10 @@
               ]},
              {"id": "initiative",
               "title": "Initiative",
-              "action": "d20 + {combat.initiative}",
+              "action": {
+                  "content": "d20 + {combat.initiative}",
+                  "target": "setDice"
+              },
               "columns": [
                   {"id": "initiative",
                    "data_type": "number",
@@ -596,9 +630,10 @@
                    "data_type": "string",
                    "editable": true,
                    "action": {
-                       "title": "{attacks.%(rowid)i.name}"},
-                       "content": "d20 + {attacks.%(rowid)i.bonus}"
-                   },
+                       "title": "{attacks.%(rowid)i.name}",
+                       "content": "d20 + {attacks.%(rowid)i.bonus}",
+                       "target": "setDice"
+                   }},
                   {"id": "%i.type",
                    "data_type": "option",
                    "editable": true,
@@ -614,9 +649,10 @@
                    "data_type": "string",
                    "editable": true,
                    "action": {
-                       "title": "{attacks.%(rowid)i.name} Damage"},
-                       "content": "{attacks.%(rowid)i.damage}"
-                   }
+                       "title": "{attacks.%(rowid)i.name} Damage",
+                       "content": "{attacks.%(rowid)i.damage}",
+                       "target": "setDice"
+                   }}
               ]}
          ]},
         {"id": "personality",

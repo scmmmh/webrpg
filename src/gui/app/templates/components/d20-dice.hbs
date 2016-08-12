@@ -1,0 +1,44 @@
+<form {{action 'rollDice' on='submit'}}>
+  <div class="row collapse">
+    <div class="column small-12">
+      <div class="input-group">
+        <span class="input-group-label no-padding"><select onchange={{action (mut addressee) value='target.value'}}>
+          <option value="" selected={{eq addressee ''}}>@Everybody</option>
+          <option value="gm" selected={{eq addressee 'gm'}}>@GM</option>
+          <option value="players" selected={{eq addressee 'players'}}>@Players</option>
+          {{#each roles as |role|}}
+            <option value={{role.user.displayName}} selected={{eq addressee role.user.displayName}}>@{{role.user.displayName}}</option>
+          {{/each}}
+        </select></span>
+        {{input value=title class="input-group-field"}}
+      </div>
+    </div>
+  </div>
+  <div class="row collapse">
+    <div class="column small-4">
+      {{input type="number" value=count}}
+    </div>
+    <div class="column small-4">
+      <select onchange={{action (mut die) value='target.value'}}>
+        <option value="d4" selected={{eq die 'd4'}}>D4</option>
+        <option value="d6" selected={{eq die 'd6'}}>D6</option>
+        <option value="d8" selected={{eq die 'd8'}}>D8</option>
+        <option value="d10" selected={{eq die 'd10'}}>D10</option>
+        <option value="d12" selected={{eq die 'd12'}}>D12</option>
+        <option value="d20" selected={{eq die 'd20'}}>D20</option>
+        <option value="d100" selected={{eq die 'd100'}}>D100</option>
+      </select>
+    </div>
+    <div class="column small-4">
+      {{input type="number" value=modifier}}
+    </div>
+  </div>
+  <div class="row collapse">
+    <div class="column small-6">
+      <button class="button secondary expanded" {{action 'resetDice'}}>Clear</button>
+    </div>
+    <div class="column small-6">
+      <input type="submit" value="Roll!" class="button expanded"/>
+    </div>
+  </div>
+</form>
