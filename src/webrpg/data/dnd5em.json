@@ -20,8 +20,9 @@
          "rows": [
              {"id": "strength",
               "title": "Strength",
-              "action": "d20 + {abilities.str}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.str}"
+              },
               "columns": [
                   {"id": "strength",
                    "data_type": "number",
@@ -33,8 +34,9 @@
               ]},
              {"id": "dexterity",
               "title": "Dexterity",
-              "action": "d20 + {abilities.dex}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.dex}"
+              },
               "columns": [
                   {"id": "dexterity",
                    "data_type": "number",
@@ -46,8 +48,9 @@
               ]},
              {"id": "constitution",
               "title": "Constitution",
-              "action": "d20 + {abilities.con}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.con}"
+              },
               "columns": [
                   {"id": "constitution",
                    "data_type": "number",
@@ -59,8 +62,9 @@
               ]},
              {"id": "intelligence",
               "title": "Intelligence",
-              "action": "d20 + {abilities.int}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.int}"
+              },
               "columns": [
                   {"id": "intelligence",
                    "data_type": "number",
@@ -72,8 +76,9 @@
               ]},
              {"id": "wisdom",
               "title": "Wisdom",
-              "action": "d20 + {abilities.wis}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.wis}"
+              },
               "columns": [
                   {"id": "wisdom",
                    "data_type": "number",
@@ -85,8 +90,9 @@
               ]},
              {"id": "charisma",
               "title": "Charisma",
-              "action": "d20 + {abilities.cha}",
-              "action_target": "setChatMessage",
+              "action": {
+                  "content": "d20 + {abilities.cha}"
+              },
               "columns": [
                   {"id": "charisma",
                    "data_type": "number",

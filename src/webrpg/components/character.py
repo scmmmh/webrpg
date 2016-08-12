@@ -94,6 +94,7 @@ class Character(Base, JSONAPIMixin):
                     else:
                         rowids = [None]
                     for rowid in rowids:
+                        # Calculate base attribute values
                         stat_row = {'columns': []}
                         if 'title' in source_row:
                             stat_row['title'] = source_row['title']
@@ -127,45 +128,61 @@ class Character(Base, JSONAPIMixin):
                         for source_column, stat_column in zip(source_row['columns'], stat_row['columns']):
                             # Calculate column-level actions
                             if 'action' in source_column:
-                                if 'action_title' in source_column:
-                                    action_title = source_column['action_title']
-                                else:
-                                    action_title = source_column['title']
-                                if 'action_target' in source_column:
-                                    stat_column['action_target'] = source_column['action_target']
-                                else:
-                                    stat_column['action_target'] = None
-                                if multirow:
-                                    action_title = action_title % {'rowid': rowid}
-                                    action = source_column['action'] % {'rowid': rowid}
-                                else:
-                                    action = source_column['action']
-                                stat_column['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
-                                stat_column['action_title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action_title), attrs))])
+                                stat_column['action'] = {'title': source_column['title'] if 'title' in source_column else '',
+                                                         'target': 'setChatMessage',
+                                                         'content': ''}
+                                if 'title' in source_column['action']:
+                                    if multirow:
+                                        stat_column['action']['title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(source_column['action']['title'] % {'rowid': rowid}), attrs))])
+                                    else:
+                                        stat_column['action']['title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(source_column['action']['title']), attrs))])
+                                if 'target' in source_column['action']:
+                                    stat_column['action']['target'] = source_column['action']['target']
+                                if 'content' in source_column['action']:
+                                    content = source_column['action']['content']
+                                    if multirow:
+                                        content = content % {'rowid': rowid}
+                                    if 'calculate' in source_column['action'] and source_column['action']['calculate']:
+                                        # If "calculate" is set, run full calculation
+                                        calc_match = re.search(re.compile('\$([^$]*)\$'), content)
+                                        while calc_match:
+                                            if calc_match.group(0).strip() == '':
+                                                break
+                                            content = re.sub(re.compile('\$([^$]*)\$'),
+                                                             str(calculate(infix_to_postfix(add_variables(tokenise(calc_match.group(1)), attrs)))),
+                                                             content,
+                                                             count=1)
+                                            calc_match = re.search(re.compile('\$([^$]*)\$'), content)
+                                        stat_row['action']['content'] = content
+                                    else:
+                                        # Otherwise just replace variables
+                                        stat_column['action']['content'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(content), attrs))])
                         if 'action' in source_row:
                             # Calculate row-level actions
-                            if 'action_title' in source_row:
-                                stat_row['action_title'] = source_row['action_title']
-                            else:
-                                stat_row['action_title'] = source_row['title']
-                            if 'action_target' in source_row:
-                                stat_row['action_target'] = source_row['action_target']
-                            else:
-                                stat_row['action_target'] = None
-                            action = source_row['action']
-                            if 'action_calculate' in source_row and source_row['action_calculate']:
-                                calc_match = re.search(re.compile('\$([^$]*)\$'), action)
-                                while calc_match:
-                                    if calc_match.group(0).strip() == '':
-                                        break
-                                    action = re.sub(re.compile('\$([^$]*)\$'),
-                                                    str(calculate(infix_to_postfix(add_variables(tokenise(calc_match.group(1)), attrs)))),
-                                                    action,
-                                                    count=1)
-                                    calc_match = re.search(re.compile('\$([^$]*)\$'), action)
-                                stat_row['action'] = action
-                            else:
-                                stat_row['action'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(action), attrs))])
+                            stat_row['action'] = {'title': source_row['title'] if 'title'  in source_row else '',
+                                                  'target': 'setChatMessage',
+                                                  'content': ''}
+                            if 'title' in source_row['action']:
+                                stat_row['action']['title'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(source_row['action']['title']), attrs))])
+                            if 'target' in source_row['action']:
+                                stat_row['action']['target'] = source_row['action']['target']
+                            if 'content' in source_row['action']:
+                                content = source_row['action']['content']
+                                if 'calculate' in source_row['action'] and source_row['action']['calculate']:
+                                    # If "calculate" is set, run full calculation
+                                    calc_match = re.search(re.compile('\$([^$]*)\$'), content)
+                                    while calc_match:
+                                        if calc_match.group(0).strip() == '':
+                                            break
+                                        content = re.sub(re.compile('\$([^$]*)\$'),
+                                                        str(calculate(infix_to_postfix(add_variables(tokenise(calc_match.group(1)), attrs)))),
+                                                        content,
+                                                        count=1)
+                                        calc_match = re.search(re.compile('\$([^$]*)\$'), content)
+                                    stat_row['action']['content'] = content
+                                else:
+                                    # Otherwise just replace variables
+                                    stat_row['action']['content'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(content), attrs))])
                         stat_table['rows'].append(stat_row)
                 stats.append(stat_table)
         return stats
