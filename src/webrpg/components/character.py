@@ -159,7 +159,7 @@ class Character(Base, JSONAPIMixin):
                                         stat_column['action']['content'] = ' '.join([t[1] for t in process_unary(add_variables(tokenise(content), attrs))])
                         if 'action' in source_row:
                             # Calculate row-level actions
-                            stat_row['action'] = {'title': source_row['title'] if 'title'  in source_row else '',
+                            stat_row['action'] = {'title': source_row['title'] if 'title' in source_row else '',
                                                   'target': 'setChatMessage',
                                                   'content': ''}
                             if 'title' in source_row['action']:
@@ -175,9 +175,9 @@ class Character(Base, JSONAPIMixin):
                                         if calc_match.group(0).strip() == '':
                                             break
                                         content = re.sub(re.compile('\$([^$]*)\$'),
-                                                        str(calculate(infix_to_postfix(add_variables(tokenise(calc_match.group(1)), attrs)))),
-                                                        content,
-                                                        count=1)
+                                                         str(calculate(infix_to_postfix(add_variables(tokenise(calc_match.group(1)), attrs)))),
+                                                         content,
+                                                         count=1)
                                         calc_match = re.search(re.compile('\$([^$]*)\$'), content)
                                     stat_row['action']['content'] = content
                                 else:

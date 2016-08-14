@@ -10,10 +10,15 @@ exposing a model via a JSON API.
 .. moduleauthor:: Mark Hall <mark.hall@work.room3b.eu>
 """
 import inflection
+import json
 
 from formencode import Invalid
+from sqlalchemy import text, UnicodeText
+from sqlalchemy.engine.reflection import Inspector
 from sqlalchemy.ext.declarative import (declarative_base)
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import (scoped_session, sessionmaker)
+from sqlalchemy.types import TypeDecorator
 from zope.sqlalchemy import ZopeTransactionExtension
 
 from webrpg.components import COMPONENTS
@@ -21,6 +26,46 @@ from webrpg.util import State, DoNotStore
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
+
+DB_VERSION = '98969b8ce4d2'
+
+
+class DBUpgradeException(Exception):
+    """The :class:`~webrpg.models.DBUpgradeException` is used to indicate that
+    the database requires an upgrade before the WebRPG system
+    can be used.
+    """
+    def __init__(self, current, required):
+        self.current = current
+        self.required = required
+
+    def __repr__(self):
+        return "DBUpgradeException('%s', '%s'" % (self.current, self.required)
+
+    def __str__(self):
+        return "A database upgrade is required.\n\n" + \
+            "You are currently running version '%s', but version '%s' is " % (self.current, self.required) + \
+            " required. Please run WebRPG update-database config.ini upgrade to upgrade the database " + \
+            "and then start the application again."
+
+
+def check_database_version():
+    """Checks that the current version of the database matches the version specified
+    by ``DB_VERSION``. This requires the use of the Alembic database migration library.
+    """
+    dbsession = DBSession()
+    try:
+        inspector = Inspector.from_engine(dbsession.bind)
+        if 'alembic_version' in inspector.get_table_names():
+            result = dbsession.query('version_num').\
+                from_statement(text('SELECT version_num FROM alembic_version WHERE version_num = :version_num')).\
+                params(version_num=DB_VERSION).first()
+            if not result:
+                result = dbsession.query('version_num').\
+                    from_statement('SELECT version_num FROM alembic_version').first()
+                raise DBUpgradeException(result[0], DB_VERSION)
+    except OperationalError:
+        raise DBUpgradeException('No version-information found', DB_VERSION)
 
 
 def convert_keys(data):
@@ -200,3 +245,27 @@ class JSONAPIMixin(object):
                             if rel_included:
                                 included.extend(rel_included)
         return data, included
+
+
+class JSONUnicodeText(TypeDecorator):
+    """The class:`~pywebtools.models.JSONUnicodeText` is an extension to the
+    :class:`~sqlalchemy.UnicodeText` column type that does automatic conversion
+    from the JSON string representation stored in the DB to a dict/list representation
+    for use in python.
+    """
+
+    impl = UnicodeText
+
+    def process_bind_param(self, value, dialect):
+        """Convert the dict/list to JSON for storing.
+        """
+        if value is not None:
+            value = json.dumps(value)
+        return value
+
+    def process_result_value(self, value, dialect):
+        """Convert the JSON to dict/list for use.
+        """
+        if value is not None:
+            value = json.loads(value)
+        return value
