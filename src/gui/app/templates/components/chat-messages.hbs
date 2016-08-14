@@ -6,7 +6,13 @@
   {{#each messages as |chatMessage|}}
     <li class="{{if chatMessage.newMessage 'new'}}">
       <div>{{chatMessage.user.displayName}}:</div>
-      <div>{{{chatMessage.message}}}</div>
+      <div>
+        {{#if chatMessage.formatted}}
+          {{format-chat-message chatMessage.formatted}}
+        {{else}}
+          {{{chatMessage.message}}}
+        {{/if}}
+      </div>
     </li>
   {{/each}}
 </ol>

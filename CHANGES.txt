@@ -3,6 +3,7 @@
 
 - NEW: EOTE dice roller interface
 - NEW: D20 dice roller interface
+- UPDATE: Fix a potential security hole by removing markup from the chat message
 
 0.5.4
 -----
