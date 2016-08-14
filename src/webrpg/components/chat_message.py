@@ -10,7 +10,7 @@ import random
 import re
 
 from formencode import validators
-from sqlalchemy import Column, Unicode, UnicodeText, Integer, ForeignKey, event
+from sqlalchemy import Column, UnicodeText, Integer, ForeignKey, event
 from sqlalchemy.orm import relationship
 
 from webrpg.calculator import (calculation_regexp, add_dice, tokenise, calculate,
@@ -34,7 +34,6 @@ class ChatMessage(Base, JSONAPIMixin):
     session_id = Column(Integer, ForeignKey('sessions.id', name='chat_messages_session_id_fk'))
     message = Column(UnicodeText)
     formatted = Column(JSONUnicodeText)
-    filters = Column(Unicode(255))
 
     user = relationship('User')
     session = relationship('Session')

@@ -27,7 +27,7 @@ from webrpg.util import State, DoNotStore
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
-DB_VERSION = '98969b8ce4d2'
+DB_VERSION = 'b7872d9773e4'
 
 
 class DBUpgradeException(Exception):
