@@ -1,5 +1,5 @@
-0.6.0-dev
----------
+0.6.0
+-----
 
 - NEW: EOTE dice roller interface
 - NEW: D20 dice roller interface
