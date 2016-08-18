@@ -1,4 +1,5 @@
 include *.txt *.ini *.cfg *.rst
 recursive-include src *.html *.css *.js *.map *.png *.jpg *.gif *.json *.eot *.svg *.ttf *.woff *.xml *.txt *.otf
+recursive-include src/webrpg/migrations *.py
 recursive-exclude src/gui *.*
 recursive-exclude src/node_modules *.*
